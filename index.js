@@ -4,7 +4,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 const { Client, Collection, Events, GatewayIntentBits } = require('discord.js');
 // Create a new client instance
-const client = new Client({ intents: [GatewayIntentBits.Guilds] });
+const client = new Client({ intents:8  });
 const { ActionRowBuilder, ButtonBuilder, ButtonStyle } = require('discord.js');
 
 // When the client is ready, run this code (only once)
