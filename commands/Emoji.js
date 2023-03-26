@@ -7,10 +7,11 @@ module.exports = {
         .setName("ae")
         .setDescription("View Animoji's Names"),
 
-    async execute(message){
+    async execute(message ,client){
         const db = new sqlite3.Database("./lib/database/SQLite.db")
-        let emojidata = (`SELECT Emoji_Name FROM emoji_Collection WHERE AnimatedBoolean = 1`)
+        let emojidata = (`SELECT Emoji_Name FROM emoji_collection WHERE AnimatedBoolean = 1`)
         /* Database */
+        
         db.all(emojidata, [],   (err, rows) => {
             let emojisName = [];
             if (err) {
@@ -22,7 +23,12 @@ module.exports = {
                 },
             )
             // console.log(emojisName)
-            message.channel.send(emojisName.toString())
+            try {
+                message.channel.send(emojisName.toString())
+            } catch (err) {
+                console.log(err)
+            }
+            
         })
 
 
