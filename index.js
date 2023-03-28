@@ -5,7 +5,7 @@ const path = require('node:path');
 const { Client, Collection, Events, GatewayIntentBits, WebhookClient, EmbedBuilder } = require('discord.js');
 // Create a new client instance
 const { PREFIX } = require('./config.json')
-const client = new Client({ intents: 3276799 });
+const client = new Client({ intents: [3276799, GatewayIntentBits.GuildPresences, 8] });
 const { ActionRowBuilder, ButtonBuilder, ButtonStyle } = require('discord.js');
 
 // When the client is ready, run this code (only once)

@@ -8,7 +8,7 @@ module.exports = {
         .setDescription('Reloads all the Emoji into Database')
         .setDefaultMemberPermissions(0),
 
-    async execute(client,interaction) {
+    async execute(interaction, client, message) {
         // Calculate Emoji's quantity
         let EmojiCounter = 0
         // Get collection
