@@ -23,6 +23,7 @@ module.exports = {
                             rows.forEach(function (row) {
                                 guild_Ids.push(row.Guild_Id)
                                 console.log(guild_Ids)
+                                console.log("hekki")
                             })
                         }
                     },
