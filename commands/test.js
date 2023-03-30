@@ -11,18 +11,24 @@ module.exports = {
         interaction.reply("template command")
         const db = new sqlite3.Database("./lib/database/SQLite.db") 
         fuck();
-        
-        function fuxk () {
-            db.serialize(function () {
-                let guild_Ids = [];
-                db.all('SELECT Guild_Id FROM Guild_Collection', [], function (err, rows) {
-                    rows.forEach(function (row) {
-                        guild_Ids.push(row.Guild_Id)
 
-                    })
-                },
-                )
-            },)
+        function fuxk () {
+            return new Promise(function(resolve, reject)){
+                db.serialize(function () {
+                    let guild_Ids = [];
+                    db.all('SELECT Guild_Id FROM Guild_Collection', [], function (err, rows) {\
+                        if(err){
+                            reject(err)
+                        } else {
+                            rows.forEach(function (row) {
+                                guild_Ids.push(row.Guild_Id)
+                                console.log(guild_Ids)
+                            })
+                        }
+                    },
+                    )
+                },)
+            }
         }
         
         console.log(ab);
