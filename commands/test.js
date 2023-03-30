@@ -10,22 +10,27 @@ module.exports = {
 
         interaction.reply("template command")
         const db = new sqlite3.Database("./lib/database/SQLite.db") 
-        fuck();
 
         function fuxk() {
-            return new Promise(function (resolve, reject){
-                db.serialize(function () {
-                    let guild_Ids = [];
+            return new Promise(function (resolve, reject) {
                     db.all('SELECT Guild_Id FROM Guild_Collection', [], function (err, rows) {
                         if (err) {
                             reject(err)
                         } else {
                             const guildIds = rows.map(row => row.Guild_Id);
+                            resolve(guildIds)
                         }
                     },
                     )
-                })  
             })
         }
+        a = fuxk()
+            .then(function(guildIds){
+                console.log(guildIds);
+            })
+            .catch(function (err) {
+                console.error(err);
+            });
+        console.log(a)
     },
 }
