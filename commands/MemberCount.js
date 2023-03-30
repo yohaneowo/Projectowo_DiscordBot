@@ -20,27 +20,23 @@ module.exports = {
         const User_Dnd_Count = interaction.guild.members.cache.filter(member => member.presence.status === 'dnd' &&  member.user.bot == false).size;
         const User_Offline_Count = interaction.guild.members.cache.filter(member => member.presence.status === 'offline' &&  member.user.bot == false).size;
         // Member_Count_Category_Id
-        const db = new sqlite3.Database("./lib/database/SQLite.db") 
-        guild_Ids = db.run("SELECT Guild_Id FROM Member_Count ")
         Update_Member_Count_Database();
         // 新增Category 
         // const Member_Count_Category = await interaction.guild.channels.create({ name: "📊 SERVER STATS 📊", type : "GUILD_CATEGORY"})
     
      
     function Update_Member_Count_Database(){
-            this.guildId = guildId;
-            this.All_Members_Count = All_Members_Count;
-            this.Users_Count = Users_Count;
-            this.Bots_Count = Bots_Count;
-            this.All_Online_Count = All_Online_Count;
-            this.All_Offline_Count = All_Offline_Count;
-            this.User_Online_Count = User_Online_Count;
-            this.User_Idle_Count = User_Idle_Count;
-            this.User_Dnd_Count = User_Dnd_Count;
-            this.User_Offline_Count = User_Offline_Count;
-            
+            let guild_Ids = [];
+            const db = new sqlite3.Database("./lib/database/SQLite.db")
+            db.serialize(function () {
+                db.all('SELECT Guild_Id FROM Guild_Collection', [], function (err, rows) {
+                    rows.forEach(function (row) {
+                        guild_Ids.push(row.Guild_Id)
+                    })
+                }
+                )
+            },)
             if (guildId in guild_Ids) {
-                db.close()
                 db.run("UPDATE Member_Count SET All_Members_Count = ?, Users_Count = ?, Bots_Count = ?,",
                     "All_Online_Count = ?, All_Offline_Count = ?, User_Online_Count = ?, User_Idle_Count = ?,",
                     " User_Dnd_Count = ?, User_Offline_Count = ? WHERE Guild_Id = ?",
