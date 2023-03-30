@@ -19,27 +19,43 @@ module.exports = {
         const User_Idle_Count = interaction.guild.members.cache.filter(member => member.presence.status === 'idle' &&  member.user.bot == false).size;
         const User_Dnd_Count = interaction.guild.members.cache.filter(member => member.presence.status === 'dnd' &&  member.user.bot == false).size;
         const User_Offline_Count = interaction.guild.members.cache.filter(member => member.presence.status === 'offline' &&  member.user.bot == false).size;
-        
+        // Member_Count_Category_Id
         const db = new sqlite3.Database("./lib/database/SQLite.db") 
-        cursor = db.cursor()
-        guild_Ids = cursor.execute("SELECT Guild_Id FROM Member_Count ")
-
+        guild_Ids = db.run("SELECT Guild_Id FROM Member_Count ")
+        Update_Member_Count_Database();
         // 新增Category 
-        // const category = await interaction.guild.channels.categorychannels.create('Member Count', {}
-
-        function Update_Member_Count_Database(){
+        // const Member_Count_Category = await interaction.guild.channels.create({ name: "📊 SERVER STATS 📊", type : "GUILD_CATEGORY"})
+    
+     
+    function Update_Member_Count_Database(){
+            this.guildId = guildId;
+            this.All_Members_Count = All_Members_Count;
+            this.Users_Count = Users_Count;
+            this.Bots_Count = Bots_Count;
+            this.All_Online_Count = All_Online_Count;
+            this.All_Offline_Count = All_Offline_Count;
+            this.User_Online_Count = User_Online_Count;
+            this.User_Idle_Count = User_Idle_Count;
+            this.User_Dnd_Count = User_Dnd_Count;
+            this.User_Offline_Count = User_Offline_Count;
+            
             if (guildId in guild_Ids) {
-                cursor.execute("UPDATE Member_Count SET All_Members_Count = ?, Users_Count = ?, Bots_Count = ?,",
+                db.close()
+                db.run("UPDATE Member_Count SET All_Members_Count = ?, Users_Count = ?, Bots_Count = ?,",
                     "All_Online_Count = ?, All_Offline_Count = ?, User_Online_Count = ?, User_Idle_Count = ?,",
                     " User_Dnd_Count = ?, User_Offline_Count = ? WHERE Guild_Id = ?",
                     (All_Members_Count, Users_Count, Bots_Count, All_Online_Count, All_Offline_Count, User_Online_Count, User_Idle_Count, User_Dnd_Count, User_Offline_Count, guildId))
+                db.close();
             } else {
-                cursor.execute("INSERT INTO Member_Count (Guild_Id, All_Members_Count, Users_Count, Bots_Count, All_Online_Count, All_Offline_Count, User_Online_Count, User_Idle_Count, User_Dnd_Count, User_Offline_Count) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
-                    (guildId, All_Members_Count, Users_Count, Bots_Count, All_Online_Count, All_Offline_Count, User_Online_Count, User_Idle_Count, User_Dnd_Count, User_Offline_Count))
+                console.log(guildId)
+                db.run("INSERT INTO Member_Count VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+                 (guildId, All_Members_Count, Users_Count, Bots_Count, All_Online_Count, All_Offline_Count, User_Online_Count, User_Idle_Count, User_Dnd_Count, User_Offline_Count)),
+                console.log("done")
+                db.close();
             }
         }
        
-        console.log(userIdleCount)
+        // console.log(userIdleCount)
     //     // 确认所有频道是否存在
     //     if (!allMembersCountChannel || !trueMembersCountChannel || !botsCountChannel) {
     //         return message.reply('成员计数频道不存在，请使用 !build_count 命令创建。');
