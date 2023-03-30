@@ -24,7 +24,8 @@ module.exports = {
                                 guild_Ids.push(row.Guild_Id)
                                 console.log(guild_Ids)
                                 console.log("hekki")
-                            })
+                                console.log("hekkssi")
+
                         }
                     },
                     )
