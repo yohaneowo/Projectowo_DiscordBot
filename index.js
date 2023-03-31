@@ -13,7 +13,7 @@ const { ActionRowBuilder, ButtonBuilder, ButtonStyle } = require('discord.js');
 client.once(Events.ClientReady, c => {
     console.log(`Ready! Logged in as ${c.user.tag}`);
 	channel = client.channels.cache.get('1088861099761344522')
-	console.log(`index:${channel}`)
+	// console.log(`index:${channel}`)
 
 });
 client.commands = new Collection();

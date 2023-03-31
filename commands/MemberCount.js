@@ -1,5 +1,22 @@
 const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
 const sqlite3 = require("sqlite3");
+module.exports = get_Guild_Ids;
+function get_Guild_Ids() {
+    return new Promise(function (resolve, reject) {
+        const db = new sqlite3.Database("./lib/database/SQLite.db")
+        db.all('SELECT CAST(Guild_Id as TEXT) as Guild_Id FROM Guild_Collection', [], function (err, rows) {
+            db.close();
+            if (err) {
+                reject(err)
+            } else {
+                const guild_Ids = rows.map(row => row.Guild_Id);
+                resolve(guild_Ids)
+                }
+            }, 
+        )
+    })
+}
+
 module.exports = {
     data : new SlashCommandBuilder()
         .setName('update_count')
@@ -8,8 +25,6 @@ module.exports = {
     async execute(interaction, client, message) {
         // 确认 ID 并获取频道
         const guildId = interaction.guild.id;
-        console.log(guildId);
-        
         const All_Members_Count = interaction.guild.memberCount;
         const Users_Count = interaction.guild.members.cache.filter(member => !member.user.bot).size;
         const Bots_Count = interaction.guild.members.cache.filter(member => member.user.bot).size;
@@ -19,37 +34,48 @@ module.exports = {
         const User_Idle_Count = interaction.guild.members.cache.filter(member => member.presence.status === 'idle' &&  member.user.bot == false).size;
         const User_Dnd_Count = interaction.guild.members.cache.filter(member => member.presence.status === 'dnd' &&  member.user.bot == false).size;
         const User_Offline_Count = interaction.guild.members.cache.filter(member => member.presence.status === 'offline' &&  member.user.bot == false).size;
-        // Member_Count_Category_Id
-        Update_Member_Count_Database();
-        // 新增Category 
         // const Member_Count_Category = await interaction.guild.channels.create({ name: "📊 SERVER STATS 📊", type : "GUILD_CATEGORY"})
-    
-     
-    function Update_Member_Count_Database(){
-            let guild_Ids = [];
+        Update_Member_Count_Database();
+    function Update_Member_Count_Database() {
+        // 用Promise来获取Guild_Ids的遞歸
+        get_Guild_Ids().then(function (Guild_Ids) {
             const db = new sqlite3.Database("./lib/database/SQLite.db")
-            db.serialize(function () {
-                db.all('SELECT Guild_Id FROM Guild_Collection', [], function (err, rows) {
-                    rows.forEach(function (row) {
-                        guild_Ids.push(row.Guild_Id)
+            // 遞歸的Guild_Ids是string所以要轉換來對比
+            if (Guild_Ids.includes(guildId.toString())) {
+                db.serialize(function () {
+                db.run("UPDATE Member_Count SET All_Members_Count = ?, Users_Count = ?, Bots_Count = ?,"+
+                    "All_Online_Count = ?, All_Offline_Count = ?, User_Online_Count = ?, User_Idle_Count = ?,"+
+                    " User_Dnd_Count = ?, User_Offline_Count = ? WHERE Guild_Id = ?",
+                    [All_Members_Count, Users_Count, Bots_Count, All_Online_Count, All_Offline_Count, User_Online_Count, User_Idle_Count, User_Dnd_Count, User_Offline_Count, guildId],
+                    function(err) {
+                        if (err) {
+                            return console.log(`MODIFICATION:${err.message}`);
+                        }else {
+                            console.log("UPDATED MEMBER COUNT")
+                        }
+                    }
+                    )
+                db.close();
+                })
+            } else {
+                db.serialize(function () {
+                    db.run("INSERT INTO Member_Count VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+                    [guildId, All_Members_Count, Users_Count, Bots_Count, All_Online_Count, All_Offline_Count, User_Online_Count, User_Idle_Count, User_Dnd_Count, User_Offline_Count]),
+                    function(err) {
+                        if (err) {
+                            return console.log(`INSERTION:${err.message}`);
+                        } else {
+                            console.log("INSERTED MEMBER COUNT")
+                        }
+                    }
+                    db.close();
                     })
                 }
-                )
-            },)
-            if (guildId in guild_Ids) {
-                db.run("UPDATE Member_Count SET All_Members_Count = ?, Users_Count = ?, Bots_Count = ?,",
-                    "All_Online_Count = ?, All_Offline_Count = ?, User_Online_Count = ?, User_Idle_Count = ?,",
-                    " User_Dnd_Count = ?, User_Offline_Count = ? WHERE Guild_Id = ?",
-                    (All_Members_Count, Users_Count, Bots_Count, All_Online_Count, All_Offline_Count, User_Online_Count, User_Idle_Count, User_Dnd_Count, User_Offline_Count, guildId))
-                db.close();
-            } else {
-                console.log(guildId)
-                db.run("INSERT INTO Member_Count VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
-                 (guildId, All_Members_Count, Users_Count, Bots_Count, All_Online_Count, All_Offline_Count, User_Online_Count, User_Idle_Count, User_Dnd_Count, User_Offline_Count)),
-                console.log("done")
-                db.close();
-            }
-        }
+        })
+        .catch(function (err) { console.error(err); });
+    }
+    
+    interaction.reply({ content: '已更新成员计数！', ephemeral: true });
        
         // console.log(userIdleCount)
     //     // 确认所有频道是否存在

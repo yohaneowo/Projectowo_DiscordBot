@@ -1,6 +1,6 @@
 const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
 const sqlite3 = require('sqlite3');
-
+const get_Guild_Ids = require('./MemberCount.js');
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('server')
@@ -23,26 +23,33 @@ module.exports = {
         const partnered = interaction.guild.partnered;
         const All_Members_Count = interaction.guild.memberCount;
         const Users_Count = interaction.guild.members.cache.filter(member => !member.user.bot).size;
-        const onlineCount = interaction.guild.members.cache.filter(member => member.presence.status !== 'offline').size;
-        const offlineCount = interaction.guild.members.cache.filter(member => member.presence.status === 'offline').size;
+        const onlineCount = interaction.guild.members.cache.filter(member => member.presence && member.presence.status !== 'offline').size || 'null';
+        const offlineCount = interaction.guild.members.cache.filter(member => member.presence && member.presence.status === 'offline').size || 'null';
         const Bots_Count = interaction.guild.members.cache.filter(member => member.user.bot).size;
-        const presenceCount = interaction.guild.members.cache.filter(member => member.presence.status !== 'offline').size - Bots_Count;
+        const presenceCount = interaction.guild.members.cache.filter(member => member.presence && member.presence.status !== 'offline').size - Bots_Count || 'null';
         const icon = interaction.guild.iconURL() || 'https://cdn.discordapp.com/attachments/876461907840745513/1089581164752273468/404-error-icon-vector-symbol-260nw-1545236357_1.png';
         const username = interaction.user.tag;
         const useravatar = interaction.user.displayAvatarURL({ dynamic: true });
-    
+        
+
         UpdateValue();
         function UpdateValue() {
-      
+            console.log(typeof(get_Guild_Ids))
+            console.log("🚀 ~ file: ServerStatus.js:11 ~ execute ~ Guild_Id:", Guild_Id)
+            
+            // get_Guild_Ids().then(function(guildIds){
+            //     console.log(guildIds);
+            // }).catch(function (err) {
+            //     console.error(err);
+            // });
             const db = new sqlite3.Database("./lib/database/SQLite.db") 
             Guild_Ids = db.run("SELECT Guild_Id FROM Guild_Collection")
-            console.log(`THIS LA ${Guild_Ids}`)
             if (Guild_Id in Guild_Ids) {
                 db.run("UPDATE Guild_Collection SET Guild_Name = ?, Owner_Id = ?, All_Members_Count = ?, Users_Count = ?, Bots_Count = ?, maximumBitrate = ?, preferredLocale = ?, createdAt = ?, premiumTier = ?, premiumSubscriptionCount = ?, nsfwLevel = ?, partnered = ? WHERE Guild_Id = ?", [Guild_Name, Owner_Id, All_Members_Count, Users_Count, Bots_Count, maximumBitrate, preferredLocale, createdAt, premiumTier, premiumSubscriptionCount, nsfwLevel, partnered, Guild_Id])
             }  else {
-                db.prepare("INSERT INTO Guild_Collection VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", [Guild_Id, Guild_Name, Owner_Id, All_Members_Count, Users_Count, Bots_Count, maximumBitrate, preferredLocale, createdAt, premiumTier, premiumSubscriptionCount, nsfwLevel, partnered])
+                db.run("INSERT INTO Guild_Collection VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", [Guild_Id, Guild_Name, Owner_Id, All_Members_Count, Users_Count, Bots_Count, maximumBitrate, preferredLocale, createdAt, premiumTier, premiumSubscriptionCount, nsfwLevel, partnered])
             }
-            db.close()
+    
         }
         const embed = new EmbedBuilder()
             
