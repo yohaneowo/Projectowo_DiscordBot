@@ -35,7 +35,10 @@ module.exports = {
         const User_Dnd_Count = interaction.guild.members.cache.filter(member => member.presence.status === 'dnd' &&  member.user.bot == false).size;
         const User_Offline_Count = interaction.guild.members.cache.filter(member => member.presence.status === 'offline' &&  member.user.bot == false).size;
         // const Member_Count_Category = await interaction.guild.channels.create({ name: "📊 SERVER STATS 📊", type : "GUILD_CATEGORY"})
-        Update_Member_Count_Database();
+        // Update_Member_Count_Database();
+
+
+        
     function Update_Member_Count_Database() {
         // 用Promise来获取Guild_Ids的遞歸
         get_Guild_Ids().then(function (Guild_Ids) {
