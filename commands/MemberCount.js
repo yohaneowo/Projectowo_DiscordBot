@@ -1,6 +1,7 @@
 const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
 const sqlite3 = require("sqlite3");
-module.exports = get_Guild_Ids;
+
+
 function get_Guild_Ids() {
     return new Promise(function (resolve, reject) {
         const db = new sqlite3.Database("./lib/database/SQLite.db")
@@ -18,10 +19,11 @@ function get_Guild_Ids() {
 }
 
 module.exports = {
+    get_Guild_Ids : get_Guild_Ids,
     data : new SlashCommandBuilder()
         .setName('update_count')
         .setDescription('手动更新成员计数'),
-
+    
     async execute(interaction, client, message) {
         // 确认 ID 并获取频道
         const guildId = interaction.guild.id;

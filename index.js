@@ -58,13 +58,26 @@ client.on("messageCreate", async (message) => {
 })
 
 
+client.on(Events.InteractionCreate, async interaction => {
+	if (!interaction.isChatInputCommand()) return;
 
+	const command = interaction.client.commands.get(interaction.commandName);
+	const message = client.message
+	if (!command) {
+		console.error(`No command matching ${interaction.commandName} was found.`);
+		return;
+	}
+
+	try {
+		await command.execute(interaction,client, message);
+	} catch (err) {
+		console.error(err);
 		// if (interaction.replied || interaction.deferred) {
 			// } else {
 			// 	await interaction.followUp({ content: 'There was an error while executing this command!', ephemeral: true });
 			// 	await interaction.reply({ content: 'There was an error while executing this command!', ephemeral: true });
 		// }
-
+	}
 
     // if (interaction.commandName === 'ping') {
 	// 	const row = new ActionRowBuilder()
@@ -78,7 +91,7 @@ client.on("messageCreate", async (message) => {
 	// 	await interaction.reply({ content: 'I think you should,', components: [row] });
 	// }
     
-
+});
 // Log in to Discord with your client's token
 console.log(process.env.DISCORD_TOKEN);
 client.login(process.env.DISCORD_TOKEN);

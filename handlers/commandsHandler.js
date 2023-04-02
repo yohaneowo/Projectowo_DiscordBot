@@ -4,10 +4,10 @@ const {Collection} = require('discord.js');
 
 module.exports = (client) => {
     client.commands = new Collection();
-    const commandspath = path.join(process.cwd(),'commands')
-    const commandfiles = fs.readdirSync(commandspath).filter(file => file.endsWith('.js'));
-    for (const commandfile of commandfiles) {
-        const filepath = path.join(commandspath, commandfile);
+    const commands_path = path.join(process.cwd(),'commands')
+    const command_files = fs.readdirSync(commands_path).filter(file => file.endsWith('.js'));
+    for (const command_file of command_files) {
+        const filepath = path.join(commands_path, command_file);
         const command = require(filepath);
         if ('data' in command && 'execute' in command) {
             client.commands.set(command.data.name, command);

@@ -29,10 +29,11 @@ module.exports = {
         const presenceCount = interaction.guild.members.cache.filter(member => member.presence && member.presence.status !== 'offline').size - Bots_Count || 'null';
         const icon = interaction.guild.iconURL() || 'https://cdn.discordapp.com/attachments/876461907840745513/1089581164752273468/404-error-icon-vector-symbol-260nw-1545236357_1.png';
         const username = interaction.user.tag;
-        const useravatar = interaction.user.displayAvatarURL({ dynamic: true });
+        const user_avatar = interaction.user.displayAvatarURL({ dynamic: true });
         
 
         UpdateValue();
+        
         function UpdateValue() {
             MemberCountObject.get_Guild_Ids().then(function(Guild_Ids){
                 const db = new sqlite3.Database("./lib/database/SQLite.db") 
@@ -61,10 +62,8 @@ module.exports = {
             }).catch(function (err) {
                 console.error(err);
             });
- 
-            
-    
         }
+
         const embed = new EmbedBuilder()
             
             .setTitle(`${Guild_Name} 服务器信息`)
@@ -91,13 +90,13 @@ module.exports = {
                 )
             .setFooter({
                 text: username,
-                iconURL: useravatar,
+                iconURL: user_avatar,
             });
 
         await interaction.reply({ embeds: [embed] })
-        // .then((serverinfo) => {
+        // .then((server_info) => {
         //     setTimeout(() => {
-        //         serverinfo.delete();
+        //         server_info.delete();
         //     }, 60000);
         // });
     },
