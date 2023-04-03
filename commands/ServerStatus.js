@@ -1,6 +1,6 @@
 const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
 const sqlite3 = require('sqlite3');
-
+const MemberCountObject = require('./MemberCount.js');
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('server')
@@ -23,27 +23,47 @@ module.exports = {
         const partnered = interaction.guild.partnered;
         const All_Members_Count = interaction.guild.memberCount;
         const Users_Count = interaction.guild.members.cache.filter(member => !member.user.bot).size;
-        const onlineCount = interaction.guild.members.cache.filter(member => member.presence.status !== 'offline').size;
-        const offlineCount = interaction.guild.members.cache.filter(member => member.presence.status === 'offline').size;
+        const onlineCount = interaction.guild.members.cache.filter(member => member.presence && member.presence.status !== 'offline').size || 'null';
+        const offlineCount = interaction.guild.members.cache.filter(member => member.presence && member.presence.status === 'offline').size || 'null';
         const Bots_Count = interaction.guild.members.cache.filter(member => member.user.bot).size;
-        const presenceCount = interaction.guild.members.cache.filter(member => member.presence.status !== 'offline').size - Bots_Count;
+        const presenceCount = interaction.guild.members.cache.filter(member => member.presence && member.presence.status !== 'offline').size - Bots_Count || 'null';
         const icon = interaction.guild.iconURL() || 'https://cdn.discordapp.com/attachments/876461907840745513/1089581164752273468/404-error-icon-vector-symbol-260nw-1545236357_1.png';
         const username = interaction.user.tag;
-        const useravatar = interaction.user.displayAvatarURL({ dynamic: true });
-    
+        const user_avatar = interaction.user.displayAvatarURL({ dynamic: true });
+        
+
         UpdateValue();
+        
         function UpdateValue() {
-      
-            const db = new sqlite3.Database("./lib/database/SQLite.db") 
-            Guild_Ids = db.run("SELECT Guild_Id FROM Guild_Collection")
-            console.log(`THIS LA ${Guild_Ids}`)
-            if (Guild_Id in Guild_Ids) {
-                db.run("UPDATE Guild_Collection SET Guild_Name = ?, Owner_Id = ?, All_Members_Count = ?, Users_Count = ?, Bots_Count = ?, maximumBitrate = ?, preferredLocale = ?, createdAt = ?, premiumTier = ?, premiumSubscriptionCount = ?, nsfwLevel = ?, partnered = ? WHERE Guild_Id = ?", [Guild_Name, Owner_Id, All_Members_Count, Users_Count, Bots_Count, maximumBitrate, preferredLocale, createdAt, premiumTier, premiumSubscriptionCount, nsfwLevel, partnered, Guild_Id])
-            }  else {
-                db.prepare("INSERT INTO Guild_Collection VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", [Guild_Id, Guild_Name, Owner_Id, All_Members_Count, Users_Count, Bots_Count, maximumBitrate, preferredLocale, createdAt, premiumTier, premiumSubscriptionCount, nsfwLevel, partnered])
-            }
-            db.close()
+            MemberCountObject.get_Guild_Ids().then(function(Guild_Ids){
+                const db = new sqlite3.Database("./lib/database/SQLite.db") 
+                        if (Guild_Ids.includes(Guild_Id.toString())) {
+                            db.serialize(function() {
+                                db.run("UPDATE Guild_Collection SET Guild_Name = ?, Owner_Id = ?, All_Members_Count = ?, Users_Count = ?, Bots_Count = ?, maximumBitrate = ?, preferredLocale = ?, createdAt = ?, premiumTier = ?, premiumSubscriptionCount = ?, nsfwLevel = ?, partnered = ? WHERE Guild_Id = ?", [Guild_Name, Owner_Id, All_Members_Count, Users_Count, Bots_Count, maximumBitrate, preferredLocale, createdAt, premiumTier, premiumSubscriptionCount, nsfwLevel, partnered, Guild_Id]),
+                                    function(err) {
+                                        if (err) {
+                                            return console.log(err.message);
+                                        } 
+                                    }  
+                            });
+                            console.log(`Updated Guild Collection Table ${Guild_Name}`)
+                        } else {
+                            db.serialize(function() {
+                                db.run("INSERT INTO Guild_Collection VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", [Guild_Id, Guild_Name, Owner_Id, All_Members_Count, Users_Count, Bots_Count, maximumBitrate, preferredLocale, createdAt, premiumTier, premiumSubscriptionCount, nsfwLevel, partnered]),
+                                function(err) {
+                                    if (err) {
+                                        return console.log(err.message);
+                                    } 
+                                }
+                            });
+                            console.log(`Inserted Guild Collection Table ${Guild_Name}`)
+                        }
+                  
+            }).catch(function (err) {
+                console.error(err);
+            });
         }
+
         const embed = new EmbedBuilder()
             
             .setTitle(`${Guild_Name} 服务器信息`)
@@ -70,13 +90,13 @@ module.exports = {
                 )
             .setFooter({
                 text: username,
-                iconURL: useravatar,
+                iconURL: user_avatar,
             });
 
         await interaction.reply({ embeds: [embed] })
-        // .then((serverinfo) => {
+        // .then((server_info) => {
         //     setTimeout(() => {
-        //         serverinfo.delete();
+        //         server_info.delete();
         //     }, 60000);
         // });
     },

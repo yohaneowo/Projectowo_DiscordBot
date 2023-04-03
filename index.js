@@ -6,16 +6,12 @@ const { Client, Collection, Events, GatewayIntentBits, WebhookClient, EmbedBuild
 // Create a new client instance
 const { PREFIX } = require('./config.json')
 const client = new Client({ intents: [3276799, GatewayIntentBits.GuildPresences, 8] });
+module.exports = client;
 const { ActionRowBuilder, ButtonBuilder, ButtonStyle } = require('discord.js');
 
 // When the client is ready, run this code (only once)
 // We use 'c' for the event parameter to keep it separate from the already defined 'client'
-client.once(Events.ClientReady, c => {
-    console.log(`Ready! Logged in as ${c.user.tag}`);
-	channel = client.channels.cache.get('1088861099761344522')
-	console.log(`index:${channel}`)
 
-});
 client.commands = new Collection();
 
 const commandsPath = path.join(__dirname, 'commands');
