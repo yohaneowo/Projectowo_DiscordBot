@@ -5,7 +5,7 @@ const sqlite3 = require("sqlite3");
 function get_Guild_Ids() {
     return new Promise(function (resolve, reject) {
         const db = new sqlite3.Database("./lib/database/SQLite.db")
-        db.all('SELECT CAST(Guild_Id as TEXT) as Guild_Id FROM Guild_Collection', [], function (err, rows) {
+        db.all('SELECT CAST(Guild_Id as TEXT) as Guild_Id FROM Member_Count', [], function (err, rows) {
             db.close();
             if (err) {
                 reject(err)
@@ -30,20 +30,22 @@ module.exports = {
         const All_Members_Count = interaction.guild.memberCount;
         const Users_Count = interaction.guild.members.cache.filter(member => !member.user.bot).size;
         const Bots_Count = interaction.guild.members.cache.filter(member => member.user.bot).size;
-        const All_Online_Count = interaction.guild.members.cache.filter(member => member.presence.status !== 'offline').size;
-        const All_Offline_Count = interaction.guild.members.cache.filter(member => member.presence.status === 'offline').size;
-        const User_Online_Count = interaction.guild.members.cache.filter(member => member.presence.status !== 'offline' &&  member.user.bot == false).size;
-        const User_Idle_Count = interaction.guild.members.cache.filter(member => member.presence.status === 'idle' &&  member.user.bot == false).size;
-        const User_Dnd_Count = interaction.guild.members.cache.filter(member => member.presence.status === 'dnd' &&  member.user.bot == false).size;
-        const User_Offline_Count = interaction.guild.members.cache.filter(member => member.presence.status === 'offline' &&  member.user.bot == false).size;
+        const All_Online_Count = interaction.guild.members.cache.filter(member => member.presence?.status !== 'offline').size || 'NULL';
+        const All_Offline_Count = interaction.guild.members.cache.filter(member => member.presence?.status === 'offline').size || 'NULL';
+        const User_Online_Count = interaction.guild.members.cache.filter(member => member.presence?.status !== 'offline' &&  member.user.bot == false).size || 'NULL';
+        const User_Idle_Count = interaction.guild.members.cache.filter(member => member.presence?.status === 'idle' &&  member.user.bot == false).size || 'NULL';
+        const User_Dnd_Count = interaction.guild.members.cache.filter(member => member.presence?.status === 'dnd' &&  member.user.bot == false).size || 'NULL';
+        const User_Offline_Count = interaction.guild.members.cache.filter(member => member.presence?.status === 'offline' &&  member.user.bot == false).size || 'NULL';
         // const Member_Count_Category = await interaction.guild.channels.create({ name: "📊 SERVER STATS 📊", type : "GUILD_CATEGORY"})
-        // Update_Member_Count_Database();
+        Update_Member_Count_Database();
 
 
         
     function Update_Member_Count_Database() {
         // 用Promise来获取Guild_Ids的遞歸
         get_Guild_Ids().then(function (Guild_Ids) {
+            console.log("🚀 ~ file: MemberCount.js:47 ~ Guild_Ids:", Guild_Ids)
+            
             const db = new sqlite3.Database("./lib/database/SQLite.db")
             // 遞歸的Guild_Ids是string所以要轉換來對比
             if (Guild_Ids.includes(guildId.toString())) {
@@ -55,12 +57,12 @@ module.exports = {
                     function(err) {
                         if (err) {
                             return console.log(`MODIFICATION:${err.message}`);
-                        }else {
-                            console.log("UPDATED MEMBER COUNT")
                         }
                     }
                     )
+                console.log("UPDATED MEMBER COUNT")
                 db.close();
+                interaction.reply({ content: '已更新成员计数！', ephemeral: true });
                 })
             } else {
                 db.serialize(function () {
@@ -69,18 +71,17 @@ module.exports = {
                     function(err) {
                         if (err) {
                             return console.log(`INSERTION:${err.message}`);
-                        } else {
-                            console.log("INSERTED MEMBER COUNT")
                         }
                     }
                     db.close();
+                    console.log("INSERTED MEMBER COUNT")
+                    interaction.reply({ content: '新增成员计数！', ephemeral: true });
                     })
                 }
         })
         .catch(function (err) { console.error(err); });
     }
     
-    interaction.reply({ content: '已更新成员计数！', ephemeral: true });
        
         // console.log(userIdleCount)
     //     // 确认所有频道是否存在
