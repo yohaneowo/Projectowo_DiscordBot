@@ -26,13 +26,13 @@ module.exports = {
         console.log('emoji Database Updated')
 
         /* Embed Message */
-        const interationUser = await interaction.guild.members.fetch(interaction.user.id);
+        const interactionUser = await interaction.guild.members.fetch(interaction.user.id);
         const InteractionFinalReply = new EmbedBuilder()
             .setColor(0x0099FF)
-            .setTitle('╲⎝⧹Animoji_Loader⧸⎠╱')
+            .setTitle('╲⎝⧹Ani_emoji_Loader⧸⎠╱')
             .setDescription(`⠀**»**⠀ ⠀ ${EmojiCounter} Emojis Loaded <a:Parrot_PowerUp:758829390645166080>`)
             .setTimestamp()
-            .setFooter({ text: interationUser.user.username, iconURL: interationUser.user.avatarURL() })
+            .setFooter({ text: interactionUser.user.username, iconURL: interactionUser.user.avatarURL() })
         await interaction.reply({ embeds: [InteractionFinalReply] })
     }
 }
