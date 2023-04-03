@@ -23,10 +23,10 @@ module.exports = {
         const partnered = interaction.guild.partnered;
         const All_Members_Count = interaction.guild.memberCount;
         const Users_Count = interaction.guild.members.cache.filter(member => !member.user.bot).size;
-        const onlineCount = interaction.guild.members.cache.filter(member => member.presence && member.presence.status !== 'offline').size || 'null';
-        const offlineCount = interaction.guild.members.cache.filter(member => member.presence && member.presence.status === 'offline').size || 'null';
+        const onlineCount = interaction.guild.members.cache.filter(member => member.presence && member.presence.status !== 'offline').size || 'Null';
+        const offlineCount = interaction.guild.members.cache.filter(member => member.presence && member.presence.status === 'offline').size || 'Null';
         const Bots_Count = interaction.guild.members.cache.filter(member => member.user.bot).size;
-        const presenceCount = interaction.guild.members.cache.filter(member => member.presence && member.presence.status !== 'offline').size - Bots_Count || 'null';
+        const presenceCount = interaction.guild.members.cache.filter(member => member.presence && member.presence.status !== 'offline').size - Bots_Count || 'Null';
         const icon = interaction.guild.iconURL() || 'https://cdn.discordapp.com/attachments/876461907840745513/1089581164752273468/404-error-icon-vector-symbol-260nw-1545236357_1.png';
         const username = interaction.user.tag;
         const user_avatar = interaction.user.displayAvatarURL({ dynamic: true });
