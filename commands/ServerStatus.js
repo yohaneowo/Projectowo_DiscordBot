@@ -2,7 +2,7 @@ const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
 const sqlite3 = require('sqlite3');
 
 // database_command.js中獲取Database指令
-const database_command = require('../commands_modules/server_status.js/database._command.js');
+const database_command = require('../commands_modules/server_status/database_commands.js');
 const { update_Guild_Collection_Database } = database_command;
 module.exports = {
     data: new SlashCommandBuilder()

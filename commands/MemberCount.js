@@ -1,8 +1,8 @@
 const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
-const components = require('../commands_modules/count_status/component.js/components.js');
+const components = require('../commands_modules/count_status/component.js');
 const { Button, Select_Menu } = components;
 const database_command = require('../commands_modules/count_status/database_commands.js')
-const { Get_Guild_Count, Update_Guild_Count } = database_command;
+const { update_Member_Count_Database } = database_command;
 
 module.exports = {
     data : new SlashCommandBuilder()
