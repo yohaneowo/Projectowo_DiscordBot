@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" modified="2023-04-04T22:47:47.382Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/111.0.0.0 Safari/537.36" etag="xScOH8_0j3IrKUynMFac" version="21.1.4" type="github">
+<mxfile host="app.diagrams.net" modified="2023-04-04T22:51:52.077Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/111.0.0.0 Safari/537.36" etag="K5jvBvQdzUiK-2OMBuFP" version="21.1.4" type="github">
   <diagram id="C5RBs43oDa-KdzZeNtuy" name="Page-1">
     <mxGraphModel dx="989" dy="543" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
@@ -37,11 +37,13 @@
         <mxCell id="0X0OkWObve7CjvhDQ9vk-20" value="打开sqlite" style="shape=datastore;whiteSpace=wrap;html=1;" parent="WIyWlLk6GJQsqaUBKTNV-1" vertex="1">
           <mxGeometry x="170" y="485" width="120" height="70" as="geometry" />
         </mxCell>
-        <mxCell id="0X0OkWObve7CjvhDQ9vk-53" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="WIyWlLk6GJQsqaUBKTNV-1" source="0X0OkWObve7CjvhDQ9vk-21" target="0X0OkWObve7CjvhDQ9vk-52" edge="1">
-          <mxGeometry relative="1" as="geometry" />
+        <mxCell id="0X0OkWObve7CjvhDQ9vk-53" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="WIyWlLk6GJQsqaUBKTNV-1" source="0X0OkWObve7CjvhDQ9vk-21" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="230" y="900" as="targetPoint" />
+          </mxGeometry>
         </mxCell>
-        <mxCell id="0X0OkWObve7CjvhDQ9vk-21" value="获取countChannel_id" style="rounded=1;whiteSpace=wrap;html=1;" parent="WIyWlLk6GJQsqaUBKTNV-1" vertex="1">
-          <mxGeometry x="170" y="850" width="120" height="60" as="geometry" />
+        <mxCell id="0X0OkWObve7CjvhDQ9vk-21" value="获取Server_Status_Collection數據里的channel的id" style="rounded=1;whiteSpace=wrap;html=1;" parent="WIyWlLk6GJQsqaUBKTNV-1" vertex="1">
+          <mxGeometry x="160" y="800" width="140" height="70" as="geometry" />
         </mxCell>
         <mxCell id="IgJqMe834EL95Fx6XLql-49" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="0X0OkWObve7CjvhDQ9vk-25" target="IgJqMe834EL95Fx6XLql-48">
           <mxGeometry relative="1" as="geometry" />
@@ -59,15 +61,6 @@
         </mxCell>
         <mxCell id="0X0OkWObve7CjvhDQ9vk-36" value="&#xa;&lt;span style=&quot;color: rgb(0, 0, 0); font-family: Helvetica; font-size: 12px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: center; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0.15px; background-color: rgb(251, 251, 251); text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; float: none; display: inline !important;&quot;&gt;查看此guild是否使用membercount&lt;/span&gt;&#xa;&#xa;" style="rhombus;whiteSpace=wrap;html=1;" parent="WIyWlLk6GJQsqaUBKTNV-1" vertex="1">
           <mxGeometry x="165" y="585" width="130" height="130" as="geometry" />
-        </mxCell>
-        <mxCell id="0X0OkWObve7CjvhDQ9vk-60" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="WIyWlLk6GJQsqaUBKTNV-1" source="0X0OkWObve7CjvhDQ9vk-52" target="0X0OkWObve7CjvhDQ9vk-56" edge="1">
-          <mxGeometry relative="1" as="geometry" />
-        </mxCell>
-        <mxCell id="0X0OkWObve7CjvhDQ9vk-64" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="WIyWlLk6GJQsqaUBKTNV-1" source="0X0OkWObve7CjvhDQ9vk-52" target="0X0OkWObve7CjvhDQ9vk-62" edge="1">
-          <mxGeometry relative="1" as="geometry" />
-        </mxCell>
-        <mxCell id="0X0OkWObve7CjvhDQ9vk-52" value="获取member_count" style="rounded=1;whiteSpace=wrap;html=1;" parent="WIyWlLk6GJQsqaUBKTNV-1" vertex="1">
-          <mxGeometry x="170" y="970" width="120" height="70" as="geometry" />
         </mxCell>
         <mxCell id="0X0OkWObve7CjvhDQ9vk-66" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="WIyWlLk6GJQsqaUBKTNV-1" source="0X0OkWObve7CjvhDQ9vk-56" target="0X0OkWObve7CjvhDQ9vk-65" edge="1">
           <mxGeometry relative="1" as="geometry" />
@@ -136,18 +129,11 @@
         <mxCell id="IgJqMe834EL95Fx6XLql-31" value="獲取該群的member count" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
           <mxGeometry x="180" y="395" width="100" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="IgJqMe834EL95Fx6XLql-51" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="IgJqMe834EL95Fx6XLql-48" target="0X0OkWObve7CjvhDQ9vk-36">
-          <mxGeometry relative="1" as="geometry">
-            <mxPoint x="230" y="570" as="targetPoint" />
-            <Array as="points">
-              <mxPoint x="480" y="390" />
-              <mxPoint x="480" y="580" />
-              <mxPoint x="230" y="580" />
-            </Array>
-          </mxGeometry>
-        </mxCell>
         <mxCell id="IgJqMe834EL95Fx6XLql-48" value="db.close()" style="shape=datastore;whiteSpace=wrap;html=1;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
           <mxGeometry x="570" y="340" width="120" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="IgJqMe834EL95Fx6XLql-55" value="用id獲取channel並update" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="165" y="910" width="135" height="70" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
