@@ -22,7 +22,7 @@ module.exports = {
 				await i.reply({ content: `Selected ${labels}`, components: [Button] });
 				menu_collected = true;
             } else {
-                i.reply({ content: `These buttons aren't for you!`, ephemeral: true });
+                i.reply({ content: `These Selection aren't for you!`, ephemeral: true });
             }
         });
             Menu_collector.on('end', collected => {
