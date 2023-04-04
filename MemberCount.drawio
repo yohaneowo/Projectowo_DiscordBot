@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" modified="2023-04-04T22:46:14.894Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/111.0.0.0 Safari/537.36" etag="PUIKOnZHpUB6aHuKfdba" version="21.1.4" type="github">
+<mxfile host="app.diagrams.net" modified="2023-04-04T22:46:51.608Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/111.0.0.0 Safari/537.36" etag="FPXRydANAznlNICD5Rf7" version="21.1.4" type="github">
   <diagram id="C5RBs43oDa-KdzZeNtuy" name="Page-1">
     <mxGraphModel dx="989" dy="543" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
@@ -136,13 +136,13 @@
         <mxCell id="IgJqMe834EL95Fx6XLql-31" value="獲取該群的member count" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
           <mxGeometry x="180" y="395" width="100" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="IgJqMe834EL95Fx6XLql-51" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=1;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="IgJqMe834EL95Fx6XLql-48" target="0X0OkWObve7CjvhDQ9vk-36">
+        <mxCell id="IgJqMe834EL95Fx6XLql-51" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="IgJqMe834EL95Fx6XLql-48" target="0X0OkWObve7CjvhDQ9vk-36">
           <mxGeometry relative="1" as="geometry">
-            <mxPoint x="380" y="600" as="targetPoint" />
+            <mxPoint x="230" y="570" as="targetPoint" />
             <Array as="points">
-              <mxPoint x="470" y="390" />
-              <mxPoint x="470" y="618" />
-              <mxPoint x="263" y="618" />
+              <mxPoint x="480" y="390" />
+              <mxPoint x="480" y="580" />
+              <mxPoint x="230" y="580" />
             </Array>
           </mxGeometry>
         </mxCell>
