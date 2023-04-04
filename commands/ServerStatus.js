@@ -1,12 +1,16 @@
 const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
 const sqlite3 = require('sqlite3');
-const MemberCountObject = require('./MemberCount.js');
+
+// database_command.js中獲取Database指令
+const database_command = require('../commands_modules/server_status.js/database._command.js');
+const { update_Guild_Collection_Database } = database_command;
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('server')
         .setDescription('获取服务器信息'),
 
     async execute(interaction) {
+        // 獲取服務器信息
         const Guild_Id = interaction.guild.id;
         const Guild_Name = interaction.guild.name;
         const description = interaction.guild.description || '没有提供描述';
@@ -31,41 +35,8 @@ module.exports = {
         const username = interaction.user.tag;
         const user_avatar = interaction.user.displayAvatarURL({ dynamic: true });
         
-
-        UpdateValue();
-        
-        function UpdateValue() {
-            MemberCountObject.get_Guild_Ids().then(function(Guild_Ids){
-                const db = new sqlite3.Database("./lib/database/SQLite.db") 
-                        if (Guild_Ids.includes(Guild_Id.toString())) {
-                            db.serialize(function() {
-                                db.run("UPDATE Guild_Collection SET Guild_Name = ?, Owner_Id = ?, All_Members_Count = ?, Users_Count = ?, Bots_Count = ?, maximumBitrate = ?, preferredLocale = ?, createdAt = ?, premiumTier = ?, premiumSubscriptionCount = ?, nsfwLevel = ?, partnered = ? WHERE Guild_Id = ?", [Guild_Name, Owner_Id, All_Members_Count, Users_Count, Bots_Count, maximumBitrate, preferredLocale, createdAt, premiumTier, premiumSubscriptionCount, nsfwLevel, partnered, Guild_Id]),
-                                    function(err) {
-                                        if (err) {
-                                            return console.log(err.message);
-                                        } 
-                                    }  
-                            });
-                            console.log(`Updated Guild Collection Table ${Guild_Name}`)
-                        } else {
-                            db.serialize(function() {
-                                db.run("INSERT INTO Guild_Collection VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", [Guild_Id, Guild_Name, Owner_Id, All_Members_Count, Users_Count, Bots_Count, maximumBitrate, preferredLocale, createdAt, premiumTier, premiumSubscriptionCount, nsfwLevel, partnered]),
-                                function(err) {
-                                    if (err) {
-                                        return console.log(err.message);
-                                    } 
-                                }
-                            });
-                            console.log(`Inserted Guild Collection Table ${Guild_Name}`)
-                        }
-                  
-            }).catch(function (err) {
-                console.error(err);
-            });
-        }
-
+        // 設置Embed
         const embed = new EmbedBuilder()
-            
             .setTitle(`${Guild_Name} 服务器信息`)
             .setDescription(description)
             .setColor('#0099ff')
@@ -93,11 +64,7 @@ module.exports = {
                 iconURL: user_avatar,
             });
 
+        update_Guild_Collection_Database();
         await interaction.reply({ embeds: [embed] })
-        // .then((server_info) => {
-        //     setTimeout(() => {
-        //         server_info.delete();
-        //     }, 60000);
-        // });
     },
 };
