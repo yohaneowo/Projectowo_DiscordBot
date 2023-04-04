@@ -1,8 +1,6 @@
 const sqlite3 = require("sqlite3");
 
-module.exports = { 
-    // 從Member_Count獲取所有Guild_Id
-    get_Guild_Ids: function get_Guild_Ids() {
+function get_Guild_Ids() {
         return new Promise(function (resolve, reject) {
             const db = new sqlite3.Database("./lib/database/SQLite.db")
             db.all('SELECT CAST(Guild_Id as TEXT) as Guild_Id FROM Member_Count', [], function (err, rows) {
@@ -16,11 +14,14 @@ module.exports = {
                 }, 
             )
         })
-    },
+    }
 
-    update_Member_Count_Database : function update_Member_Count_Database() {
+module.exports = { 
+    // 從Member_Count獲取所有Guild_Id
+    get_Guild_Ids :  get_Guild_Ids,
+    update_Member_Count_Database : function update_Member_Count_Database(guildId) {
         // 用Promise来获取Guild_Ids的遞歸
-        get_Guild_Ids().then(function (Guild_Ids) {
+        get_Guild_Ids().then(function ( Guild_Ids) {
             const db = new sqlite3.Database("./lib/database/SQLite.db")
             // 遞歸的Guild_Ids是string所以要轉換來對比
             if (Guild_Ids.includes(guildId.toString())) {
