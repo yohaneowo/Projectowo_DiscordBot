@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" modified="2023-04-04T22:46:51.608Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/111.0.0.0 Safari/537.36" etag="FPXRydANAznlNICD5Rf7" version="21.1.4" type="github">
+<mxfile host="app.diagrams.net" modified="2023-04-04T22:47:47.382Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/111.0.0.0 Safari/537.36" etag="xScOH8_0j3IrKUynMFac" version="21.1.4" type="github">
   <diagram id="C5RBs43oDa-KdzZeNtuy" name="Page-1">
     <mxGraphModel dx="989" dy="543" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
@@ -28,7 +28,7 @@
         <mxCell id="0X0OkWObve7CjvhDQ9vk-35" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" parent="WIyWlLk6GJQsqaUBKTNV-1" source="0X0OkWObve7CjvhDQ9vk-19" target="0X0OkWObve7CjvhDQ9vk-25" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="0X0OkWObve7CjvhDQ9vk-19" value="创建Member_Count新數據" style="rounded=1;whiteSpace=wrap;html=1;" parent="WIyWlLk6GJQsqaUBKTNV-1" vertex="1">
+        <mxCell id="0X0OkWObve7CjvhDQ9vk-19" value="创建Member_Count新數據" style="rounded=1;whiteSpace=wrap;html=1;arcSize=0;" parent="WIyWlLk6GJQsqaUBKTNV-1" vertex="1">
           <mxGeometry x="486.75" y="610" width="131" height="80" as="geometry" />
         </mxCell>
         <mxCell id="IgJqMe834EL95Fx6XLql-35" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="0X0OkWObve7CjvhDQ9vk-20" target="0X0OkWObve7CjvhDQ9vk-36">
@@ -115,8 +115,8 @@
         <mxCell id="IgJqMe834EL95Fx6XLql-23" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="IgJqMe834EL95Fx6XLql-20" target="IgJqMe834EL95Fx6XLql-19">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="IgJqMe834EL95Fx6XLql-20" value="创建Server_Status_Collection新數據" style="rounded=1;whiteSpace=wrap;html=1;direction=south;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
-          <mxGeometry x="665.5" y="584.5" width="80" height="131" as="geometry" />
+        <mxCell id="IgJqMe834EL95Fx6XLql-20" value="创建Server_Status_Collection新數據" style="rounded=1;whiteSpace=wrap;html=1;direction=south;arcSize=0;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="638.25" y="610" width="134.5" height="80" as="geometry" />
         </mxCell>
         <mxCell id="IgJqMe834EL95Fx6XLql-30" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="IgJqMe834EL95Fx6XLql-27" target="IgJqMe834EL95Fx6XLql-29">
           <mxGeometry relative="1" as="geometry" />
@@ -124,7 +124,7 @@
         <mxCell id="IgJqMe834EL95Fx6XLql-27" value="創立用戶選擇的server_status channel" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
           <mxGeometry x="340" y="730" width="110" height="65" as="geometry" />
         </mxCell>
-        <mxCell id="IgJqMe834EL95Fx6XLql-37" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="IgJqMe834EL95Fx6XLql-29" target="IgJqMe834EL95Fx6XLql-20">
+        <mxCell id="IgJqMe834EL95Fx6XLql-53" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="IgJqMe834EL95Fx6XLql-29" target="IgJqMe834EL95Fx6XLql-20">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="IgJqMe834EL95Fx6XLql-29" value="獲取剛剛創立的channel的id" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
