@@ -1,9 +1,8 @@
 const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
-const sqlite3 = require('sqlite3');
-
 // database_command.js中獲取Database指令
-const database_command = require('../commands_modules/server_status/database_commands.js');
-const { update_Guild_Collection_Database } = database_command;
+const { server_status_database_commands } = require('../commands_modules/server_status/database_commands.js');
+const commands = new server_status_database_commands();
+
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('server')
@@ -64,7 +63,7 @@ module.exports = {
                 iconURL: user_avatar,
             });
 
-        update_Guild_Collection_Database();
+        commands.update_Guild_Collection_Database(Guild_Id, Guild_Name, Owner_Id, All_Members_Count, Users_Count, Bots_Count, maximumBitrate, preferredLocale, createdAt, premiumTier, premiumSubscriptionCount, nsfwLevel, partnered);
         await interaction.reply({ embeds: [embed] })
     },
 };
