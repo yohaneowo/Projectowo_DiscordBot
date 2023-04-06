@@ -1,5 +1,5 @@
 const {  ChannelType, PermissionsBitField} = require('discord.js');
-class manage_channel_function {
+class member_count_manage_channel_function {
     create_Category(interaction){
                 const parent =  interaction.guild.channels.create({
                 name: '📊 SERVER STATS 📊',
@@ -206,7 +206,7 @@ class manage_channel_function {
             return channel;
         }
 
-        create_UUser_Idle_Count(interaction, User_Idle_Count, parent){
+        create_User_Idle_Count(interaction, User_Idle_Count, parent){
             const channel =  interaction.guild.channels.create({
                 name: `User_Idle_Count : ${User_Idle_Count}`,
                 type: ChannelType.GuildVoice,
@@ -264,5 +264,5 @@ class manage_channel_function {
         }
 }
 module.exports = {
-    manage_channel_function
+    member_count_manage_channel_function
 }

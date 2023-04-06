@@ -1,6 +1,6 @@
 const { SlashCommandBuilder, ActionRowBuilder, StringSelectMenuBuilder, ButtonBuilder, ButtonStyle } = require('discord.js');
 const { ComponentType } = require('discord.js');
-class components {
+class member_count_components {
 	Button = new ActionRowBuilder()
 		.addComponents(
 			new ButtonBuilder()
@@ -87,8 +87,31 @@ class components {
 				]),
 			)
 }
+
+class ServerStatusIds {
+	ServerStatusIds() {
+		this.Guild_Id = '';
+		this.Category_Id = '';
+		this.All_Members_Count_Id = '';
+		this.Users_Count_Id = '';
+		this.Bots_Count_Id = '';
+		this.All_Online_Count_Id = '';
+		this.All_Online_Count_include_idle_Id = '';
+		this.All_Online_Count_include_idle_dnd_Id = '';
+		this.All_Offline_Count_Id = '';
+		this.User_Online_Count_Id = '';
+		this.User_Online_Count_include_idle_Id = '';
+		this.User_Online_Count_include_idle_dnd_Id = '';
+		this.User_Idle_Count_Id = '';
+		this.User_Dnd_Count_Id = '';
+		this.User_Offline_Count_Id = '';
+		this.User_Id = '';
+		this.datetime = '';
+		this.Menu_Select_Values = '';
+	}
+}
 // 输出component模块
 module.exports = {
     // 按钮
-   components
+   member_count_components,ServerStatusIds
 }

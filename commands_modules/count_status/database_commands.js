@@ -55,12 +55,22 @@ class member_count_database_commands {
         })
         .catch(function (err) { console.error(err); });
     }
-
+    
+    // insert Server_Status_Collection
+   insert_Server_Status_Collection(Guild_Id, Category_Id, All_Members_Count_Id, Users_Count_Id, Bots_Count_Id, All_Online_Count_Id, All_Online_Count_include_idle_Id, All_Online_Count_include_idle_dnd_Id, All_Offline_Count_Id, User_Online_Count_Id, User_Online_Count_include_idle_Id, User_Online_Count_include_idle_dnd_Id, User_Idle_Count_Id, User_Dnd_Count_Id, User_Offline_Count_Id, Added_User_Id, Added_datetime, Menu_Select_Values) {
+        const db = new sqlite3.Database("./lib/database/SQLite.db")
+        db.serialize(function () {
+            db.run("INSERT INTO Server_Status_Collection VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",[Guild_Id, Category_Id, All_Members_Count_Id, Users_Count_Id, Bots_Count_Id, All_Online_Count_Id, All_Online_Count_include_idle_Id, All_Online_Count_include_idle_dnd_Id, All_Offline_Count_Id, User_Online_Count_Id, User_Online_Count_include_idle_Id, User_Online_Count_include_idle_dnd_Id, User_Idle_Count_Id, User_Dnd_Count_Id, User_Offline_Count_Id, Added_User_Id, Added_datetime, Menu_Select_Values]),
+            function(err) {
+                if (err) {
+                    return console.log(`INSERTION:${err.message}`);
+                }
+            }
+            db.close();
+            console.log("INSERTED SERVER STATUS COLLECTION")
+        })
+    }
 }
-
-
-
 module.exports = { 
-    // 從Member_Count獲取所有Guild_Id
     member_count_database_commands
 }
