@@ -1,6 +1,7 @@
 const { SlashCommandBuilder, ActionRowBuilder, StringSelectMenuBuilder, ButtonBuilder, ButtonStyle } = require('discord.js');
 const { ComponentType } = require('discord.js');
-class member_count_components {
+class MemberCount_Interaction_Components {
+	// Button Component FOR Slash Command
 	Button = new ActionRowBuilder()
 		.addComponents(
 			new ButtonBuilder()
@@ -9,15 +10,14 @@ class member_count_components {
 				.setStyle(ButtonStyle.Primary),
 		)
     
-	
-    // 下拉選項菜單
+    // Select Menu Component FOR Slash Command
     Select_Menu = new ActionRowBuilder()
 		.addComponents(
 			new StringSelectMenuBuilder()
 				.setCustomId('select')
 				.setPlaceholder('Nothing selected')
 				.setMinValues(1)
-				.setMaxValues(9)
+				.setMaxValues(13)
 				.addOptions([
 					{
 						label: 'All_Members_Count',
@@ -88,6 +88,7 @@ class member_count_components {
 			)
 }
 
+// Temporary Data Storage For Database storing [channels ids]
 class ServerStatusIds {
 	ServerStatusIds() {
 		this.Guild_Id = '';
@@ -103,15 +104,14 @@ class ServerStatusIds {
 		this.User_Online_Count_include_idle_Id = '';
 		this.User_Online_Count_include_idle_dnd_Id = '';
 		this.User_Idle_Count_Id = '';
-		this.User_Dnd_Count_Id = '';
 		this.User_Offline_Count_Id = '';
 		this.User_Id = '';
-		this.datetime = '';
+		this.dateTime = '';
 		this.Menu_Select_Values = '';
 	}
 }
-// 输出component模块
+
+// Exporting Module
 module.exports = {
-    // 按钮
-   member_count_components,ServerStatusIds
+   MemberCount_Interaction_Components,ServerStatusIds
 }
