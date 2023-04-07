@@ -107,7 +107,7 @@ class ServerStatusIds {
 		this.User_Offline_Count_Id = '';
 		this.User_Id = '';
 		this.dateTime = '';
-		this.Menu_Select_Values = '';
+		this.selectMenu_Values = '';
 	}
 }
 

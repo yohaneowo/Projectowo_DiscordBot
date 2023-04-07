@@ -20,7 +20,7 @@ class MemberCount_DatabaseFunctions {
     // Update Member_Count_Collection
     update_Member_Count_Database(guildId, All_Members_Count, Users_Count, Bots_Count, All_Online_Count, All_Online_Count_include_idle, All_Online_Count_include_idle_dnd, All_Offline_Count, User_Online_Count, User_Online_Count_include_idle, User_Online_Count_include_idle_dnd, User_Idle_Count, User_Dnd_Count, User_Offline_Count) {
         // 用Promise来获取Guild_Ids的遞歸
-        get_Guild_Ids().then(function ( Guild_Ids) {
+        this.get_Guild_Ids().then(function ( Guild_Ids) {
             const db = new sqlite3.Database("./lib/database/SQLite.db")
             // 遞歸的Guild_Ids是string所以要轉換來對比
             if (Guild_Ids.includes(guildId.toString())) {

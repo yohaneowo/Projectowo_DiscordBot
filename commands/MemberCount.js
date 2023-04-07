@@ -5,7 +5,7 @@ const {MemberCount_Interaction_Components, ServerStatusIds} = require('../comman
 const databaseFunctionManager = new MemberCount_DatabaseFunctions;
 const channelFunctionManager = new MemberCount_ManageFunctions();   
 
-
+// 可能会出现的问题=达到channel上限
 module.exports = {
     data : new SlashCommandBuilder()
         .setName('update_count')
@@ -75,14 +75,14 @@ module.exports = {
                                 // create a constructor to store ids temporarily
                                 const serverStatusIds_Constructor = new ServerStatusIds();
                                     // Storing all the count in database
-                                    database_commands.update_Member_Count_Database(guildId, All_Members_Count, Users_Count, Bots_Count, All_Online_Count, All_Online_Count_include_idle, All_Online_Count_include_idle_dnd, All_Offline_Count, User_Online_Count, User_Online_Count_include_idle, User_Online_Count_include_idle_dnd, User_Idle_Count, User_Dnd_Count, User_Offline_Count);
+                                    databaseFunctionManager.update_Member_Count_Database(guild_Id, user_Id, allMembers_Count, usersCount, bots_Count, allOnline_Count, allOnline_Count_Idle_included, allOnline_Count_Idle_Dnd_included, allOffline_Count, userOnline_Count, userOnline_Count_Idle_included, userOnline_Count_Idle_Dnd_included, userIdle_Count, userDnd_Count, userOffline_Count);
                                     await new Promise(async (resolve, reject) => {
                                         const parent = await channelFunctionManager.createChannel(interaction, 'Category', null, null);
                                         serverStatusIds_Constructor.Category_Id = parent.id;
                                         serverStatusIds_Constructor.Guild_Id = guild_Id;
                                         serverStatusIds_Constructor.User_Id = user_Id;
                                         serverStatusIds_Constructor.dateTime = new Date();
-                                        serverStatusIds_Constructor.Menu_Select_Values = selectMenu_Values.toString();
+                                        serverStatusIds_Constructor.selectMenu_Values = selectMenu_Values.toString();
                                         resolve(parent);
                                         }).then(async (parent) => {
                                                 // Loops through all the values of select menu
@@ -181,7 +181,7 @@ module.exports = {
                                             serverStatusIds_Constructor.User_Offline_Count_Id,
                                             serverStatusIds_Constructor.User_Id,
                                             serverStatusIds_Constructor.dateTime,
-                                            serverStatusIds_Constructor.selectMenu_Values.toString()
+                                            serverStatusIds_Constructor.selectMenu_Values
                                             )
                                         })
                             } else {
