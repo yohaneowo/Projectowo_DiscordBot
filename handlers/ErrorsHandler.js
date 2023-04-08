@@ -2,7 +2,7 @@ const { EmbedBuilder } = require('discord.js');
 
 module.exports =  (client) => {
     
-    const errChannel = "1088861099761344522"
+    const errChannel = "1094086417543598181"
     process.on('unhandledRejection', (reason, promise) => {
         console.log('[Anti-crash] :: Unhandled Rejection/Catch')
         console.log(reason, promise);
@@ -17,10 +17,9 @@ module.exports =  (client) => {
     })
 
     process.on('uncaughtException', (err, origin) => {
-        console.log(client.channel);
         console.log('[Anti-crash] :: uncaughtException/Catch')
         console.log(err, origin);
-            console.log(client.channel);
+        console.log(client.channels.cache.get(errChannel))
         const errEmbed2 = new EmbedBuilder()
  
             .setTitle("New Error")
@@ -28,14 +27,14 @@ module.exports =  (client) => {
             .setTimestamp()
             .setFooter("Anti Crash System")
         
-        client.channel.send({ embeds: [errEmbed2] })
+            client.channels.cache.get(errChannel).send({embeds: [errEmbed2]})
+
     })
 
     process.on('uncaughtExceptionMonitor', (err, origin) => {
-        console.log(client.channel);
+        console.log(client.channels);
         console.log('[Anti-crash] :: uncaughtExceptionMonitor/Catch')
         console.log(err, origin);
-        console.log(client.channel);
         const errEmbed3 = new EmbedBuilder()
 
             .setTitle("New Error")
@@ -43,7 +42,8 @@ module.exports =  (client) => {
             .setTimestamp()
             .setFooter("Anti Crash System")
 
-        client.channel.send({ embeds: [errEmbed3] })
+                client.channels.cache.get(errChannel).send({embeds: [errEmbed3]})
+
     })
 
         process.on('syntaxError', (err) => {
