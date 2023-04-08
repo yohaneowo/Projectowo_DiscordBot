@@ -46,5 +46,23 @@ module.exports =  (client) => {
         client.channel.send({ embeds: [errEmbed3] })
     })
 
-   
+        process.on('syntaxError', (err) => {
+    const errEmbed = new EmbedBuilder()
+        .setTitle("Syntax Error")
+        .setDescription(err.message)
+        .addField("Stack Trace", err.stack)
+        .setTimestamp()
+        .setFooter("Anti Crash System");
+    client.channels.cache.get(errChannel).send({embeds: [errEmbed]});
+    });
+
+    process.on('timeout', (err) => {
+    const errEmbed = new EmbedBuilder()
+        .setTitle("Timeout Error")
+        .setDescription(err.message)
+        .addField("Stack Trace", err.stack)
+        .setTimestamp()
+        .setFooter("Anti Crash System");
+    client.channels.cache.get(errChannel).send({embeds: [errEmbed]});
+    });
 }

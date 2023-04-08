@@ -75,7 +75,7 @@ class MemberCount_DatabaseFunctions {
             // 遞歸的Guild_Ids是string所以要轉換來對比
             if (Guild_Ids.includes(guildId.toString())) {
                 db.serialize(function () {
-                db.run("UPDATE Member_Count SET All_Members_Count = ?, All_Online_Count_include_idle = ?, All_Online_Count_include_idle_dnd = ?, Users_Count = ?, Bots_Count = ?,"+
+                db.run("UPDATE Member_Count_Collection SET All_Members_Count = ?, All_Online_Count_include_idle = ?, All_Online_Count_include_idle_dnd = ?, Users_Count = ?, Bots_Count = ?,"+
                     "All_Online_Count = ?, All_Offline_Count = ?, User_Online_Count = ?, User_Online_Count_include_idle = ?, User_Online_Count_include_idle_dnd = ?, User_Idle_Count = ?,"+
                     " User_Dnd_Count = ?, User_Offline_Count = ? WHERE Guild_Id = ?",
                     [All_Members_Count, Users_Count, Bots_Count, All_Online_Count, All_Online_Count_include_idle, All_Online_Count_include_idle_dnd,

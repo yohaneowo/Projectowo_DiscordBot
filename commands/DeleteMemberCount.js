@@ -7,19 +7,23 @@ module.exports = {
         .setDescription("Delete Member Count Channel"),
     async execute(interaction, client){
         try {
-            await interaction.deferReply({ ephemeral: true })
+            await interaction.deferReply({ ephemeral: false })
             const guild_Id = await interaction.guild.id;
             const [selectValues, channelId] = await Promise.all([
                 databaseFunctionManager.get_MemberCount_SelectValue(guild_Id),
                 databaseFunctionManager.get_MemberCount_ChannelId(guild_Id),
             ]);
-            const channelCategory = await interaction.guild.channels.fetch(channelId[0].Category_Id);
-            if (channelCategory) {
-                await channelCategory.delete()
-                .then(() => {console.log(`成功刪除頻道 ${channelCategory.name}`);})
-                .catch(error => {console.error(`刪除頻道 ${channelCategory.name} 時發生錯誤：`, error);});
-            } else {
-                console.error(`找不到頻道 ${channelId[0].Category_Id}`);
+            try {
+                const channelCategory = await interaction.guild.channels.fetch(channelId[0].Category_Id);
+                if (channelCategory) {
+                    await channelCategory.delete()
+                    .then(() => {console.log(`成功刪除頻道 ${channelCategory.name}`);})
+                    .catch(error => {console.error(`刪除頻道 ${channelCategory.name} 時發生錯誤：`, error);});
+                } else {
+                    console.error(`找不到頻道 ${channelId[0].Category_Id}`);
+                }
+            } catch (error) {   
+                console.error(`找不到頻道 `);
             }
             selectValues.toString().split(',').forEach(async (value) => {
                 switch (value) {
@@ -29,7 +33,7 @@ module.exports = {
                         await allMemberCount_Channel.delete()
                             .then(() => {console.log(`成功刪除頻道 ${allMemberCount_Channel.name}`);})
                             .catch(error => {console.error(`刪除頻道 ${allMemberCount_Channel.name} 時發生錯誤：`, error);});
-                            } else {console.error(`找不到頻道 ${channelId[0].All_Members_Count_Id}`);}
+                            } else {console.error(`找不到頻道 `);}
                         break;a
                     case '1' :
                         const usersCount_Channel = await interaction.guild.channels.fetch(channelId[0].Users_Count_Id)
@@ -37,7 +41,7 @@ module.exports = {
                             await usersCount_Channel.delete()
                             .then(() => {console.log(`成功刪除頻道 ${usersCount_Channel.name}`);})
                             .catch(error => {console.error(`刪除頻道 ${usersCount_Channel.name} 時發生錯誤：`, error);});
-                        } else {console.error(`找不到頻道 ${channelId[0].Users_Count_Id}`);}
+                        } else {console.error(`找不到頻道 `);}
                         break;
                     case '2' :
                         const botsCount_Channel = await interaction.guild.channels.fetch(channelId[0].Bots_Count_Id)
@@ -45,7 +49,7 @@ module.exports = {
                             await botsCount_Channel.delete()
                             .then(() => {console.log(`成功刪除頻道 ${botsCount_Channel.name}`);})
                             .catch(error => {console.error(`刪除頻道 ${botsCount_Channel.name} 時發生錯誤：`, error);});
-                        } else {console.error(`找不到頻道 ${channelId[0].Bots_Count_Id}`);}
+                        } else {console.error(`找不到頻道 `);}
                         break;
                     case '3' :
                         const allOnlineCount_Channel = await interaction.guild.channels.fetch(channelId[0].All_Online_Count_Id)
@@ -53,7 +57,7 @@ module.exports = {
                             await allOnlineCount_Channel.delete()
                             .then(() => {console.log(`成功刪除頻道 ${allOnlineCount_Channel.name}`);})
                             .catch(error => {console.error(`刪除頻道 ${allOnlineCount_Channel.name} 時發生錯誤：`, error);});
-                        } else {console.error(`找不到頻道 ${channelId[0].All_Online_Count_Id}`);}
+                        } else {console.error(`找不到頻道 `);}
                         break;
                     case '4' :
                         const allOnlineCount_Idle_included_Channel = await interaction.guild.channels.fetch(channelId[0].All_Online_Count_include_idle_Id)
@@ -61,7 +65,7 @@ module.exports = {
                             await allOnlineCount_Idle_included_Channel.delete()
                             .then(() => {console.log(`成功刪除頻道 ${allOnlineCount_Idle_included_Channel.name}`);})
                             .catch(error => {console.error(`刪除頻道 ${allOnlineCount_Idle_included_Channel.name} 時發生錯誤：`, error);});
-                        } else {console.error(`找不到頻道 ${channelId[0].All_Online_Count_include_idle_Id}`);}
+                        } else {console.error(`找不到頻道 `);}
                         break;
                     case '5' :
                         const allOnlineCount_Idle_Dnd_included_Channel = await interaction.guild.channels.fetch(channelId[0].All_Online_Count_include_idle_dnd_Id)
@@ -69,7 +73,7 @@ module.exports = {
                             await allOnlineCount_Idle_Dnd_included_Channel.delete()
                             .then(() => {console.log(`成功刪除頻道 ${allOnlineCount_Idle_Dnd_included_Channel.name}`);})
                             .catch(error => {console.error(`刪除頻道 ${allOnlineCount_Idle_Dnd_included_Channel.name} 時發生錯誤：`, error);});
-                        } else {console.error(`找不到頻道 ${channelId[0].All_Online_Count_include_idle_dnd_Id}`);}
+                        } else {console.error(`找不到頻道 `);}
                         break;
                     case '6' :
                         const allOfflineCount_Channel = await interaction.guild.channels.fetch(channelId[0].All_Offline_Count_Id)
@@ -77,7 +81,7 @@ module.exports = {
                             await allOfflineCount_Channel.delete()
                             .then(() => {console.log(`成功刪除頻道 ${allOfflineCount_Channel.name}`);})
                             .catch(error => {console.error(`刪除頻道 ${allOfflineCount_Channel.name} 時發生錯誤：`, error);});
-                        } else {console.error(`找不到頻道 ${channelId[0].All_Offline_Count_Id}`);}
+                        } else {console.error(`找不到頻道 `);}
                         break;
                     case '7' :
                     const userOnlineCount_Channel = await interaction.guild.channels.fetch(channelId[0].User_Online_Count_Id)
@@ -85,7 +89,7 @@ module.exports = {
                         await userOnlineCount_Channel.delete()
                         .then(() => {console.log(`成功刪除頻道 ${userOnlineCount_Channel.name}`);})
                         .catch(error => {console.error(`刪除頻道 ${userOnlineCount_Channel.name} 時發生錯誤：`, error);});
-                    } else {console.error(`找不到頻道 ${channelId[0].User_Online_Count_Id}`);}
+                    } else {console.error(`找不到頻道 `);}
                     break;
                     case '8' :
                         const userOnlineCount_Idle_included_Channel = await interaction.guild.channels.fetch(channelId[0].User_Online_Count_include_idle_Id)
@@ -93,7 +97,7 @@ module.exports = {
                             await userOnlineCount_Idle_included_Channel.delete()
                             .then(() => {console.log(`成功刪除頻道 ${userOnlineCount_Idle_included_Channel.name}`);})
                             .catch(error => {console.error(`刪除頻道 ${userOnlineCount_Idle_included_Channel.name} 時發生錯誤：`, error);});
-                        } else {console.error(`找不到頻道 ${channelId[0].User_Online_Count_include_idle_Id}`);}
+                        } else {console.error(`找不到頻道 `);}
                     break;
                     case '9' :
                         const userOnlineCount_Idle_Dnd_included_Channel = await interaction.guild.channels.fetch(channelId[0].User_Online_Count_include_idle_dnd_Id)
@@ -101,7 +105,7 @@ module.exports = {
                             await userOnlineCount_Idle_Dnd_included_Channel.delete()
                             .then(() => {console.log(`成功刪除頻道 ${userOnlineCount_Idle_Dnd_included_Channel.name}`);})
                             .catch(error => {console.error(`刪除頻道 ${userOnlineCount_Idle_Dnd_included_Channel.name} 時發生錯誤：`, error);});
-                        } else {console.error(`找不到頻道 ${channelId[0].User_Online_Count_include_idle_dnd_Id}`);}
+                        } else {console.error(`找不到頻道 `);}
                         break;
                     case '10' :
                         const userIdleCount_Channel = await interaction.guild.channels.fetch(channelId[0].User_Idle_Count_Id)
@@ -109,7 +113,7 @@ module.exports = {
                             await userIdleCount_Channel.delete()
                             .then(() => {console.log(`成功刪除頻道 ${userIdleCount_Channel.name}`);})
                             .catch(error => {console.error(`刪除頻道 ${userIdleCount_Channel.name} 時發生錯誤：`, error);});
-                        } else {console.error(`找不到頻道 ${channelId[0].User_Idle_Count_Id}`);}
+                        } else {console.error(`找不到頻道 `);}
                         break;
                     case '11' :
                         const userDndCount_Channel = await interaction.guild.channels.fetch(channelId[0].User_Dnd_Count_Id)
@@ -117,7 +121,7 @@ module.exports = {
                             await userDndCount_Channel.delete()
                             .then(() => {console.log(`成功刪除頻道 ${userDndCount_Channel.name}`);})
                             .catch(error => {console.error(`刪除頻道 ${userDndCount_Channel.name} 時發生錯誤：`, error);});
-                        } else {console.error(`找不到頻道 ${channelId[0].User_Dnd_Count_Id}`);}
+                        } else {console.error(`找不到頻道 `);}
                         break;
                     case '12' :
                         const userOfflineCount_Channel = await interaction.guild.channels.fetch(channelId[0].User_Offline_Count_Id)
@@ -125,14 +129,15 @@ module.exports = {
                             await userOfflineCount_Channel.delete()
                             .then(() => {console.log(`成功刪除頻道 ${userOfflineCount_Channel.name}`);})
                             .catch(error => {console.error(`刪除頻道 ${userOfflineCount_Channel.name} 時發生錯誤：`, error);});
-                        } else {console.error(`找不到頻道 ${channelId[0].User_Offline_Count_Id}`);}
+                        } else {console.error(`找不到頻道 `);}
                         break;
                     default:
                         throw new Error('未知的選項值');
                         break;
                 }
             })
-            databaseFunctionManager.delete_MemberCount_ChannelId(guild_Id)
+            await databaseFunctionManager.delete_MemberCount_ChannelId(guild_Id)
+            await interaction.editReply({content: `成功刪除頻道`, ephemeral: false});
         } catch (error) {
             console.error(error)
         }
