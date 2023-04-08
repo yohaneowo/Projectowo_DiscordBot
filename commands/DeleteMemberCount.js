@@ -1,6 +1,9 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const { MemberCount_DatabaseFunctions } = require('../commands_modules/count_status/databaseFunctionManager.js');
 const databaseFunctionManager = new MemberCount_DatabaseFunctions();
+const { ErrorEmbed } = require('../embed_modules/error/error.js');
+const errorEmbed = new ErrorEmbed();
+
 module.exports = {
     data : new SlashCommandBuilder ()
         .setName("deletemembercount")
@@ -9,11 +12,13 @@ module.exports = {
         try {
             await interaction.deferReply({ ephemeral: false })
             const guild_Id = await interaction.guild.id;
+            // Gets the select values and channel id from the database
             const [selectValues, channelId] = await Promise.all([
                 databaseFunctionManager.get_MemberCount_SelectValue(guild_Id),
                 databaseFunctionManager.get_MemberCount_ChannelId(guild_Id),
             ]);
             try {
+                // delete the category channel individually
                 const channelCategory = await interaction.guild.channels.fetch(channelId[0].Category_Id);
                 if (channelCategory) {
                     await channelCategory.delete()
@@ -22,13 +27,17 @@ module.exports = {
                 } else {
                     console.error(`找不到頻道 ${channelId[0].Category_Id}`);
                 }
-            } catch (error) {   
+            } catch (error) { 
+                errorEmbed.sendChannelError(interaction, error);
                 console.error(`找不到頻道 `);
             }
+            // selectValues is a string with comma separated values
             selectValues.toString().split(',').forEach(async (value) => {
                 switch (value) {
                     case '0' :
+                        // get channel via id
                         const allMemberCount_Channel = await interaction.guild.channels.fetch(channelId[0].All_Members_Count_Id)
+                        // if channel exists, delete it
                         if (allMemberCount_Channel) {
                         await allMemberCount_Channel.delete()
                             .then(() => {console.log(`成功刪除頻道 ${allMemberCount_Channel.name}`);})
@@ -136,6 +145,7 @@ module.exports = {
                         break;
                 }
             })
+            // delete channel id from database
             await databaseFunctionManager.delete_MemberCount_ChannelId(guild_Id)
             await interaction.editReply({content: `成功刪除頻道`, ephemeral: false});
         } catch (error) {

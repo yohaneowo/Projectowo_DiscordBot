@@ -2,7 +2,8 @@ const { SlashCommandBuilder, ActionRowBuilder, EmbedBuilder, StringSelectMenuBui
 const { ComponentType } = require('discord.js');
 const sqlite3 = require("sqlite3");
 const wait = require('node:timers/promises').setTimeout;
-
+const { ErrorEmbed } = require('../embed_modules/error/error.js');
+const errorEmbed = new ErrorEmbed();
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('test')
@@ -10,8 +11,8 @@ module.exports = {
     async execute(interaction, client) {
         // interaction.deferReply();
         // await wait(4000);
+    try {
         const errChannel = "1094086417543598181"
-
         const embed = new EmbedBuilder()
             .setTitle('┏━°⌜ Error Handling System ⌟°━┓')
             .setColor(0x3651d9)
@@ -23,7 +24,12 @@ module.exports = {
             .setFooter({text : interaction.user.username,
                 iconURL: interaction.user.displayAvatarURL({ dynamic: true })})
         interaction.reply({embeds: [embed], ephemeral: true});
-        // client.channels.cache.get(errChannel).send('popopopopopopopopopopopopopo')
+        client.channels.cache.get(errChannel).send('popopopopopopopopopopopopopo').setInterval(() => {
+
+        }, 5000);
+    } catch (err) {
+        errorEmbed.sendChannelError(interaction, err);
+    }
         // interaction.editReply({ content: `awit asasa`, ephemeral: true });
     },
 }
