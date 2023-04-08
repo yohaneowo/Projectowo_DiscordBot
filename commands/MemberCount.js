@@ -67,7 +67,7 @@ module.exports = {
                     // Check Menu is selected or not , if not then send error message
                     if (isMenuSelect) {
                         // Get all the ids of the guilds in database
-                        databaseFunctionManager.get_Guild_Ids().then(async Guild_Ids => {
+                        databaseFunctionManager.get_Guild_Ids_MemberCount_ChannelId().then(async Guild_Ids => {
                             // Check if the guild is already in database or not
                             if (!Guild_Ids.includes(guild_Id.toString())) {
                                 // Storing all promises in an array
