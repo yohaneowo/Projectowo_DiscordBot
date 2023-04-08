@@ -1,5 +1,7 @@
 const {EmbedBuilder} = require('discord.js');
-class ErrorEmbed {
+const client = require('../../index.js');
+
+class Error_Embed {
     sendChannelError(interaction, err) {
         const errChannel = "1094086417543598181"
         this.embed = new EmbedBuilder()
@@ -11,12 +13,16 @@ class ErrorEmbed {
                 { name: `${err.lineNumber}`, value: `${err.fileName}`, inline: true },
                 { name: `${err}`, value: `${err.message}` , inline: true },
             )
-            .setFooter({text : interaction.user.username,
-                iconURL: interaction.user.displayAvatarURL({ dynamic: true })})
-            client.channels.cache.get(errChannel).send({embeds: [errorEmbed.ErrorEmbed(err)]});
+            .setFooter({text : interaction?.user.username || 'Unknown',
+                iconURL: interaction?.user.displayAvatarURL({ dynamic: true })} || 'Unknown')
+        client.channels.cache.get(errChannel).send({embeds: [this.embed]});
     }
-}   
-module.exports = {
-    ErrorEmbed
-}
 
+
+   
+   
+
+}
+module.exports = {
+    Error_Embed
+}

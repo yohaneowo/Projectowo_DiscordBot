@@ -2,8 +2,7 @@ const { SlashCommandBuilder, EmbedBuilder, ComponentType } = require('discord.js
 const {MemberCount_DatabaseFunctions} = require('../commands_modules/count_status/databaseFunctionManager.js')
 const {MemberCount_ManageFunctions} = require('../commands_modules/count_status/channelFunctionManager.js');
 const {MemberCount_Interaction_Components, ServerStatusIds} = require('../commands_modules/count_status/component.js');
-const databaseFunctionManager = new MemberCount_DatabaseFunctions;
-const channelFunctionManager = new MemberCount_ManageFunctions();   
+
 
 // 可能会出现的问题=达到channel上限
 module.exports = {
@@ -12,6 +11,8 @@ module.exports = {
         .setDescription('手动更新成员计数'),
     
     async execute(interaction, client, message) {
+        const databaseFunctionManager = new MemberCount_DatabaseFunctions;
+const channelFunctionManager = new MemberCount_ManageFunctions();   
         // Get count via discord api without fetch()
         const guild_Id = interaction.guild.id;
         const user_Id = interaction.user.id;

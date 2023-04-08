@@ -1,14 +1,15 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const { MemberCount_DatabaseFunctions } = require('../commands_modules/count_status/databaseFunctionManager.js');
-const databaseFunctionManager = new MemberCount_DatabaseFunctions();
-const { ErrorEmbed } = require('../embed_modules/error/error.js');
-const errorEmbed = new ErrorEmbed();
+const { Error_Embed } = require('../embed_modules/error/error.js');
+
 
 module.exports = {
     data : new SlashCommandBuilder ()
         .setName("deletemembercount")
         .setDescription("Delete Member Count Channel"),
     async execute(interaction, client){
+        const databaseFunctionManager = new MemberCount_DatabaseFunctions();
+        const errorEmbed = new Error_Embed();
         try {
             await interaction.deferReply({ ephemeral: false })
             const guild_Id = await interaction.guild.id;

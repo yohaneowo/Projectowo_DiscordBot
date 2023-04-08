@@ -1,7 +1,6 @@
 const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
 // database_command.js中獲取Database指令
 const { server_status_database_commands } = require('../commands_modules/server_status/database_commands.js');
-const commands = new server_status_database_commands();
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -9,6 +8,7 @@ module.exports = {
         .setDescription('获取服务器信息'),
 
     async execute(interaction) {
+        const commands = new server_status_database_commands();
         // 獲取服務器信息
         const Guild_Id = interaction.guild.id;
         const Guild_Name = interaction.guild.name;
