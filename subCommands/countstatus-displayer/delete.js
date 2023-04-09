@@ -1,17 +1,15 @@
 const { SlashCommandSubcommandBuilder  } = require('@discordjs/builders');
-const { MemberCount_DatabaseFunctions } = require('../commands_modules/count_status/databaseFunctionManager.js');
-const { Error_Embed } = require('../embed_modules/error/error_embed.js');
+const { MemberCount_DatabaseFunctions } = require('../../commands_modules/count_status/databaseFunctionManager.js');
+const { Error_Embed } = require('../../embed_modules/error/error_embed.js');
 
 
-module.exports = {
-    data : new SlashCommandSubcommandBuilder  ()
-        .setName("deletemembercount")
-        .setDescription("Delete Member Count Channel"),
-    async execute(interaction, client){
+module.exports = 
+    async (interaction, client) => {
+        // declare database function manager
         const databaseFunctionManager = new MemberCount_DatabaseFunctions();
         const errorEmbed = new Error_Embed();
         try {
-            await interaction.deferReply({ ephemeral: false })
+            // await interaction.deferReply({ ephemeral: false })
             const guild_Id = await interaction.guild.id;
             // Gets the select values and channel id from the database
             const [selectValues, channelId] = await Promise.all([
@@ -148,9 +146,9 @@ module.exports = {
             })
             // delete channel id from database
             await databaseFunctionManager.delete_MemberCount_ChannelId(guild_Id)
+            // edit since already use deferReply
             await interaction.editReply({content: `成功刪除頻道`, ephemeral: false});
         } catch (error) {
             console.error(error)
         }
     }
-}

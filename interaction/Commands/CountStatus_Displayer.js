@@ -5,20 +5,20 @@ module.exports = {
     data : new SlashCommandBuilder ()
         .setName("countstatus-displayer")
         .setDescription("Set the status display of the member count")
-        .addSubcommand(
-            subcommand => subcommand
-                .setName("set")
-                .setDescription("Set the status display of the member count")
-        )
-        .addSubcommand(
-            subcommand => subcommand
-                .setName("delete")
-                .setDescription("Delete the status display of the member count")
+         .addStringOption(option =>
+            option.setName('meow_ヽowoノ')
+            .setDescription('The gif category')
+            .setRequired(true)
+            .addChoices(
+                    {name: "set", value: "set"},
+                    {name: "delete", value: "delete"},   
+                )
         ),
     
     
     execute : async (interaction, client) => {
-        const subcommand = interaction.options.getSubcommand();
+        const subcommand = interaction.options.getString('meow_ヽowoノ');
+        console.log(subcommand)
         if (subcommand === "set") {
             // Set the status display of the member count
             await interaction.deferReply({fetchReply: true})

@@ -14,7 +14,7 @@ module.exports =  (client) => {
             )
             .setTimestamp()
             .setFooter({text: 'Anti Crash System'})
-        client.channels.cache.get(errChannel).send({embeds: [errEmbed1]})
+        client.channels.cache.get(errChannel)?.send({embeds: [errEmbed1]})
     })
 
     process.on('uncaughtException', (err, origin) => {
@@ -29,7 +29,7 @@ module.exports =  (client) => {
             )
             .setTimestamp()
             .setFooter({text: 'Anti Crash System'})
-            client.channels.cache.get(errChannel).send({embeds: [errEmbed2]})
+            client.channels.cache.get(errChannel)?.send({embeds: [errEmbed2]})
 
     })
 
@@ -45,7 +45,7 @@ module.exports =  (client) => {
             )
             .setTimestamp()
             .setFooter({text: 'Anti Crash System'})
-        client.channels.cache.get(errChannel).send({embeds: [errEmbed3]})
+        client.channels.cache.get(errChannel)?.send({embeds: [errEmbed3]})
 
     })
 
@@ -56,7 +56,7 @@ module.exports =  (client) => {
         .addField("Stack Trace", err.stack)
         .setTimestamp()
         .setFooter({text: 'Anti Crash System'})
-    client.channels.cache.get(errChannel).send({embeds: [errEmbed]});
+    client.channels.cache.get(errChannel)?.send({embeds: [errEmbed]});
     });
 
     process.on('timeout', (err) => {

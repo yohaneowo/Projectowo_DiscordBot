@@ -13,6 +13,7 @@ module.exports =
     */
 
     async (interaction, client) => {
+        // declare function managers
         const channelFunctionManager = new MemberCount_ManageFunctions;
         const databaseFunctionManager = new MemberCount_DatabaseFunctions;
         // Get count via discord api without fetch()
@@ -66,7 +67,7 @@ module.exports =
             Button_collector.on('collect',async i => {
                 // Check if the user who selected the select menu is the same user who used the command
                 if (i.user.id === interaction.user.id) {
-                    await i.deferUpdate();
+                    // await i.deferUpdate();
                     // Check Menu is selected or not , if not then send error message
                     if (isMenuSelect) {
                         // Get all the ids of the guilds in database
@@ -189,7 +190,7 @@ module.exports =
                                         })
                             } else {
                                 // warn the user that the count status already exists
-                                await i.reply({ content: `You Set Up= before , remove it or edit it`, ephemeral: true });
+                                await i.editReply({ content: `You Set Up= before , remove it or edit it`, ephemeral: true });
                             }
                         });
                     } else {
@@ -204,7 +205,7 @@ module.exports =
                     }
                 } else {
                     // warn the user that the button is not for them
-                    i.reply({ content: `These buttons aren't for you!`, ephemeral: true });
+                    i.editReply({ content: `These buttons aren't for you!`, ephemeral: true });
                 }
             })
         })
