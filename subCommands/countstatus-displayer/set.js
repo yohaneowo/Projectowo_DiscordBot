@@ -1,7 +1,7 @@
 const { SlashCommandSubcommandBuilder , EmbedBuilder, ComponentType } = require('discord.js');
-const {MemberCount_DatabaseFunctions} = require('../../commands_modules/count_status/databaseFunctionManager.js')
-const {MemberCount_ManageFunctions} = require('../../commands_modules/count_status/channelFunctionManager.js');
-const {MemberCount_Interaction_Components, ServerStatusIds} = require('../../commands_modules/count_status/component.js');
+const {MemberCount_DatabaseFunctions} = require('../../commands_modules/count_status/cs_databaseFunctionManager.js')
+const {MemberCount_ManageFunctions} = require('../../commands_modules/count_status/cs_channelFunctionManager.js');
+const {MemberCount_Interaction_Components, ServerStatusIds} = require('../../commands_modules/count_status/cs_component.js');
 
 // 可能会出现的问题=达到channel上限
 module.exports = 

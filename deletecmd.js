@@ -1,5 +1,4 @@
-const { MemberCount_ManageFunctions } =  require('./commands_modules/count_status/channelFunctionManager.js');
-const errorEmbed = new MemberCount_ManageFunctions();
+const { Error_Embed } =  require(`${process.cwd()}/embed_modules/error/error_embed.js`);
 const { REST, Routes } = require('discord.js');
 require('dotenv').config();
 const { clientId, guildId, token } = require('./config.json');
@@ -13,6 +12,7 @@ rest.put(Routes.applicationGuildCommands(clientId, guildId), { body: [] })
 	.catch( async(err) => {
         console.error(err)
             try {
+                const errorEmbed = new Error_Embed();
                 await errorEmbed.sendChannelError(null, err)
             } catch (err) {
                 console.error(err)
@@ -27,6 +27,7 @@ rest.put(Routes.applicationCommands(clientId), { body: [] })
         console.error(err)
 
         try {
+            const errorEmbed = new Error_Embed();
             await errorEmbed.sendChannelError(null, err)
         } catch (err) {
             console.error(err)
