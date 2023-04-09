@@ -10,8 +10,11 @@ class Error_Embed {
             .setDescription('出大事啦！')
             .setThumbnail('https://thumbs.dreamstime.com/z/error-rubber-stamp-word-error-inside-illustration-109026446.jpg')
             .addFields(
-                { name: `${err.lineNumber}`, value: `${err.fileName}`, inline: true },
-                { name: `${err}`, value: `${err.message}` , inline: true },
+                // { name: `lineNumber`, value: `${err.lineNumber}`, inline: true },
+                // { name: `fileName`, value: `${err.fileName}`, inline: true },
+                // { name: `stack`, value: `${err.stack}`, inline: false },
+                { name: `err`, value: `${err}`, inline: true },
+                { name: `err message`, value: `${err.message}` , inline: true },
             )
             .setFooter({text : interaction?.user.username || 'Unknown',
                 iconURL: interaction?.user.displayAvatarURL({ dynamic: true })} || 'Unknown')
@@ -19,7 +22,6 @@ class Error_Embed {
     }
 
 
-   
    
 
 }

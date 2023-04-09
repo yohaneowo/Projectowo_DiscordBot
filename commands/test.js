@@ -2,7 +2,7 @@ const { SlashCommandBuilder, ActionRowBuilder, EmbedBuilder, StringSelectMenuBui
 const { ComponentType } = require('discord.js');
 const sqlite3 = require("sqlite3");
 const wait = require('node:timers/promises').setTimeout;
-const { Error_Embed } = require('../embed_modules/error/error.js');
+const { Error_Embed } = require('../embed_modules/error/error_embed.js');
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('test')

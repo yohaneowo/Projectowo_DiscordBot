@@ -1,22 +1,19 @@
 const { SlashCommandSubcommandBuilder , EmbedBuilder, ComponentType } = require('discord.js');
-const {MemberCount_DatabaseFunctions} = require('../commands_modules/count_status/databaseFunctionManager.js')
-const {MemberCount_ManageFunctions} = require('../commands_modules/count_status/channelFunctionManager.js');
-const {MemberCount_Interaction_Components, ServerStatusIds} = require('../commands_modules/count_status/component.js');
-
+const {MemberCount_DatabaseFunctions} = require('../../commands_modules/count_status/databaseFunctionManager.js')
+const {MemberCount_ManageFunctions} = require('../../commands_modules/count_status/channelFunctionManager.js');
+const {MemberCount_Interaction_Components, ServerStatusIds} = require('../../commands_modules/count_status/component.js');
 
 // 可能会出现的问题=达到channel上限
-module.exports = {
+module.exports = 
     /* 
      *@param {MemberCount_DatabaseFunctions} databaseFunctionManager
      *@param {MemberCount_ManageFunctions} manageFunctionManager
      *@param {MemberCount_Interaction_Components} interactionComponents
      *@param {ServerStatusIds} serverStatusIds  
     */
-    data : new SlashCommandSubcommandBuilder ()
-        .setName('update_coundasdt')
-        .setDescription('手动更新成员计数'),
-    
-    async execute(interaction, client, message) {
+
+    async (interaction, client) => {
+        const channelFunctionManager = new MemberCount_ManageFunctions;
         const databaseFunctionManager = new MemberCount_DatabaseFunctions;
         // Get count via discord api without fetch()
         const guild_Id = interaction.guild.id;
@@ -28,7 +25,7 @@ module.exports = {
         const selectMenu = new MemberCount_Interaction_Components().Select_Menu;
         const button = new MemberCount_Interaction_Components().Button;
         // Send message to user with Components
-        const msg = await interaction.reply({ content: 'Select [Status] to display', components: [selectMenu, button] });
+        const msg = await interaction.editReply({ content: 'Select [Status] to display', components: [selectMenu, button] });
         // To check if select menu is selected or not
 		let isMenuSelect = false;
         // Get count via discord api with fetch()
@@ -210,10 +207,9 @@ module.exports = {
                     i.reply({ content: `These buttons aren't for you!`, ephemeral: true });
                 }
             })
-    })
-    .catch(console.error);
+        })
+        .catch(console.error);
 
         
    
     }
-}
