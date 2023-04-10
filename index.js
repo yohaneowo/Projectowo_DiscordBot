@@ -22,6 +22,7 @@ const embed = new EmbedBuilder()
 	.setColor(0x00FFFF);
 
 
+
 client.on("messageCreate", async (message) => {
 	if (message.content.startsWith(PREFIX) && !message.author.bot) {
 		// console.log(message.content)

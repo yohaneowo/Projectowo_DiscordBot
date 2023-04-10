@@ -30,7 +30,7 @@ module.exports =
                 errorEmbed.sendChannelError(interaction, error);
                 console.error(`找不到頻道 `);
             }
-            // selectValues is a string with comma separated values
+            // selectValues is a object with comma separated values
             selectValues.toString().split(',').forEach(async (value) => {
                 switch (value) {
                     case '0' :

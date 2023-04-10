@@ -123,8 +123,6 @@ class MemberCount_DatabaseFunctions {
         })
     }
 
-    
-
     // Gets that Guild's MemberCount_ChannelId
     delete_MemberCount_ChannelId(Guild_Id) {
         const db = new sqlite3.Database("./lib/database/SQLite.db")
