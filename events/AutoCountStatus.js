@@ -5,6 +5,7 @@ async function AutoCountStatus(client) {
     CountStatus_DatabaseManager.get_Guild_Ids_MemberCount_ChannelId().then(async(Guild_Ids) => {
         // console.log(Guild_Ids)
         Guild_Ids.forEach(async(Guild_id) => {
+            // Get all the channel ids and select values from database
             const [ Channel_Ids, Select_Values_Object ]  = await Promise.all([
                 CountStatus_DatabaseManager.get_MemberCount_ChannelId(Guild_id),
                 CountStatus_DatabaseManager.get_MemberCount_SelectValue(Guild_id)
@@ -23,8 +24,8 @@ async function AutoCountStatus(client) {
             const userIdle_Count = await current_guild.members.cache.filter(member => member.presence?.status === 'idle' &&  member.user.bot == false).size;
             const userDnd_Count = await current_guild.members.cache.filter(member => member.presence?.status === 'dnd' &&  member.user.bot == false).size;
             const userOffline_Count = await current_guild.members.cache.filter(member => !member.presence?.status &&  member.user.bot == false).size;
-            // console.log(`this is select value${Select_Values_Object}`)
-            const Select_Values_Array = Select_Values_Object.toString().split(",");-
+            // convert the select values object to array
+            const Select_Values_Array = Select_Values_Object.toString().split(",");
                 Select_Values_Array.forEach(async value => {
                     switch (value) {
                         case '0':

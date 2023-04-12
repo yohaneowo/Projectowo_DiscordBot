@@ -11,6 +11,8 @@ module.exports = {
                 const reply = replies[ Math.floor(Math.random() * replies.length)];
                 message.channel.send(reply);
             break;
+            case 'uwu':
+                message.channel.send('( ´-ω･)▄︻┻┳══━一');
             default:
             // do nothing
             break;
