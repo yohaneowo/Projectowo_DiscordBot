@@ -5,25 +5,22 @@ const path = require('node:path');
 const { Client, Collection, Events, GatewayIntentBits, WebhookClient, EmbedBuilder } = require('discord.js');
 // Create a new client instance
 const { PREFIX } = require('./config.json')
-const client = new Client({ intents: [3276799, GatewayIntentBits.GuildPresences, 8] });
+const client = new Client({ intents: [3276799, GatewayIntentBits.GuildPresences, 	 8] });
 module.exports = client;
 const { ActionRowBuilder, ButtonBuilder, ButtonStyle } = require('discord.js');
 
 // When the client is ready, run this code (only once)
 // We use 'c' for the event parameter to keep it separate from the already defined 'client'
 
-client.commands = new Collection();
 
-const commandsPath = path.join(__dirname, 'commands');
-const commandFiles = fs.readdirSync(commandsPath).filter(file => file.endsWith('.js'));
-
-['EventsHandler', 'CommandsHandler','ErrorsHandler'].forEach(handler => {
+['EventsHandler', 'CommandsHandler','ErrorsHandler', 'Function'].forEach(handler => {
     require(`./handlers/${handler}`)(client, Client);
 });
 
 const embed = new EmbedBuilder()
 	.setTitle('Some Title')
 	.setColor(0x00FFFF);
+
 
 
 client.on("messageCreate", async (message) => {
