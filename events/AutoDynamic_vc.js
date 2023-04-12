@@ -10,7 +10,6 @@ module.exports = {
             try {
                 const dynamicVC_DatabaseManager = new DynamicVC_DatabaseManager();
                 const Guild_Ids = await dynamicVC_DatabaseManager.getGuildIds_DynamicVC_Stats();
-                console.log(Guild_Ids)
                 const Guild_Id = newState.guild.id;
                 if(Guild_Ids.includes(Guild_Id)){
                     const db = new sqlite3.Database('./lib/database/SQLite.db')
@@ -19,7 +18,8 @@ module.exports = {
                         if(dynamicVC_Stats[0].Set_mainChannel_Id == newState.channelId) {
                             const subChannel = await newState.guild.channels.create(
                                 {
-                                    name: 'NEW TEDT',
+                                    name: '还在测试中哦',
+                                    bitrate : 96000,
                                     type: ChannelType.GuildVoice,
                                     permissionOverwrites: [
                                         {
@@ -30,6 +30,7 @@ module.exports = {
                                     parent: mainChannel.parentId
                                 }
                             )
+                            await newState.setChannel(subChannel)
                             await dynamicVC_DatabaseManager.insertDynamicVC_subId(Guild_Id, subChannel.id)
                         }
 
@@ -46,12 +47,9 @@ module.exports = {
                 const Guild_Id = oldState.guild.id;
                 if(Guild_Ids.includes(Guild_Id)){
                     const dynamicVC_subIds = await dynamicVC_DatabaseManager.getDynamicVC_subId(Guild_Id);
-                    console.log(dynamicVC_subIds)
-                    console.log(oldState.channelId)
                     if(dynamicVC_subIds.includes(oldState.channelId)) {
                         const subChannel = await client.guilds.fetch(oldState.guild.id).then(guild => guild.channels.fetch(oldState.channelId))
-
-                        await subChannel.delete()
+                        oldState.channel.members.size == 0 ? await subChannel.delete() : null;
                     }
                 }
             } catch (err) {
