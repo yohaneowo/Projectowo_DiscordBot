@@ -13,7 +13,7 @@ const { ActionRowBuilder, ButtonBuilder, ButtonStyle } = require('discord.js');
 // We use 'c' for the event parameter to keep it separate from the already defined 'client'
 
 
-['EventsHandler', 'CommandsHandler','ErrorsHandler'].forEach(handler => {
+['EventsHandler', 'CommandsHandler','ErrorsHandler', 'Function'].forEach(handler => {
     require(`./handlers/${handler}`)(client, Client);
 });
 

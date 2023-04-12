@@ -14,16 +14,6 @@ module.exports = {
                     {name: "delete", value: "delete"},   
                 )
         ),
-     a:   client.loadSubcommands = async function (interaction, client) {
-        try {
-            return require(`${process.cwd()}/subCommands/${interaction.commandName}/${interaction.options.getString('meow_ヽowoノ')}`)(interaction, client).catch(err => {
-                  })
-        } catch (err) {
-            console.error(err);
-            // errorEmbed = new Error_Embed();
-            // errorEmbed.sendChannelError(interaction, err);
-        }
-    },
     
     execute : async (interaction, client) => {
         const subcommand = interaction.options.getString('meow_ヽowoノ');
