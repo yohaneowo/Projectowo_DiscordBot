@@ -4,7 +4,7 @@ const {Collection} = require('discord.js');
 
 module.exports = (client) => {
     client.commands = new Collection();
-    const commands_path = path.join(process.cwd(),'commands')
+    const commands_path = path.join(process.cwd(), 'interaction', 'Commands')
     const command_files = fs.readdirSync(commands_path).filter(file => file.endsWith('.js'));
     for (const command_file of command_files) {
         const filepath = path.join(commands_path, command_file);

@@ -12,10 +12,6 @@ const { ActionRowBuilder, ButtonBuilder, ButtonStyle } = require('discord.js');
 // When the client is ready, run this code (only once)
 // We use 'c' for the event parameter to keep it separate from the already defined 'client'
 
-client.commands = new Collection();
-
-const commandsPath = path.join(__dirname, 'commands');
-const commandFiles = fs.readdirSync(commandsPath).filter(file => file.endsWith('.js'));
 
 ['EventsHandler', 'CommandsHandler','ErrorsHandler'].forEach(handler => {
     require(`./handlers/${handler}`)(client, Client);
@@ -24,6 +20,7 @@ const commandFiles = fs.readdirSync(commandsPath).filter(file => file.endsWith('
 const embed = new EmbedBuilder()
 	.setTitle('Some Title')
 	.setColor(0x00FFFF);
+
 
 
 client.on("messageCreate", async (message) => {

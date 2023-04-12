@@ -1,52 +1,28 @@
 const { SlashCommandBuilder, ActionRowBuilder, EmbedBuilder, StringSelectMenuBuilder, ButtonBuilder, ButtonStyle, ChannelType ,PermissionsBitField } = require('discord.js');
 const { ComponentType } = require('discord.js');
 const sqlite3 = require("sqlite3");
-
-
+const wait = require('node:timers/promises').setTimeout;
+const { Error_Embed } = require('../embed_modules/error/error_embed.js');
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('test')
-        .setDescription("test command"),
-    async execute(interaction) {
-        // interaction.deferReply({ ephemeral: true });
-        // function create_Category(){
-        //         const parent =  interaction.guild.channels.create({
-        //         name: '📊 SERVER STATS 📊',
-        //         type: ChannelType.GuildCategory,
-        //         permissionOverwrites: [
-        //             {
-        //             id: interaction.guild.roles.everyone,
-        //             deny: [PermissionsBitField.Flags.ManageChannels],
-        //             },
-        //         ],
-        //     })
-        //     return parent;
-        // }
+        .setDescription("test command")
+        .addSubcommand(subcommand => subcommand
+			.setName('user')
+			.setDescription('Info about a user')
+			.addUserOption(option => option.setName('target').setDescription('The user')))
+	    .addSubcommand(subcommand =>subcommand
+			.setName('server')
+			.setDescription('Info about the server'))
+        ,
+    async execute(interaction, client) {
+        const errorEmbed = new Error_Embed();
+        try {
         
-        // function create_All_Members_Count(parent){
-        //          const x = interaction.guild.channels.create({
-        //             name: `All_Members_Count :`,
-        //             type: ChannelType.GuildVoice,
-        //             permissionOverwrites: [
-        //                 {
-        //                 id: interaction.guild.roles.everyone,
-        //                 deny: [PermissionsBitField.Flags.ManageChannels],
-        //                 },
-        //                 {
-        //                 id: interaction.guild.roles.everyone,
-        //                 deny: [PermissionsBitField.Flags.Connect],
-        //                 },
-        //             ],
-        //             parent: parent,
-        //         })
-        //         return x;
-        //     }
-        // channels_id_constructor_fuck.constructor.Guild_Id = '5687958769'
-        console.log(new Date(year , month, day));
-        // const parent = await create_Category();
-        // const x = await create_All_Members_Count(parent);
-        
-        interaction.reply({ content: `asa`, ephemeral: true });
-                
+
+        interaction.reply('done');
+        } catch (err) {
+            errorEmbed.sendChannelError(interaction, err);
+        }
     },
 }

@@ -12,7 +12,7 @@ module.exports = {
             .setTitle('╲⎝⧹Ping⧸⎠╱')
             .setDescription(`**»**⠀\`延迟...${client.ws.ping}ms\` <a:Meow:761724979720617994>`)
             .setTimestamp()
-            .setFooter({ text: username, iconURL: user_avatar })
+            .setFooter({ text: `Requested by ${username}`, iconURL: user_avatar })
         await interaction.reply({ embeds: [InteractionFinalReply] })
          
     },

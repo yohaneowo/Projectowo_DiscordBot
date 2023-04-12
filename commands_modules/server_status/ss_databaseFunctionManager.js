@@ -53,6 +53,7 @@ class server_status_database_commands {
             });
         }
 
+        
 }
 
     // 獲取Guild_Ids

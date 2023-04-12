@@ -1,18 +1,18 @@
 const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
 // database_command.js中獲取Database指令
-const { server_status_database_commands } = require('../commands_modules/server_status/database_commands.js');
-const commands = new server_status_database_commands();
+const { server_status_database_commands } = require(`${process.cwd()}/commands_modules/server_status/ss_databaseFunctionManager.js`);
 
 module.exports = {
     data: new SlashCommandBuilder()
-        .setName('server')
+        .setName('server-info')
         .setDescription('获取服务器信息'),
 
     async execute(interaction) {
+        const commands = new server_status_database_commands();
         // 獲取服務器信息
         const Guild_Id = interaction.guild.id;
         const Guild_Name = interaction.guild.name;
-        const description = interaction.guild.description || '没有提供描述';
+        const description = interaction.guild.description || '這個群主太懶了吧，什麼介紹都沒寫';
         const Owner_Id = interaction.guild.ownerId;
         const boss = interaction.guild.members.cache.get(Owner_Id)
         const preferredLocale = interaction.guild.preferredLocale;
@@ -59,7 +59,7 @@ module.exports = {
                 { name: '在线人数', value: presenceCount.toString(), inline: true}
                 )
             .setFooter({
-                text: username,
+                text: `Requested by ${username}`,
                 iconURL: user_avatar,
             });
 
