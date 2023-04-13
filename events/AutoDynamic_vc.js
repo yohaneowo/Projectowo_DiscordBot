@@ -18,7 +18,7 @@ module.exports = {
                         if(dynamicVC_Stats[0].Set_mainChannel_Id == newState.channelId) {
                             const subChannel = await newState.guild.channels.create(
                                 {
-                                    name: '还在测试中哦',
+                                    name: '测试用',
                                     bitrate : 96000,
                                     type: ChannelType.GuildVoice,
                                     permissionOverwrites: [
@@ -46,7 +46,7 @@ module.exports = {
             }
         }
 
-        else if(oldState.channel) {
+        if(oldState.channel) {
             try {
                 const dynamicVC_DatabaseManager = new DynamicVC_DatabaseManager();
                 const Guild_Ids = await dynamicVC_DatabaseManager.getGuildIds_DynamicVC_subId();
@@ -63,5 +63,7 @@ module.exports = {
                 console.error(err);
             }
         }
+
+        // 
     }
 }
