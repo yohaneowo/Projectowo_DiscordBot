@@ -56,7 +56,6 @@ class DynamicVC_DatabaseManager {
                     reject(err);
                 } else {
                     const subIds = row.map(row => row.subChannel_Id);
-                    console.log(subIds);
                     resolve(subIds);
                 }
             })
@@ -75,6 +74,21 @@ class DynamicVC_DatabaseManager {
                         const guild_Ids = row.map(row => row.Guild_Id);
                         resolve(guild_Ids);
                     }
+            })
+        })
+    }
+
+    deleteDynamicVC_subId(subId) {
+        return new Promise((resolve, reject) => {
+            const db = new sqlite3.Database('./lib/database/SQLite.db')
+            db.run(`DELETE FROM DynamicVC_subId WHERE subChannel_Id = ?`, [subId], function(err) {
+                db.close()
+                if (err) {
+                    console.error(err.message);
+                    reject(err);
+                } else {
+                    resolve();
+                }
             })
         })
     }
