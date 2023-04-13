@@ -30,8 +30,14 @@ module.exports = {
                                     parent: mainChannel.parentId
                                 }
                             )
-                            await newState.setChannel(subChannel)
                             await dynamicVC_DatabaseManager.insertDynamicVC_subId(Guild_Id, subChannel.id)
+                            let isMoved = false
+                            try {
+                                await newState.setChannel(subChannel).then(() => isMoved = true)
+                            } catch (err) {
+                                await dynamicVC_DatabaseManager.deleteDynamicVC_subId(subChannel.id)
+                                isMoved === true  ? null : subChannel.delete()
+                            }
                         }
 
                 }
@@ -48,8 +54,9 @@ module.exports = {
                 if(Guild_Ids.includes(Guild_Id)){
                     const dynamicVC_subIds = await dynamicVC_DatabaseManager.getDynamicVC_subId(Guild_Id);
                     if(dynamicVC_subIds.includes(oldState.channelId)) {
+                        
                         const subChannel = await client.guilds.fetch(oldState.guild.id).then(guild => guild.channels.fetch(oldState.channelId))
-                        oldState.channel.members.size == 0 ? await subChannel.delete() : null;
+                        oldState.channel.members.size == 0 ? await dynamicVC_DatabaseManager.deleteDynamicVC_subId(subChannel.id).then(() => subChannel.delete()) : null;
                     }
                 }
             } catch (err) {
