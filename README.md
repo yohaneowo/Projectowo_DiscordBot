@@ -1,5 +1,3 @@
-# DiscordBot-Project_QAQ
-
 ## Feature
 
 - [x] Member Count Statue - Inspired by MemberCount (bot depreciated?)
@@ -38,7 +36,13 @@ git clone https://github.com/Yohanewww/DiscordBot-Project_QAQ.git
 npm install
 ```
 
-To start your bot
+### CreateSQLite database
+
+```
+node createdb.js
+```
+
+### To start your bot
 
 ```
 node index.js
