@@ -1,24 +1,22 @@
 const {SlashCommandBuilder} = require("discord.js");
-const {Error_Embed} = require("../../embed_modules/error/error_embed.js");
 
 module.exports = {
     data : new SlashCommandBuilder ()
-        .setName("member-count-status-display")
+        .setName("logger")
         .setDescription("Set the status display of the member count")
-        .addSubcommand(
-            subcommand => subcommand
-                .setName("set")
-                .setDescription("Set the status display of the member count")
-        )
-        .addSubcommand(
-            subcommand => subcommand
-                .setName("delete")
-                .setDescription("Delete the status display of the member count")
+         .addStringOption(option =>
+            option.setName('meow_ヽowoノ')
+            .setDescription('The countstatus-displayer subcommands')
+            .setRequired(true)
+            .addChoices(
+                    {name: "set", value: "set"},
+                    {name: "delete", value: "delete"},   
+                )
         ),
     
-
-    execute : async (interaction, client) => {
-        const subcommand = interaction.options.getSubcommand();
+    async execute(interaction, client) {
+        const subcommand = interaction.options.getString('meow_ヽowoノ');
+        console.log(subcommand)
         if (subcommand === "set") {
             // Set the status display of the member count
             await interaction.deferReply({fetchReply: true})

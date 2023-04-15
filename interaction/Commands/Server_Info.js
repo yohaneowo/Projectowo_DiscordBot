@@ -1,6 +1,6 @@
 const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
 // database_command.js中獲取Database指令
-const { server_status_database_commands } = require(`${process.cwd()}/commands_modules/server_status/ss_databaseFunctionManager.js`);
+const { server_status_database_commands } = require(`${process.cwd()}/commands_modules/server-status/ss_databaseFunctionManager.js`);
 
 module.exports = {
     data: new SlashCommandBuilder()

@@ -1,10 +1,8 @@
 const client = require('../index.js');  
 const sqlite3 = require('sqlite3');
-const {PermissionsBitField, ChannelType} = require('discord.js');
 const {Welcomer_DatabaseManager} = require(process.cwd() +'/commands_modules/welcomer/wc_databaseFunctionManager.js')
 const { createCanvas, loadImage,registerFont  } = require('canvas');
 const { AttachmentBuilder } = require('discord.js')
-const fs = require('fs');
 module.exports = {
     name: 'guildMemberAdd',
     once: false,
@@ -22,7 +20,7 @@ module.exports = {
                     //  load font
                     registerFont( process.cwd() + '/lib/Fonts/Hiragino_Sans_TC_W6.otf', { family: 'MyFont' });
                     // load Background
-                    loadImage('./background.png').then(async (image) => {
+                    loadImage('./lib/img/welcomer/background.png').then(async (image) => {
                     // add layer
                     ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
                     const width = 150;
