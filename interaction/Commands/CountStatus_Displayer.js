@@ -15,7 +15,7 @@ module.exports = {
                 )
         ),
     
-    execute : async (interaction, client) => {
+    async execute(interaction, client) {
         const subcommand = interaction.options.getString('meow_ヽowoノ');
         console.log(subcommand)
         if (subcommand === "set") {
