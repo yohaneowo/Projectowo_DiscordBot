@@ -39,7 +39,6 @@ module.exports = {
                                 isMoved === true  ? null : subChannel.delete()
                             }
                         }
-
                 }
             } catch (err) {
                 console.error(err);
