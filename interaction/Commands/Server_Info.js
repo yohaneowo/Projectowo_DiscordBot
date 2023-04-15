@@ -4,7 +4,7 @@ const { server_status_database_commands } = require(`${process.cwd()}/commands_m
 
 module.exports = {
     data: new SlashCommandBuilder()
-        .setName('server')
+        .setName('server-info')
         .setDescription('获取服务器信息'),
 
     async execute(interaction) {
