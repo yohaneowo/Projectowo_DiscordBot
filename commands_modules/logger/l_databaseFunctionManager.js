@@ -9,8 +9,7 @@ class Logger_DatabaseFunction {
                         reject(err);
                     } else {
                         const guild_Ids = rows.map(row => row.Guild_Id);
-                        console.log(`THIS IS INSIDE MANAGER${guild_Ids}`)
-                        resolve(guild_Ids);
+                        resolve(guild_Ids);s
                     }
                 }
             )
@@ -48,10 +47,10 @@ class Logger_DatabaseFunction {
         })
     }   
 
-    insert_Logger_Collection(Guild_Id, channelCreate_Id, channelUpdate_Id, channelDelete_Id, guildBanAdd_Id, guildBanRemove_Id, guildRoleCreate_Id, guildRoleDelete_Id, guildRoleUpdate_Id, guildUpdate_Id, messageDelete_Id, messageDeleteBulk_Id, messageUpdate_Id, guildMemberAdd_Id, guildMemberKick_Id, guildMemberRemove_Id, guildMemberUpdate_Id, guildMemberNickUpdate_Id, voiceChannelLeave_Id, voiceChannelJoin_Id, voiceStateUpdate_Id, voiceChannelSwitch_Id, guildEmojisUpdate_Id, Menu_Select_Values) {
+    insert_Logger_Collection(Guild_Id, Category_Id, channelCreate_Id, channelUpdate_Id, channelDelete_Id, guildBanAdd_Id, guildBanRemove_Id, guildRoleCreate_Id, guildRoleDelete_Id, guildRoleUpdate_Id, guildUpdate_Id, messageDelete_Id, messageDeleteBulk_Id, messageUpdate_Id, guildMemberAdd_Id, guildMemberKick_Id, guildMemberRemove_Id, guildMemberUpdate_Id, guildMemberNickUpdate_Id, voiceChannelLeave_Id, voiceChannelJoin_Id, voiceStateUpdate_Id, voiceChannelSwitch_Id, guildEmojisUpdate_Id, Menu_Select_Values) {
         return new Promise(function (resolve, reject) {
             const db = new sqlite3.Database('./lib/database/SQLite.db');
-            db.run('INSERT INTO Logger_Collection VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?) ', [null ,Guild_Id, channelCreate_Id, channelUpdate_Id, channelDelete_Id, guildBanAdd_Id, guildBanRemove_Id, guildRoleCreate_Id, guildRoleDelete_Id, guildRoleUpdate_Id, guildUpdate_Id, messageDelete_Id, messageDeleteBulk_Id, messageUpdate_Id, guildMemberAdd_Id, guildMemberKick_Id, guildMemberRemove_Id, guildMemberUpdate_Id, guildMemberNickUpdate_Id, voiceChannelLeave_Id, voiceChannelJoin_Id, voiceStateUpdate_Id, voiceChannelSwitch_Id, guildEmojisUpdate_Id], function (err) {
+            db.run('INSERT INTO Logger_Collection VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?) ', [null ,Guild_Id, Category_Id, channelCreate_Id, channelUpdate_Id, channelDelete_Id, guildBanAdd_Id, guildBanRemove_Id, guildRoleCreate_Id, guildRoleDelete_Id, guildRoleUpdate_Id, guildUpdate_Id, messageDelete_Id, messageDeleteBulk_Id, messageUpdate_Id, guildMemberAdd_Id, guildMemberKick_Id, guildMemberRemove_Id, guildMemberUpdate_Id, guildMemberNickUpdate_Id, voiceChannelLeave_Id, voiceChannelJoin_Id, voiceStateUpdate_Id, voiceChannelSwitch_Id, guildEmojisUpdate_Id, Menu_Select_Values], function (err) {
                 db.close();
                     if (err) {
                         reject(err);

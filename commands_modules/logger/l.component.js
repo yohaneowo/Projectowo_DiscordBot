@@ -137,8 +137,8 @@ class Logger_Interaction_Component {
 
 class Logger_Channel_Ids {
         Logger_Channel_Ids() {
-        this.Guild_Id = "",
-        this.Category_Id = "",
+        this.Guild_Id = " ",
+        this.Category_Id = " ",
         this.channelCreate_Id = " ",
         this.channelUpdate_Id = " ",
         this.channelDelete_Id = " ",
@@ -161,7 +161,7 @@ class Logger_Channel_Ids {
         this.voiceStateUpdate_Id = " ",
         this.voiceChannelSwitch_Id = " ",
         this.guildEmojisUpdate_Id = " ",
-        this.Menu_Select_Values = ""
+        this.Select_Menu_Values = ""
     }
 }
 

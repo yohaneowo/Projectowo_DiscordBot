@@ -50,9 +50,9 @@ module.exports =
                                 const parent =  await logger_FunctionManager.createChannel(interaction, 'Category') 
                                 logger_constructor.Guild_Id = guild_Id.toString();
                                 logger_constructor.Category_Id = parent.id.toString();
+                                logger_constructor.Select_Menu_Value = selectMenu_Values.toString();
                                 resolve(parent)
                             }).then(async (parent) => {
-                                console.log(selectMenu_Values)
                                 for (let value of selectMenu_Values) {
                                     switch (value) {
                                         case '0':
@@ -154,8 +154,8 @@ module.exports =
                                             console.log('case 18 done')
                                         break;
                                         case '19':
-                                            let voiceChannelUpdate = await logger_FunctionManager.createChannel(interaction, 'voiceChannelUpdate', parent);
-                                            logger_constructor.voiceChannelUpdate_Id = voiceChannelUpdate.id.toString();
+                                            let voiceStateUpdate  = await logger_FunctionManager.createChannel(interaction, 'voiceStateUpdate', parent);
+                                            logger_constructor.voiceChannelUpdate_Id = voiceStateUpdate.id.toString();
                                             console.log('case 19 done')
                                         break;
                                         case '20':
@@ -180,9 +180,10 @@ module.exports =
                         .then(async () =>{
                             await logger_DatabaseFunction.insert_Logger_Collection(
                                 logger_constructor.Guild_Id,
+                                logger_constructor.Category_Id,
                                 logger_constructor.channelCreate_Id,
-                                logger_constructor.channelDelete_Id,
                                 logger_constructor.channelUpdate_Id,
+                                logger_constructor.channelDelete_Id,
                                 logger_constructor.guildBanAdd_Id,
                                 logger_constructor.guildBanRemove_Id,
                                 logger_constructor.guildRoleCreate_Id,
@@ -202,13 +203,16 @@ module.exports =
                                 logger_constructor.voiceChannelUpdate_Id,
                                 logger_constructor.voiceChannelSwitch_Id,
                                 logger_constructor.guildEmojisUpdate_Id,
-                                logger_constructor.selectMenu_Values,
+                                logger_constructor.Select_Menu_Value,
                                 )
+                                console.log(`this is inside set 209line ${logger_constructor.Select_Menu_Value}`)
+                                interaction.followUp({content: 'Logger has been created', ephemeral: true})
+
                                 // await i.editReply({ content: `Logger Set Up Done !`, ephemeral: true });
                         })
                     } else {
                         // warn the user that the count status already exists
-                        await i.editReply({ content: `You Set Up before , remove it or edit it`, ephemeral: true });
+                        await i.reply({ content: `You Set Up before , remove it or edit it`, ephemeral: true });
                     }
                 } else {
                     // warn the user that at least one status must be selected
