@@ -9,7 +9,7 @@ class Logger_DatabaseFunction {
                         reject(err);
                     } else {
                         const guild_Ids = rows.map(row => row.Guild_Id);
-                        resolve(guild_Ids);s
+                        resolve(guild_Ids);
                     }
                 }
             )

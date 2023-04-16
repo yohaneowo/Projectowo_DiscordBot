@@ -13,4 +13,16 @@ module.exports = (client, Discord) => {
             client.on(event.name, (...args) => event.execute(...args, client, Discord));
         }
     }
+
+    const LoggerPath = path.join(process.cwd(), "events/Logger");
+    const LoggerFiles = fs.readdirSync(LoggerPath).filter(file => file.endsWith(".js"));
+    for (const LoggerFile of LoggerFiles) {
+        const LoggerFilePath = path.join(LoggerPath, LoggerFile);
+        const Logger = require(LoggerFilePath);
+        if(Logger.once) {
+            client.once(Logger.name, (...args) => Logger.execute(...args, client, Discord));
+        } else {
+            client.on(Logger.name, (...args) => Logger.execute(...args, client, Discord));
+        }
+    }
 }

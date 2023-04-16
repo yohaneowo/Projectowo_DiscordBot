@@ -216,7 +216,6 @@ module.exports =
                                     break;
                             
                         }
-
                     })
                     // delete channel id from database
                     await databaseFunctionManager.delete_Logger_Collection(guild_Id)
