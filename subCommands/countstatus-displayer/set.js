@@ -1,7 +1,7 @@
 const { SlashCommandSubcommandBuilder , EmbedBuilder, ComponentType } = require('discord.js');
 const {MemberCount_DatabaseFunctions} = require('../../commands_modules/countstatus-displayer/cs_databaseFunctionManager.js')
 const {MemberCount_ManageFunctions} = require('../../commands_modules/countstatus-displayer/cs_channelFunctionManager.js');
-const {MemberCount_Interaction_Components, ServerStatusIds} = require('../../countstatus-displayer/count_status/cs_component.js');
+const {MemberCount_Interaction_Components, ServerStatusIds} = require('../../commands_modules/countstatus-displayer/cs_component.js');
 
 // 可能会出现的问题=达到channel上限
 module.exports = 
@@ -75,8 +75,7 @@ module.exports =
                             // Check if the guild is already in database or not
                             if (!Guild_Ids.includes(guild_Id.toString())) {
                                 // Storing all promises in an array
-                                promises = [];
-                                // create a constructor to store ids temporarily
+
                                 const serverStatusIds_Constructor = new ServerStatusIds();
                                     // Storing all the count in database
                                     databaseFunctionManager.update_Member_Count_Database(guild_Id, user_Id, allMembers_Count, usersCount, bots_Count, allOnline_Count, allOnline_Count_Idle_included, allOnline_Count_Idle_Dnd_included, allOffline_Count, userOnline_Count, userOnline_Count_Idle_included, userOnline_Count_Idle_Dnd_included, userIdle_Count, userDnd_Count, userOffline_Count);
@@ -187,6 +186,7 @@ module.exports =
                                             serverStatusIds_Constructor.dateTime,
                                             serverStatusIds_Constructor.selectMenu_Values
                                             )
+                                            interaction.followUp({ content: `Done!`, ephemeral: false })
                                         })
                             } else {
                                 // warn the user that the count status already exists
