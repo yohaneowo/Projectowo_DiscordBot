@@ -2,29 +2,29 @@ class ChannelType {
     getChannelTypeName(channelType) {
     switch (channelType) {
         case 0:
-        return "GuildText";
+        return "Text Channel";
         case 1:
-        return "DM";
+        return "DM Channel";
         case 2:
-        return "GuildVoice";
+        return "Voice Chanel";
         case 3:
-        return "GroupDM";
+        return "Group DM Channel";
         case 4:
-        return "GuildCategory";
+        return "Category Channel";
         case 5:
-        return "GuildAnnouncement";
+        return "Announcement Channel";
         case 10:
-        return "AnnouncementThread";
+        return "Announcement Thread Channel";
         case 11:
-        return "PublicThread";
+        return "Public Thread Channel";
         case 12:
-        return "PrivateThread";
+        return "Private Thread Channel";
         case 13:
-        return "GuildStageVoice";
+        return "Stage Channel";
         case 14:
         return "GuildDirectory";
         case 15:
-        return "GuildForum";
+        return "Forum Channel";
         default:
         return "Unknown";
     }
