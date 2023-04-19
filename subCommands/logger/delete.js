@@ -24,14 +24,12 @@ module.exports =
                             .then(() => {console.log(`成功刪除頻道 ${channelCategory.name}`);})
                             .catch(error => {console.error(`刪除頻道 ${channelCategory.name} 時發生錯誤：`, error);});
                         } else {
-                            console.log('sadsada')
                             console.error(`找不到頻道 ${channelId[0].Category_Id}`);
                         }
                     } catch (error) { 
                         console.error(`找不到頻道 `);
                     }
                     // selectValues is a object with comma separated values
-                    console.log(selectValues.toString().split(','))
                     selectValues.toString().split(',').forEach(async (value) => {
                         switch (value) {
                             case '0' :
