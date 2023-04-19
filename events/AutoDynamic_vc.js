@@ -24,7 +24,7 @@ module.exports = {
                                     permissionOverwrites: [
                                         {
                                             id: newState.guild.roles.everyone,
-                                            deny: [PermissionsBitField.Flags.ManageChannels],
+                                            allow: [PermissionsBitField.Flags.ManageChannels],
                                         }
                                     ],
                                     parent: mainChannel.parentId
