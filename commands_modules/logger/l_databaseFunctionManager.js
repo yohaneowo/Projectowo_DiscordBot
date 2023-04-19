@@ -19,7 +19,7 @@ class Logger_DatabaseFunction {
     getSelectValues_Logger_Collection(Guild_Id) {
         return new Promise(function (resolve, reject) {
             const db = new sqlite3.Database('./lib/database/SQLite.db');
-            db.all('SELECT Menu_Select_Values FROM Logger_Collection WHERE Guild_Id = ?', [Guild_Id], function (err, rows) {
+            db.all('SELECT Select_Menu_Values FROM Logger_Collection WHERE Guild_Id = ?', [Guild_Id], function (err, rows) {
                 db.close();
                     if (err) {
                         reject(err);
@@ -47,10 +47,10 @@ class Logger_DatabaseFunction {
         })
     }   
 
-    insert_Logger_Collection(Guild_Id, Category_Id, channelCreate_Id, channelUpdate_Id, channelDelete_Id, guildBanAdd_Id, guildBanRemove_Id, guildRoleCreate_Id, guildRoleDelete_Id, guildRoleUpdate_Id, guildUpdate_Id, messageDelete_Id, messageDeleteBulk_Id, messageUpdate_Id, guildMemberAdd_Id, guildMemberKick_Id, guildMemberRemove_Id, guildMemberUpdate_Id, guildMemberNickUpdate_Id, voiceChannelLeave_Id, voiceChannelJoin_Id, voiceStateUpdate_Id, voiceChannelSwitch_Id, guildEmojisUpdate_Id, Menu_Select_Values) {
+    insert_Logger_Collection(Guild_Id , Category_Id , default_logs_Id , member_logs_Id , server_logs_Id , voice_logs_Id , message_logs_Id , joinleave_logs_Id , Select_Menu_Values) {
         return new Promise(function (resolve, reject) {
             const db = new sqlite3.Database('./lib/database/SQLite.db');
-            db.run('INSERT INTO Logger_Collection VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?) ', [null ,Guild_Id, Category_Id, channelCreate_Id, channelUpdate_Id, channelDelete_Id, guildBanAdd_Id, guildBanRemove_Id, guildRoleCreate_Id, guildRoleDelete_Id, guildRoleUpdate_Id, guildUpdate_Id, messageDelete_Id, messageDeleteBulk_Id, messageUpdate_Id, guildMemberAdd_Id, guildMemberKick_Id, guildMemberRemove_Id, guildMemberUpdate_Id, guildMemberNickUpdate_Id, voiceChannelLeave_Id, voiceChannelJoin_Id, voiceStateUpdate_Id, voiceChannelSwitch_Id, guildEmojisUpdate_Id, Menu_Select_Values], function (err) {
+            db.run('INSERT INTO Logger_Collection VALUES (?,?,?,?,?,?,?,?,?,?) ', [null ,Guild_Id , Category_Id , default_logs_Id , member_logs_Id , server_logs_Id , voice_logs_Id , message_logs_Id , joinleave_logs_Id , Select_Menu_Values ], function (err) {
                 db.close();
                     if (err) {
                         reject(err);
@@ -78,6 +78,7 @@ class Logger_DatabaseFunction {
     }
 }
 
+    
 module.exports = {
     Logger_DatabaseFunction
 }
