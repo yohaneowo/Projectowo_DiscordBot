@@ -5,9 +5,9 @@ module.exports = {
         .setName('purgechannel')
         .setDescription('Replies with Pong!'),
     async execute(interaction, client) {
-        interaction.guild.channels.cache.forEach(channel => {
-            channel.delete();
-        });
+        // interaction.guild.channels.cache.forEach(channel => {
+        //     // channel.delete();
+        // });
     },
     
 };
