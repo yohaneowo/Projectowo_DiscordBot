@@ -1,3 +1,4 @@
+const { mergeDefault } = require('discord.js');
 const fs = require('node:fs');
 const path = require("node:path");
 
@@ -19,10 +20,14 @@ module.exports = (client, Discord) => {
     for (const LoggerFile of LoggerFiles) {
         const LoggerFilePath = path.join(LoggerPath, LoggerFile);
         const Logger = require(LoggerFilePath);
-        if(Logger.once) {
-            client.once(Logger.name, (...args) => Logger.execute(...args, client, Discord));
-        } else {
-            client.on(Logger.name, (...args) => Logger.execute(...args, client, Discord));
+        for (const [name, logger] of Object.entries(Logger)) {
+            if(logger.once) {
+                client.once(name, (...args) => logger.execute(...args, client, Discord));
+            } else {
+                console.log(logger.name)
+                // console.log(name)
+                client.on(logger.name, (...args) => logger.execute(...args, client, Discord));
+            }
         }
     }
 }

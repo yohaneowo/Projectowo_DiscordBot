@@ -1,8 +1,8 @@
 const {EmbedBuilder, Embed} = require('discord.js');
 const {Logger_DatabaseFunction} = require('../../commands_modules/logger/l_databaseFunctionManager.js');
 const {ChannelType} = require('../../commands_modules/misc/ChannelType.js')
-module.exports = {
 
+const guildChannelCreate = {
     name : "channelCreate",
     once : false,
     async execute(channel, client) {
@@ -18,14 +18,14 @@ module.exports = {
             .setColor('#00FF00')
             .setTimestamp()
             .setFooter({text: `ID: ${channel.id}`})
-                
-        channel.guild.channels.fetch(channelId[0].channelCreate_Id).then(async channel => {
+        channel.guild.channels.fetch(channelId[0].server_logs_Id).then(async channel => {
             // console.log(channel);
-        if(channelId[0].channelCreate_Id == null) return;
+        if(channelId[0].server_logs_Id == null) return;
             await channel.send({embeds: [embed]})
         })
-    },
-
+    }
+}
+const guildChannelDelete = {
     name: 'channelDelete',
     once: false,
     async execute(channel, client) {
@@ -48,8 +48,10 @@ module.exports = {
         
             await channel.send({embeds: [embed]})
         })
-    },
+    }
+}
 
+const guildChannelUpdate = {
     name: 'channelUpdate',
     once: false,
     async execute(oldChannel, newChannel, client) {
@@ -123,6 +125,10 @@ module.exports = {
             await channel.send({embeds: [embed]})
         })
     }
-
+}
     
+module.exports = {
+    guildChannelCreate,
+    guildChannelDelete,
+    guildChannelUpdate
 }

@@ -104,9 +104,8 @@ module.exports =
                                 logger_constructor.joinleave_logs_Id,
                                 logger_constructor.Select_Menu_Value,
                                 )
-                                // interaction.deleteReply();
+                                interaction.deleteReply();
                                 interaction.followUp({content: 'Logger has been created', ephemeral: true})
-
                                 // await i.editReply({ content: `Logger Set Up Done !`, ephemeral: true });
                         })
                     } else {
