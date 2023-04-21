@@ -11,7 +11,7 @@ module.exports = async (interaction, client) =>  {
                     permissionOverwrites: [
                         {
                             id: interaction.guild.roles.everyone,
-                            deny: [PermissionsBitField.Flags.ManageChannels],
+                            allow: [PermissionsBitField.Flags.ManageChannels],
                         }
                     ]
                 }

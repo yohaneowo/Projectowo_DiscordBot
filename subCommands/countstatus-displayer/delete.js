@@ -1,5 +1,5 @@
 const { SlashCommandSubcommandBuilder  } = require('@discordjs/builders');
-const { MemberCount_DatabaseFunctions } = require('../../commands_modules/count_status/cs_databaseFunctionManager.js');
+const { MemberCount_DatabaseFunctions } = require('../../commands_modules/countstatus-displayer/cs_databaseFunctionManager.js');
 const { Error_Embed } = require('../../embed_modules/error/error_embed.js');
 
 

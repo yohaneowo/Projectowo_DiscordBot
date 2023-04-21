@@ -12,6 +12,7 @@ const commandFiles = fs.readdirSync(commandsPath).filter(file => file.endsWith('
 // Grab the SlashCommandBuilder#toJSON() output of each command's data for deployment
 for (const file of commandFiles) {
     const command = require(`./interaction/Commands/${file}`);
+    console.log(command.data.toJSON());
     commands.push(command.data.toJSON());
 }
 
