@@ -1,4 +1,4 @@
-const {MemberCount_DatabaseFunctions} = require(`${process.cwd()}/commands_modules/count_status/cs_databaseFunctionManager.js`);
+const {MemberCount_DatabaseFunctions} = require(`${process.cwd()}/commands_modules/countstatus-displayer/cs_databaseFunctionManager.js`);
 async function AutoCountStatus(client) {
     console.time('AutoCountStatus');
     const CountStatus_DatabaseManager = new MemberCount_DatabaseFunctions();
