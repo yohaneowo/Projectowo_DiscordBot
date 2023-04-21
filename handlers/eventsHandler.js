@@ -24,7 +24,7 @@ module.exports = (client, Discord) => {
             if(logger.once) {
                 client.once(name, (...args) => logger.execute(...args, client, Discord));
             } else {
-                console.log(logger.name)
+                // console.log(logger.name)
                 // console.log(name)
                 client.on(logger.name, (...args) => logger.execute(...args, client, Discord));
             }

@@ -29,20 +29,6 @@ const GuildMemberUpdate = {
                     .setFooter({text: `ID: ${newMember.id}`})
             sendEmbed(oldMember ,channel_Id, embed)
         }
-        console.log(oldMember.user.avatarURL())
-        console.log(newMember.user.avatarURL())
-        if(oldMember.avatarURL() !== newMember.avatarURL()) {
-            if(!guild_ids.includes(oldMember.guild.id)) return;
-                const embed = new EmbedBuilder()
-                    .setAuthor({name: newMember.user.tag, iconURL: newMember.user.displayAvatarURL({dynamic: true})})
-                    .setTitle(`Avatar Update`)
-                    .setDescription(`${newMember.user.tag}`)
-                    .setColor('#2986cc')
-                    .setImage(newMember.user.displayAvatarURL({dynamic: true}))
-                    .setTimestamp()
-                    .setFooter({text: `ID: ${newMember.id}`})
-            sendEmbed(oldMember ,channel_Id, embed)
-        }
         if(oldMember.roles !== newMember.roles) {
             if(!guild_ids.includes(oldMember.guild.id)) return;
             const embed = new EmbedBuilder()
@@ -54,42 +40,69 @@ const GuildMemberUpdate = {
                 .setFooter({text: `ID: ${newMember.id}`})
             sendEmbed(oldMember ,channel_Id, embed)
         }
-         if(oldMember.user.username !== newMember.user.username) {
-            if(!guild_ids.includes(oldMember.guild.id)) return;
-            const embed = new EmbedBuilder()
-                .setAuthor({name: newMember.user.tag, iconURL: newMember.user.displayAvatarURL({dynamic: true})})
-                .setTitle(`Username Update`)
-                .setDescription(`**Before**: ${oldMember.user.username}\n**After**: ${newMember.user.username}`)
-                .setColor('#2986cc')
-                .setTimestamp()
-                .setFooter({text: `ID: ${newMember.id}`})
-            sendEmbed(oldMember ,channel_Id, embed)
-         }
-         if(oldMember.user.discriminator !== newMember.user.discriminator) {
-            if(!guild_ids.includes(oldMember.guild.id)) return;
-            const embed = new EmbedBuilder()
-                .setAuthor({name: newMember.user.tag, iconURL: newMember.user.displayAvatarURL({dynamic: true})})
-                .setTitle(`Discriminator Update`)
-                .setDescription(`**Before**: ${oldMember.user.discriminator}\n**After**: ${newMember.user.discriminator}`)
-                .setColor('#2986cc')
-                .setTimestamp()
-                .setFooter({text: `ID: ${newMember.id}`})
-            sendEmbed(oldMember ,channel_Id, embed)
-         }
-         if(oldMember.user.avatar !== newMember.user.avatar) {
-            if(!guild_ids.includes(oldMember.guild.id)) return;
-            const embed = new EmbedBuilder()
-                .setAuthor({name: newMember.user.tag, iconURL: newMember.user.displayAvatarURL({dynamic: true})})
-                .setTitle(`Avatar Update`)
-                .setDescription(`**Before**: ${oldMember.user.avatar}\n**After**: ${newMember.user.avatar}`)
-                .setColor('#2986cc')
-                .setTimestamp()
-                .setFooter({text: `ID: ${newMember.id}`})
-            sendEmbed(oldMember ,channel_Id, embed)
-         }
     }
 }
 
+const GuildUserUpdate = {
+    name: 'userUpdate',
+    once: false,
+    async execute(oldUser, newUser, client) {
+        if (oldUser.avatarURL() !== newUser.avatarURL()) {
+            const databaseFunctionManager = new Logger_DatabaseFunction();
+            const memberLogs_Ids = await databaseFunctionManager.getMemberLogs_Ids_Logger_Collection();
+            client.guilds.cache.forEach(async guild => {
+                const channel_Ids = Array.from(guild.channels.cache.values()).map(channel => channel.id);
+                let matchingChannel_Id;
+                channel_Ids.some(value => {
+                    if(memberLogs_Ids.includes(value)) {
+                    matchingChannel_Id = value;
+                    return true
+                    }
+                });
+                if(matchingChannel_Id) {
+                    const embed = new EmbedBuilder()
+                        .setAuthor({name: newUser.tag, iconURL: newUser.displayAvatarURL({dynamic: true})})
+                        .setTitle(`Avatar Update`)
+                        .setDescription(`${newUser.tag}`)
+                        .setImage(newUser.displayAvatarURL({dynamic: true}))
+                        .setColor('#2986cc')
+                        .setTimestamp()
+                        .setFooter({text: `ID: ${newUser.id}`})
+                    guild.channels.fetch(matchingChannel_Id).then(async channel => {
+                        await channel.send({embeds: [embed]})
+                    })
+                }
+            })
+        }
+        if (oldUser.username !== newUser.username) {
+            const databaseFunctionManager = new Logger_DatabaseFunction();
+            const memberLogs_Ids = await databaseFunctionManager.getMemberLogs_Ids_Logger_Collection();
+            client.guilds.cache.forEach(async guild => {
+                const channel_Ids = Array.from(guild.channels.cache.values()).map(channel => channel.id);
+                let matchingChannel_Id;
+                channel_Ids.some(value => {
+                    if(memberLogs_Ids.includes(value)) {
+                    matchingChannel_Id = value;
+                    return true
+                    }
+                });
+                if(matchingChannel_Id) {
+                    const embed = new EmbedBuilder()
+                        .setAuthor({name: newUser.tag, iconURL: newUser.displayAvatarURL({dynamic: true})})
+                        .setTitle(`Username Update`)
+                        .setDescription(`**${oldUser.username}** 🡺 **${newUser.username}**`)
+                        .setColor('#2986cc')
+                        .setTimestamp()
+                        .setFooter({text: `ID: ${newUser.id}`})
+                    guild.channels.fetch(matchingChannel_Id).then(async channel => {
+                        await channel.send({embeds: [embed]})
+                    })
+                }
+            })
+        }
+    }
+}
 module.exports = {
-    GuildMemberUpdate
+    GuildMemberUpdate,
+    GuildUserUpdate
 }

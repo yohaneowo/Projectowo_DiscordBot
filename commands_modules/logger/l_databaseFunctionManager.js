@@ -47,6 +47,22 @@ class Logger_DatabaseFunction {
         })
     }   
 
+    getMemberLogs_Ids_Logger_Collection() {
+        return new Promise(function (resolve, reject) {
+            const db = new sqlite3.Database('./lib/database/SQLite.db');
+            db.all('SELECT Member_Logs_Id FROM Logger_Collection', [], function (err, rows) {
+                db.close();
+                    if (err) {
+                        reject(err);
+                    } else {
+                        const memberLogs_Ids = rows.map(row => row.member_logs_Id);
+                        resolve(memberLogs_Ids);
+                    }
+                }
+            )
+        })
+    }
+    
     insert_Logger_Collection(Guild_Id , Category_Id , default_logs_Id , member_logs_Id , server_logs_Id , voice_logs_Id , message_logs_Id , joinleave_logs_Id , Select_Menu_Values) {
         return new Promise(function (resolve, reject) {
             const db = new sqlite3.Database('./lib/database/SQLite.db');
@@ -61,7 +77,7 @@ class Logger_DatabaseFunction {
             )
         })
     }
-
+    
     delete_Logger_Collection(Guild_Id) {
         return new Promise(function (resolve, reject) {
             const db = new sqlite3.Database('./lib/database/SQLite.db');
