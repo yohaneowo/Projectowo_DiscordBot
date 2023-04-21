@@ -1,19 +1,18 @@
 const {EmbedBuilder} = require('discord.js');
 const {Logger_DatabaseFunction} = require('../../commands_modules/logger/l_databaseFunctionManager.js');
 
-function sendEmbed(oldMember, channel_Id, embed) {
+function sendEmbed(parameter, channel_Id, embed) {
     if(channel_Id == null) return;
-        oldMember.guild.channels.fetch(channel_Id).then(async channel => {
-            await channel.send({embeds: [embed]})
-        })
+    parameter.guild.channels.fetch(channel_Id).then(async channel => {
+        await channel.send({embeds: [embed]})
+    })
+
 }
 
 const GuildMemberUpdate = {
     name: 'guildMemberUpdate',
     once: false,
     async execute(oldMember, newMember, client) {
-        console.log(oldMember.user.avatarURL())
-        console.log(newMember.user.avatarURL())
         if(!guild_ids.includes(oldMember.guild.id)) return;
         const databaseFunctionManager = new Logger_DatabaseFunction();
         const guild_ids = await databaseFunctionManager.getGuild_Ids_Logger_Collection();
@@ -102,7 +101,52 @@ const GuildUserUpdate = {
         }
     }
 }
+
+const GuildBanAdd = {
+    name: 'guildBanAdd',
+    once: false,
+    async execute(guildBan, client) {
+        const databaseFunctionManager = new Logger_DatabaseFunction();
+        const guild_ids = await databaseFunctionManager.getGuild_Ids_Logger_Collection();
+        const channel_Ids = await databaseFunctionManager.getChannelIds_Logger_Collection(oldMember.guild.id);
+        if(!guild_ids.includes(guild.id)) return;
+        const channel_Id = channel_Ids[0].member_logs_Id;
+        const embed = new EmbedBuilder()
+            .setAuthor({name: user.tag, iconURL: user.displayAvatarURL({dynamic: true})})
+            .setTitle(`User Banned`)
+            .setDescription(`**${user.tag}** has been banned from the server.`)
+            .addFields({name: `Reason`, value: `${guildBan.reason}` || `No reason provided`})
+            .setColor('#2986cc')
+            .setTimestamp()
+            .setFooter({text: `ID: ${user.id}`})
+        sendEmbed(guildBan, channel_Id, embed)
+    }
+}
+
+const GuildBanRemove = {
+    name: 'guildBanRemove',
+    once: false,
+    async execute(guildBan, client) {
+        const databaseFunctionManager = new Logger_DatabaseFunction();
+        const guild_ids = await databaseFunctionManager.getGuild_Ids_Logger_Collection();
+        const channel_Ids = await databaseFunctionManager.getChannelIds_Logger_Collection(oldMember.guild.id);
+        if(!guild_ids.includes(guild.id)) return;
+        const channel_Id = channel_Ids[0].member_logs_Id;
+        const embed = new EmbedBuilder()
+            .setAuthor({name: user.tag, iconURL: user.displayAvatarURL({dynamic: true})})
+            .setTitle(`User Unbanned`)
+            .setDescription(`**${user.tag}** has been unbanned from the server.`)
+            .addFields({name: `Reason`, value: `${guildBan.reason}` || `No reason provided`})
+            .setColor('#2986cc')
+            .setTimestamp()
+            .setFooter({text: `ID: ${user.id}`})
+        sendEmbed(guildBan, channel_Id, embed)
+    }
+}
 module.exports = {
     GuildMemberUpdate,
-    GuildUserUpdate
+    GuildUserUpdate,
+    GuildBanAdd,
+    GuildBanRemove
+
 }
