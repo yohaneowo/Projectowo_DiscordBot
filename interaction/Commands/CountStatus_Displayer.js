@@ -7,7 +7,7 @@ module.exports = {
         .setDescription("Set the status display of the member count")
          .addStringOption(option =>
             option.setName('meow_ヽowoノ')
-            .setDescription('The gif category')
+            .setDescription('The countstatus-displayer subcommands')
             .setRequired(true)
             .addChoices(
                     {name: "set", value: "set"},

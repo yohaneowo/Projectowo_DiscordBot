@@ -5,7 +5,7 @@ module.exports = {
         .setDescription('Create a dynamic voice channel')
         .addStringOption(option =>
             option.setName('meow_ヽowoノ')
-            .setDescription('The gif category')
+            .setDescription('The dynamic-voicechannel subcommands')
             .setRequired(true)
             .addChoices(
                     {name: "set", value: "set"},
