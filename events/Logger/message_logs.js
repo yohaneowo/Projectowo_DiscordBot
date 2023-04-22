@@ -40,11 +40,39 @@ const GuildMessageDelete = {
         const embed = new EmbedBuilder()
             .setAuthor({name: message.author.tag, iconURL: message.author.displayAvatarURL({dynamic: true}) })
             .setTitle(`Message deleted in #${message.channel}`)
-            .setDescription(`${message.content}`)
+            .setDescription(`${message.content}` || '`Embed Message`')
             .setColor('#FF0000')
             .setTimestamp()
             .setFooter({text: `ID: ${message.author.id}`})
+
+
         sendEmbed(message, channel_Id, embed);
+    }
+}
+
+const GuildMessageDeleteBulk = {
+    name: 'messageDeleteBulk',
+    once: false,
+    async execute(messages,channel, client) {
+        messages_content = ''
+        messageCount = messages.size
+        messageAuthor = messages.first().author
+        const databaseFunctionManager = new Logger_DatabaseFunction();
+        const guild_ids = await databaseFunctionManager.getGuild_Ids_Logger_Collection();
+        const channel_Ids = await databaseFunctionManager.getChannelIds_Logger_Collection(channel.guild.id);
+        messages.forEach(message => {
+            messages_content += `> ${message.content || '`EMBED`'}\n`
+        })
+        if(!guild_ids.includes(channel.guild.id)) return;
+        const channel_Id = channel_Ids[0].member_logs_Id;
+        const embed = new EmbedBuilder()
+            .setAuthor({name: messageAuthor.tag, iconURL: messageAuthor.displayAvatarURL({dynamic: true}) })
+            .setTitle(`${messageCount} Messages BulkDeleted in ${channel}`)
+            .setDescription(`${messages_content}`)
+            .setColor('#FF0000')
+            .setTimestamp()
+            // .setFooter({text: `ID: ${messages.author.id}`})
+        sendEmbed(channel, channel_Id, embed);
     }
 }
 
@@ -71,5 +99,6 @@ const GuildMessageUpdate = {
 module.exports = {
     // GuildMessageCreate,
     GuildMessageDelete,
+    GuildMessageDeleteBulk,
     GuildMessageUpdate
 };
