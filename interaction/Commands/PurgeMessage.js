@@ -4,7 +4,7 @@ module.exports = {
     data: new SlashCommandBuilder()
         .setName('purge-messages')
         .setDescription('purge the world')
-        .setDefaultMemberPermissions(PermissionFlagsBits.MANAGE_MESSAGES)
+        .setDefaultMemberPermissions(PermissionFlagsBits.ManageMessages)
         .addIntegerOption(option =>
             option.setName('amount')
             .setDescription('The amount of messages to purge')
