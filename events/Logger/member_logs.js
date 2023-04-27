@@ -1,9 +1,10 @@
 const {EmbedBuilder} = require('discord.js');
 const {Logger_DatabaseFunction} = require('../../commands_modules/logger/l_databaseFunctionManager.js');
+const loggerDbFunctionsManager = new Logger_DatabaseFunction();
 
-function sendEmbed(parameter, channel_Id, embed) {
+function sendEmbed(event_parameter, channel_Id, embed) {
     if(channel_Id == null) return;
-    parameter.guild.channels.fetch(channel_Id).then(async channel => {
+    event_parameter.guild.channels.fetch(channel_Id).then(async channel => {
         await channel.send({embeds: [embed]})
     })
 
@@ -12,12 +13,11 @@ function sendEmbed(parameter, channel_Id, embed) {
 const GuildMemberUpdate = {
     name: 'guildMemberUpdate',
     once: false,
-    async execute(oldMember, newMember, client) {
-        if(!guild_ids.includes(oldMember.guild.id)) return;
-        const databaseFunctionManager = new Logger_DatabaseFunction();
-        const guild_ids = await databaseFunctionManager.getGuild_Ids_Logger_Collection();
-        const channel_Ids = await databaseFunctionManager.getChannelIds_Logger_Collection(oldMember.guild.id);
-        const channel_Id = channel_Ids[0].member_logs_Id;
+    async execute(oldMember, newMember) {
+        if(!guildsUsingLogger.includes(oldMember.guild.id)) return;
+        const guildsUsingLogger = await loggerDbFunctionsManager.getGuild_Ids_Logger_Collection();
+        const loggerCollectionData = await loggerDbFunctionsManager.getChannelIds_Logger_Collection(oldMember.guild.id);
+        const memberLogsChannelId = loggerCollectionData[0].memberLogsChannelId;
         if(oldMember.nickname !== newMember.nickname) {
                 const embed = new EmbedBuilder()
                     .setAuthor({name: newMember.user.tag, iconURL: newMember.user.displayAvatarURL({dynamic: true})})
@@ -26,18 +26,19 @@ const GuildMemberUpdate = {
                     .setColor('#2986cc')
                     .setTimestamp()
                     .setFooter({text: `ID: ${newMember.id}`})
-            sendEmbed(oldMember ,channel_Id, embed)
+            sendEmbed(oldMember ,memberLogsChannelId, embed)
         }
         if(oldMember.roles !== newMember.roles) {
-            if(!guild_ids.includes(oldMember.guild.id)) return;
-            const embed = new EmbedBuilder()
+            if(!guildsUsingLogger.includes(oldMember.guild.id)) return;
+            const GuildMemberUpdate_embed = new EmbedBuilder()
                 .setAuthor({name: newMember.user.tag, iconURL: newMember.user.displayAvatarURL({dynamic: true})})
                 .setTitle(`Role Update`)
-                .setDescription(`**Before**: ${oldMember.roles.cache.map(role => role.toString()).join(' ')}\n**After**: ${newMember.roles.cache.map(role => role.toString()).join(' ')}`)
+                .setDescription(`**Before**: ${
+                    oldMember.roles.cache.map(role => role.toString()).join(' ')}\n**After**: ${newMember.roles.cache.map(role => role.toString()).join(' ')}`)
                 .setColor('#2986cc')
                 .setTimestamp()
                 .setFooter({text: `ID: ${newMember.id}`})
-            sendEmbed(oldMember ,channel_Id, embed)
+            sendEmbed(oldMember ,memberLogsChannelId, GuildMemberUpdate_embed)
         }
     }
 }
@@ -46,9 +47,8 @@ const GuildUserUpdate = {
     name: 'userUpdate',
     once: false,
     async execute(oldUser, newUser, client) {
-        if (oldUser.avatarURL() !== newUser.avatarURL()) {
-            const databaseFunctionManager = new Logger_DatabaseFunction();
-            const memberLogs_Ids = await databaseFunctionManager.getMemberLogs_Ids_Logger_Collection();
+        if (oldUser.avatarURL() !== newUser.avatarURL() && !oldUser.bot) {
+            const memberLogs_Ids = await loggerDbFunctionsManager.getMemberLogs_Ids_Logger_Collection();
             client.guilds.cache.forEach(async guild => {
                 const channel_Ids = Array.from(guild.channels.cache.values()).map(channel => channel.id);
                 let matchingChannel_Id;
@@ -73,9 +73,8 @@ const GuildUserUpdate = {
                 }
             })
         }
-        if (oldUser.username !== newUser.username) {
-            const databaseFunctionManager = new Logger_DatabaseFunction();
-            const memberLogs_Ids = await databaseFunctionManager.getMemberLogs_Ids_Logger_Collection();
+        if (oldUser.username !== newUser.username && !oldUser.bot) {
+            const memberLogs_Ids = await loggerDbFunctionsManager.getMemberLogs_Ids_Logger_Collection();
             client.guilds.cache.forEach(async guild => {
                 const channel_Ids = Array.from(guild.channels.cache.values()).map(channel => channel.id);
                 let matchingChannel_Id;
@@ -105,13 +104,12 @@ const GuildUserUpdate = {
 const GuildBanAdd = {
     name: 'guildBanAdd',
     once: false,
-    async execute(guildBan, client) {
-        const databaseFunctionManager = new Logger_DatabaseFunction();
-        const guild_ids = await databaseFunctionManager.getGuild_Ids_Logger_Collection();
-        const channel_Ids = await databaseFunctionManager.getChannelIds_Logger_Collection(oldMember.guild.id);
-        if(!guild_ids.includes(guild.id)) return;
-        const channel_Id = channel_Ids[0].member_logs_Id;
-        const embed = new EmbedBuilder()
+    async execute(guildBan) {
+        const guildsUsingLogger = await loggerDbFunctionsManager.getGuild_Ids_Logger_Collection();
+        const loggerCollectionData = await loggerDbFunctionsManager.getChannelIds_Logger_Collection(oldMember.guild.id);
+        if(!guildsUsingLogger.includes(guild.id)) return;
+        const memberLogsChannelId = loggerCollectionData[0].memberLogsChannelId;
+        const GuildBanAdd_embed = new EmbedBuilder()
             .setAuthor({name: user.tag, iconURL: user.displayAvatarURL({dynamic: true})})
             .setTitle(`User Banned`)
             .setDescription(`**${user.tag}** has been banned from the server.`)
@@ -119,20 +117,20 @@ const GuildBanAdd = {
             .setColor('#2986cc')
             .setTimestamp()
             .setFooter({text: `ID: ${user.id}`})
-        sendEmbed(guildBan, channel_Id, embed)
+        sendEmbed(guildBan, memberLogsChannelId, GuildBanAdd_embed)
     }
 }
 
 const GuildBanRemove = {
     name: 'guildBanRemove',
     once: false,
-    async execute(guildBan, client) {
+    async execute(guildBan) {
         const databaseFunctionManager = new Logger_DatabaseFunction();
-        const guild_ids = await databaseFunctionManager.getGuild_Ids_Logger_Collection();
-        const channel_Ids = await databaseFunctionManager.getChannelIds_Logger_Collection(oldMember.guild.id);
-        if(!guild_ids.includes(guild.id)) return;
-        const channel_Id = channel_Ids[0].member_logs_Id;
-        const embed = new EmbedBuilder()
+        const guildsUsingLogger = await databaseFunctionManager.getGuild_Ids_Logger_Collection();
+        const loggerCollectionData = await databaseFunctionManager.getChannelIds_Logger_Collection(oldMember.guild.id);
+        if(!guildsUsingLogger.includes(guild.id)) return;
+        const memberLogsChannelId = loggerCollectionData[0].memberLogsChannelId;
+        const GuildBanRemove_embed = new EmbedBuilder()
             .setAuthor({name: user.tag, iconURL: user.displayAvatarURL({dynamic: true})})
             .setTitle(`User Unbanned`)
             .setDescription(`**${user.tag}** has been unbanned from the server.`)
@@ -140,7 +138,7 @@ const GuildBanRemove = {
             .setColor('#2986cc')
             .setTimestamp()
             .setFooter({text: `ID: ${user.id}`})
-        sendEmbed(guildBan, channel_Id, embed)
+        sendEmbed(guildBan, memberLogsChannelId, GuildBanRemove_embed)
     }
 }
 module.exports = {

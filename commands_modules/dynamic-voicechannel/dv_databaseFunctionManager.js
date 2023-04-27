@@ -31,6 +31,22 @@ class DynamicVC_DatabaseManager {
         })
     }
 
+    getIsMuteable_DynamicVC_Stats() {
+        return new Promise((resolve, reject) => {
+            const db = new sqlite3.Database('./lib/database/SQLite.db')
+            db.all(`SELECT isMuteable FROM DynamicVC_Stats`,function(err, row) {
+                    db.close()
+                    if (err) {
+                        console.error(err.message);
+                        reject(err);
+                    } else {
+                        const isMuteables = row.map(row => row.isMuteable);
+                        resolve(isMuteables);
+                    }
+            })
+        })
+    }
+
     insertDynamicVC_subId(Guild_Id, subId) {
         return new Promise((resolve, reject) => {
             const db = new sqlite3.Database('./lib/database/SQLite.db')
@@ -82,6 +98,21 @@ class DynamicVC_DatabaseManager {
         return new Promise((resolve, reject) => {
             const db = new sqlite3.Database('./lib/database/SQLite.db')
             db.run(`DELETE FROM DynamicVC_subId WHERE subChannel_Id = ?`, [subId], function(err) {
+                db.close()
+                if (err) {
+                    console.error(err.message);
+                    reject(err);
+                } else {
+                    resolve();
+                }
+            })
+        })
+    }
+
+    updateDynamicVC_createCount(Guild_Id) {
+        return new Promise((resolve, reject) => {
+            const db = new sqlite3.Database('./lib/database/SQLite.db')
+            db.run(`UPDATE DynamicVC_Stats SET subChannel_createdCount = subChannel_createdCount + 1 WHERE Guild_Id = ?`,(Guild_Id), function(err) {
                 db.close()
                 if (err) {
                     console.error(err.message);

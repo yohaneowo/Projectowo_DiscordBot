@@ -6,7 +6,7 @@ module.exports = async (interaction, client) =>  {
             const createdAt = new Date()
             const mainChannel = await interaction.guild.channels.create(
                 {
-                    name: '陰謀論生成區',
+                    name: '【安静禁止】',
                     type: ChannelType.GuildVoice,
                     permissionOverwrites: [
                         {
@@ -25,7 +25,7 @@ module.exports = async (interaction, client) =>  {
                 }
                 db.close()
             });
-            interaction.editReply({ content: 'DynamicVC已建立' })
+            interaction.editReply({ content: '永不Mute DynamicVC已建立' })
     } catch (err) {
         console.error(err);
     }
