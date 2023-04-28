@@ -9,18 +9,25 @@ module.exports = {
             .setRequired(true)
             .addChoices(
                     {name: "set", value: "set"},
-                    {name: "delete", value: "delete"},   
+                    {name: "delete", value: "delete"}, 
+                    {name: "anti_mute-set", value: "anti_mute-set"},
+                    {name: "delete-anti_mute", value: "delete-anti_mute"},
                 )
         ),
     async execute(interaction, client) {
         const subcommand = interaction.options.getString('meow_ヽowoノ');
-        console.log(subcommand)
         if (subcommand === "set") {
             // Set the status display of the member count
             await interaction.deferReply({fetchReply: true})
             client.loadSubcommands(interaction, client);
         } else if (subcommand === "delete") {
             // Delete the status display of the member count
+            await interaction.deferReply({fetchReply: true})
+            client.loadSubcommands(interaction, client);
+        } else if (subcommand === "anti_mute-set") {
+            await interaction.deferReply({fetchReply: true})
+            client.loadSubcommands(interaction, client);
+        } else if (subcommand === "delete-anti_mute") {
             await interaction.deferReply({fetchReply: true})
             client.loadSubcommands(interaction, client);
         }
