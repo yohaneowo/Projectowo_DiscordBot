@@ -13,10 +13,11 @@ const GuildMemberAdd = {
     name : 'guildMemberAdd',
     once : false,
     async execute(member) {
+        const eventEmitter_Guild_Id = member.guild.id;
         const totalMembers = member.guild.memberCount; 
         const guildsUsingLogger = await loggerDbFunctionsManager.getGuild_Ids_Logger_Collection();
-        const loggerCollectionData = await loggerDbFunctionsManager.getChannelIds_Logger_Collection(member.guild.id);
-        if(!guildsUsingLogger.includes(member.guild.id)) return;
+        const loggerCollectionData = await loggerDbFunctionsManager.getChannelIds_Logger_Collection(eventEmitter_Guild_Id);
+        if(!guildsUsingLogger.includes(eventEmitter_Guild_Id)) return;
         const GuildMemberAdd_embed = new EmbedBuilder()
             .setAuthor({name: member.user.tag, iconURL: member.user.displayAvatarURL({dynamic: true}) })
             .setTitle(`Member Joined`)
@@ -33,9 +34,10 @@ const GuildMemberRemove = {
     name : 'guildMemberRemove',
     once : false,
     async execute(member) {
+        const eventEmitter_Guild_Id = member.guild.id;
         const guildsUsingLogger = await loggerDbFunctionsManager.getGuild_Ids_Logger_Collection();
-        const loggerCollectionData = await loggerDbFunctionsManager.getChannelIds_Logger_Collection(member.guild.id);
-        if(!guildsUsingLogger.includes(member.guild.id)) return;
+        const loggerCollectionData = await loggerDbFunctionsManager.getChannelIds_Logger_Collection(eventEmitter_Guild_Id);
+        if(!guildsUsingLogger.includes(eventEmitter_Guild_Id)) return;
         const GuildMemberRemove_embed = new EmbedBuilder()
             .setAuthor({name: member.user.tag, iconURL: member.user.displayAvatarURL({dynamic: true}) })
             .setTitle(`Member Left`)

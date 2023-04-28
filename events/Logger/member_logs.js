@@ -14,9 +14,10 @@ const GuildMemberUpdate = {
     name: 'guildMemberUpdate',
     once: false,
     async execute(oldMember, newMember) {
-        if(!guildsUsingLogger.includes(oldMember.guild.id)) return;
+        const eventEmitter_Guild_Id = oldMember.guild.id;
+        if(!guildsUsingLogger.includes(eventEmitter_Guild_Id)) return;
         const guildsUsingLogger = await loggerDbFunctionsManager.getGuild_Ids_Logger_Collection();
-        const loggerCollectionData = await loggerDbFunctionsManager.getChannelIds_Logger_Collection(oldMember.guild.id);
+        const loggerCollectionData = await loggerDbFunctionsManager.getChannelIds_Logger_Collection(eventEmitter_Guild_Id);
         const memberLogsChannelId = loggerCollectionData[0].memberLogsChannelId;
         if(oldMember.nickname !== newMember.nickname) {
                 const embed = new EmbedBuilder()
@@ -29,7 +30,7 @@ const GuildMemberUpdate = {
             sendEmbed(oldMember ,memberLogsChannelId, embed)
         }
         if(oldMember.roles !== newMember.roles) {
-            if(!guildsUsingLogger.includes(oldMember.guild.id)) return;
+            if(!guildsUsingLogger.includes(eventEmitter_Guild_Id)) return;
             const GuildMemberUpdate_embed = new EmbedBuilder()
                 .setAuthor({name: newMember.user.tag, iconURL: newMember.user.displayAvatarURL({dynamic: true})})
                 .setTitle(`Role Update`)
@@ -105,9 +106,10 @@ const GuildBanAdd = {
     name: 'guildBanAdd',
     once: false,
     async execute(guildBan) {
+        const eventEmitter_Guild_Id = guildBan.guild.id;
         const guildsUsingLogger = await loggerDbFunctionsManager.getGuild_Ids_Logger_Collection();
-        const loggerCollectionData = await loggerDbFunctionsManager.getChannelIds_Logger_Collection(oldMember.guild.id);
-        if(!guildsUsingLogger.includes(guild.id)) return;
+        const loggerCollectionData = await loggerDbFunctionsManager.getChannelIds_Logger_Collection(eventEmitter_Guild_Id);
+        if(!guildsUsingLogger.includes(eventEmitter_Guild_Id)) return;
         const memberLogsChannelId = loggerCollectionData[0].memberLogsChannelId;
         const GuildBanAdd_embed = new EmbedBuilder()
             .setAuthor({name: user.tag, iconURL: user.displayAvatarURL({dynamic: true})})
@@ -125,10 +127,11 @@ const GuildBanRemove = {
     name: 'guildBanRemove',
     once: false,
     async execute(guildBan) {
+        const eventEmitter_Guild_Id = guildBan.guild.id;
         const databaseFunctionManager = new Logger_DatabaseFunction();
         const guildsUsingLogger = await databaseFunctionManager.getGuild_Ids_Logger_Collection();
-        const loggerCollectionData = await databaseFunctionManager.getChannelIds_Logger_Collection(oldMember.guild.id);
-        if(!guildsUsingLogger.includes(guild.id)) return;
+        const loggerCollectionData = await databaseFunctionManager.getChannelIds_Logger_Collection(eventEmitter_Guild_Id);
+        if(!guildsUsingLogger.includes(eventEmitter_Guild_Id)) return;
         const memberLogsChannelId = loggerCollectionData[0].memberLogsChannelId;
         const GuildBanRemove_embed = new EmbedBuilder()
             .setAuthor({name: user.tag, iconURL: user.displayAvatarURL({dynamic: true})})

@@ -1,26 +1,27 @@
-// const client = require('../index.js');  
-// const sqlite3 = require('sqlite3');
-// const {PermissionsBitField, ChannelType} = require('discord.js');
-// const {DynamicVC_DatabaseManager} = require('../commands_modules/dynamic-voicechannel/dv_databaseFunctionManager.js');
+const client = require('../index.js');  
+const sqlite3 = require('sqlite3');
+const {PermissionsBitField, ChannelType} = require('discord.js');
+const {DynamicVC_DatabaseManager} = require('../commands_modules/dynamic-voicechannel/dv_databaseFunctionManager.js');
+const dynamicVC_DatabaseManager = new DynamicVC_DatabaseManager();
 
-// module.exports = {
-//     name: 'voiceStateUpdate',
-//     once: false,
-//     async execute(oldState, newState) {
-//         if(newState.selfMute) {
-//             try {
-//                 const dynamicVC_DatabaseManager = new DynamicVC_DatabaseManager();
-//                 const Guild_Ids = await dynamicVC_DatabaseManager.getGuildIds_DynamicVC_subId();
-//                 const Guild_Id = newState.guild.id;
-//                 if(Guild_Ids.includes(Guild_Id)){
-//                     const dynamicVC_subIds = await dynamicVC_DatabaseManager.getDynamicVC_subId(Guild_Id);
-//                     if(dynamicVC_subIds.includes(newState.channelId)) {
-//                         newState.disconnect()
-//                     }
-//                 }
-//             } catch (err) {
-//                 console.error(err);
-//             }
-//         }
-//     }
-// }
+module.exports = {
+    name: 'voiceStateUpdate',
+    once: false,
+    async execute(oldState, newState) {
+        if(newState.selfMute) {
+            try {
+                const newState_ChannelId = newState.channelId;
+                const eventEmitter_Guild_Id = newState.guild.id;
+                const Guild_Ids = await dynamicVC_DatabaseManager.getGuildIds_DynamicVC_subId();
+                if(Guild_Ids.includes(eventEmitter_Guild_Id)){
+                    const antiMuteDynamicVC_subIds = await dynamicVC_DatabaseManager.getAntiMute_DynamicVC_subId(eventEmitter_Guild_Id);
+                    if(antiMuteDynamicVC_subIds.includes(newState_ChannelId)) {
+                        newState.disconnect()
+                    }
+                }
+            } catch (err) {
+                console.error(err);
+            }
+        }
+    }
+}

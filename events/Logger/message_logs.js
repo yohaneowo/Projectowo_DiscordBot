@@ -13,9 +13,10 @@ const GuildMessageDelete = {
     name: 'messageDelete',
     once: false,
     async execute(message) {
+        const eventEmitter_Guild_Id = message.guild.id;
         const guildsUsingLogger = await loggerDbFunctionsManager.getGuild_Ids_Logger_Collection();
-        const loggerCollectionData = await loggerDbFunctionsManager.getChannelIds_Logger_Collection(message.guild.id);
-        if(!guildsUsingLogger.includes(message.guild.id)) return;
+        const loggerCollectionData = await loggerDbFunctionsManager.getChannelIds_Logger_Collection(eventEmitter_Guild_Id);
+        if(!guildsUsingLogger.includes(eventEmitter_Guild_Id)) return;
         const messageLogsChannelId = loggerCollectionData[0].messageLogsChannelId;
         const embed = new EmbedBuilder()
             .setAuthor({name: message.author.tag, iconURL: message.author.displayAvatarURL({dynamic: true}) })
@@ -33,13 +34,14 @@ const GuildMessageDelete = {
 const GuildMessageDeleteBulk = {
     name: 'messageDeleteBulk',
     once: false,
-    async execute(messages,channel, client) {
-        messages_content = ''
-        messageCount = messages.size
-        messageAuthor = messages.first().author
+    async execute(messages,channel) {
+        let messages_content = ''
+        const messageCount = messages.size
+        const messageAuthor = messages.first().author
+        const eventEmitter_Guild_Id = channel.guild.id;
         const guildsUsingLogger = await loggerDbFunctionsManager.getGuild_Ids_Logger_Collection();
-        if(!guildsUsingLogger.includes(channel.guild.id)) return;
-        const loggerCollectionData = await loggerDbFunctionsManager.getChannelIds_Logger_Collection(channel.guild.id);
+        if(!guildsUsingLogger.includes(eventEmitter_Guild_Id)) return;
+        const loggerCollectionData = await loggerDbFunctionsManager.getChannelIds_Logger_Collection(eventEmitter_Guild_Id);
         messages.forEach(message => {
             messages_content += `> ${message.content || '`EMBED`'}\n`
         })
@@ -60,10 +62,11 @@ const GuildMessageUpdate = {
     once: false,
     async execute(oldMessage, newMessage) {
         // limit to only user messages because bot keep editing messages due to deferReply
-        if(oldMessage.member.user.bot) return;
+        if(oldMessage.author.bot) return;
+        const eventEmitter_Guild_Id = oldMessage.guild.id;
         const guildsUsingLogger = await loggerDbFunctionsManager.getGuild_Ids_Logger_Collection();
-        const loggerCollectionData = await loggerDbFunctionsManager.getChannelIds_Logger_Collection(oldMessage.guild.id);
-        if(!guildsUsingLogger.includes(oldMessage.guild.id)) return;
+        const loggerCollectionData = await loggerDbFunctionsManager.getChannelIds_Logger_Collection(eventEmitter_Guild_Id);
+        if(!guildsUsingLogger.includes(eventEmitter_Guild_Id)) return;
         const messageLogsChannelId = loggerCollectionData[0].messageLogsChannelId;
         const GuildMessageUpdate_embed = new EmbedBuilder()
             .setAuthor({name: oldMessage.author.tag, iconURL: oldMessage.author.displayAvatarURL({dynamic: true}) })

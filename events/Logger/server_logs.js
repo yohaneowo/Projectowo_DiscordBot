@@ -33,10 +33,11 @@ const guildChannelDelete = {
     name: 'channelDelete',
     once: false,
     async execute(channel) {
+        const eventEmitter_Guild_Id = channel.guild.id;
         const channelType = new ChannelType();
         const guildsUsingLogger = await loggerDbFunctionsManager.getGuild_Ids_Logger_Collection();
-        const loggerCollectionData = await loggerDbFunctionsManager.getChannelIds_Logger_Collection(channel.guild.id);
-        if(!guildsUsingLogger.includes(channel.guild.id)) return;
+        const loggerCollectionData = await loggerDbFunctionsManager.getChannelIds_Logger_Collection(eventEmitter_Guild_Id);
+        if(!guildsUsingLogger.includes(eventEmitter_Guild_Id)) return;
         const guildChannelDelete_embed = new EmbedBuilder()
             .setAuthor({name: channel.guild.name, iconURL: channel.guild.iconURL({dynamic: true}) })
             .setTitle(`Channel Deleted #${channel.name}`)
@@ -53,11 +54,12 @@ const guildChannelUpdate = {
     name: 'channelUpdate',
     once: false,
     async execute(oldChannel, newChannel) {
+        const eventEmitter_Guild_Id = oldChannel.guild.id;
         let embedFieldString_Before = '';
         let embedFieldString_After = '';
         const guildsUsingLogger = await loggerDbFunctionsManager.getGuild_Ids_Logger_Collection();
-        const loggerCollectionData = await loggerDbFunctionsManager.getChannelIds_Logger_Collection(oldChannel.guild.id);
-        if(!guildsUsingLogger.includes(oldChannel.guild.id)) return;
+        const loggerCollectionData = await loggerDbFunctionsManager.getChannelIds_Logger_Collection(eventEmitter_Guild_Id);
+        if(!guildsUsingLogger.includes(eventEmitter_Guild_Id)) return;
 
         if(oldChannel.name !== newChannel.name) {
             embedFieldString_Before += `**Name :** ${oldChannel.name}\n`;
