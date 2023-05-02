@@ -50,7 +50,7 @@ class Logger_DatabaseFunction {
     getMemberLogs_Ids_Logger_Collection() {
         return new Promise(function (resolve, reject) {
             const db = new sqlite3.Database('./lib/database/SQLite.db');
-            db.all('SELECT Member_Logs_Id FROM Logger_Collection', [], function (err, rows) {
+            db.all('SELECT memberLogsChannelId FROM Logger_Collection', [], function (err, rows) {
                 db.close();
                     if (err) {
                         reject(err);

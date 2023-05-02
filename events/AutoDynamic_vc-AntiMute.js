@@ -8,6 +8,7 @@ module.exports = {
     name: 'voiceStateUpdate',
     once: false,
     async execute(oldState, newState) {
+        const CHANNEL_TIMEOUT = 5 * 60 * 1000;
         if(newState.selfMute) {
             try {
                 const newState_ChannelId = newState.channelId;
@@ -17,11 +18,12 @@ module.exports = {
                     const antiMuteDynamicVC_subIds = await dynamicVC_DatabaseManager.getAntiMute_DynamicVC_subId(eventEmitter_Guild_Id);
                     if(antiMuteDynamicVC_subIds.includes(newState_ChannelId)) {
                         newState.disconnect()
+                        // Currently unable to detect speaking without join voice
                     }
                 }
             } catch (err) {
                 console.error(err);
             }
-        }
+        } 
     }
 }

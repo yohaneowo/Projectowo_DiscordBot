@@ -121,7 +121,7 @@ class DynamicVC_DatabaseManager {
             })
         })
     }
-
+    
     getAntiMute_DynamicVC_subId(Guild_Id) {
         return new Promise((resolve, reject) => {
             const db = new sqlite3.Database('./lib/database/SQLite.db')

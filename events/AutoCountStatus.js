@@ -1,6 +1,6 @@
 const {MemberCount_DatabaseFunctions} = require(`${process.cwd()}/commands_modules/countstatus-displayer/cs_databaseFunctionManager.js`);
 async function AutoCountStatus(client) {
-    console.time('AutoCountStatus');
+    // console.time('AutoCountStatus');
     const CountStatus_DatabaseManager = new MemberCount_DatabaseFunctions();
     CountStatus_DatabaseManager.get_Guild_Ids_MemberCount_ChannelId().then(async(Guild_Ids) => {
         // console.log(Guild_Ids)
@@ -104,7 +104,7 @@ async function AutoCountStatus(client) {
             
         })
     })
-     console.timeEnd('AutoCountStatus');
+    //  console.timeEnd('AutoCountStatus');
 }
 
 setInterval(() => {AutoCountStatus(client);}, 1000 * 60 * 5 );

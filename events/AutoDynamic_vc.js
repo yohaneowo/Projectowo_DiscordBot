@@ -44,7 +44,7 @@ module.exports = {
                                 await dynamicVC_DbFunctionManager.deleteDynamicVC_subId(subChannel.id)
                                 isMoved === true  ? null : subChannel.delete()
                             }
-                            dynamicVC_DbFunctionManager.updateDynamicVC_createCount(eventEmitter_Guild_Id);
+                            dynamicVC_DbFunctionManager.updateDynamicVC_Collection_createCount(eventEmitter_Guild_Id);
                         } else if (row.isAntiMuteChannel == 1 && newState.channelId == row.Set_mainChannel_Id ) {
                             const subChannel = await createSubChannel(newState, 'MUTE禁止OWO', mainChannel.parentId, ChannelType, PermissionsBitField)
                             await dynamicVC_DbFunctionManager.insertDynamicVC_subId(eventEmitter_Guild_Id, subChannel.id, 1)

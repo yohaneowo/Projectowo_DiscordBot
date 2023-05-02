@@ -15,8 +15,8 @@ const GuildMemberUpdate = {
     once: false,
     async execute(oldMember, newMember) {
         const eventEmitter_Guild_Id = oldMember.guild.id;
-        if(!guildsUsingLogger.includes(eventEmitter_Guild_Id)) return;
         const guildsUsingLogger = await loggerDbFunctionsManager.getGuild_Ids_Logger_Collection();
+        if(!guildsUsingLogger.includes(eventEmitter_Guild_Id)) return;
         const loggerCollectionData = await loggerDbFunctionsManager.getChannelIds_Logger_Collection(eventEmitter_Guild_Id);
         const memberLogsChannelId = loggerCollectionData[0].memberLogsChannelId;
         if(oldMember.nickname !== newMember.nickname) {
