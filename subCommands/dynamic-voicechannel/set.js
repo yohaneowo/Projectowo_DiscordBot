@@ -1,5 +1,6 @@
 const {  ChannelType, PermissionsBitField} = require('discord.js');
 const sqlite3 = require('sqlite3')
+const {createChannel} = require('../../commands_modules/misc/CreateChannel.js')
 module.exports = async (interaction) =>  {
     try {
         if(!interaction.member.voice.channel) {
@@ -20,22 +21,16 @@ module.exports = async (interaction) =>  {
             if (normalChannelCount >= 1) {
                 return interaction.editReply({ content: '已有一個DynamicVC' })
             } else {
-                const parent_Id = interaction.member.voice.channel.parentId
+                const parentId = interaction.member.voice.channel.parentId
             const db = new sqlite3.Database('./lib/database/SQLite.db')
+                const permissionOverwrites =  [
+                                {
+                                    id: interaction.guild.roles.everyone,
+                                    allow: [PermissionsBitField.Flags.ManageChannels],
+                                }
+                            ]
                 const createdAt = new Date()
-                const mainChannel = await interaction.guild.channels.create(
-                    {
-                        name: '陰謀論生成區',
-                        type: ChannelType.GuildVoice,
-                        parent : parent_Id,
-                        permissionOverwrites: [
-                            {
-                                id: interaction.guild.roles.everyone,
-                                allow: [PermissionsBitField.Flags.ManageChannels],
-                            }
-                        ]
-                    }
-                )
+                const mainChannel = await createChannel(interaction, '陰謀論生成區', 'voiceChannel', permissionOverwrites, parentId)
                 db.serialize(() => {
                     db.run(`INSERT INTO DynamicVC_Collection Values (?, ?, ?, ?, ?, ?)`, [null, mainChannel.id, interaction.guild.id, createdAt, 0, 0]),
                     function(err) {

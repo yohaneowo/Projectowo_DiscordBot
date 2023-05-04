@@ -1,13 +1,7 @@
 const {EmbedBuilder} = require('discord.js');
 const {Logger_DatabaseFunction} = require('../../commands_modules/logger/l_databaseFunctionManager.js');
+const sendEmbed = require('../../commands_modules/logger/L_eventsFunction.js')
 const loggerDbFunctionsManager = new Logger_DatabaseFunction();
-
-function sendEmbed(event_parameter, channel_id, embed) {
-    if(channel_id == null) return;
-    event_parameter.guild.channels.fetch(channel_id).then(async channel => {
-        await channel.send({embeds: [embed]})
-    })
-}
 
 const GuildMessageDelete = {
     name: 'messageDelete',

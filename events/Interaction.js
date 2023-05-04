@@ -24,7 +24,6 @@ module.exports = {
 		}
 	} else if (interaction.type == InteractionType.ApplicationCommandAutocomplete) {
 		const command = client.commands.get(interaction.commandName);
-		const {commands } = require('../index.js')
 		if (!command) {
 			console.error(`No command matching ${interaction.commandName} was found.`);
 			return;

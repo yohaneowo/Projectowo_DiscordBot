@@ -2,6 +2,7 @@ const { SlashCommandSubcommandBuilder , EmbedBuilder, ComponentType } = require(
 const {MemberCount_DatabaseFunctions} = require('../../commands_modules/countstatus-displayer/cs_databaseFunctionManager.js')
 const {MemberCount_ManageFunctions} = require('../../commands_modules/countstatus-displayer/cs_channelFunctionManager.js');
 const {MemberCount_Interaction_Components, ServerStatusIds} = require('../../commands_modules/countstatus-displayer/cs_component.js');
+const {createChannel} = require('../../commands_modules/misc/CreateChannel.js')
 
 // 可能会出现的问题=达到channel上限
 module.exports = 
@@ -80,7 +81,13 @@ module.exports =
                                     // Storing all the count in database
                                     databaseFunctionManager.update_Member_Count_Database(guild_Id, user_Id, allMembers_Count, usersCount, bots_Count, allOnline_Count, allOnline_Count_Idle_included, allOnline_Count_Idle_Dnd_included, allOffline_Count, userOnline_Count, userOnline_Count_Idle_included, userOnline_Count_Idle_Dnd_included, userIdle_Count, userDnd_Count, userOffline_Count);
                                     await new Promise(async (resolve, reject) => {
-                                        const parent = await channelFunctionManager.createChannel(interaction, 'Category', null, null);
+                                        const category_permissionOverwrites = [
+                                            {
+                                                id: interaction.guild.roles.everyone,
+                                                deny: [PermissionsBitField.Flags.ManageChannels],
+                                            },
+                                        ]
+                                        const parent = await createChannel(interaction, 'Category', 'categoryChannel', category_permissionOverwrites, null);
                                         serverStatusIds_Constructor.Category_Id = parent.id;
                                         serverStatusIds_Constructor.Guild_Id = guild_Id;
                                         serverStatusIds_Constructor.User_Id = user_Id;
@@ -90,70 +97,82 @@ module.exports =
                                         }).then(async (parent) => {
                                                 // Loops through all the values of select menu
                                                 for (let value of selectMenu_Values) {
+                                                    const permissionOverwrites =  [
+                                                        {
+                                                            id: interaction.guild.roles.everyone,
+                                                            deny: [PermissionsBitField.Flags.ManageChannels],
+                                                        },
+                                                        {
+                                                            id: interaction.guild.roles.everyone,
+                                                            deny: [PermissionsBitField.Flags.Connect],
+                                                        },
+                                                    ]
                                                     switch (value) {
                                                         case '0':
                                                             // Create a channel and store the id in constructor
-                                                            let allMembers_Count_Channel = await channelFunctionManager.createChannel(interaction, 'All_Members_Count', parent, allMembers_Count);
+                                                            let allMembers_Count_Channel = await createChannel(interaction, `All_Members_Count:${allMembers_Count}`, 'textChannel', permissionOverwrites, parent);
                                                             serverStatusIds_Constructor.All_Members_Count_Id = allMembers_Count_Channel.id.toString()
                                                             console.log('case 0 done')
                                                         break;
                                                         case '1':
-                                                            let users_Count_Channel = await channelFunctionManager.createChannel(interaction, 'Users_Count', parent, usersCount);
+                                                            let users_Count_Channel = await createChannel(interaction, `Users_Count:${usersCount}`, 'textChannel', permissionOverwrites, parent);
                                                             serverStatusIds_Constructor.Users_Count_Id = users_Count_Channel.id.toString()
                                                             console.log('case 1 done')
                                                         break;
                                                         case '2':
-                                                            let bots_Count_Channel = await channelFunctionManager.createChannel(interaction, 'Bots_Count', parent, bots_Count);
+                                                            let bots_Count_Channel = await createChannel(interaction, `Bots_Count:${bots_Count}`, 'textChannel', permissionOverwrites, parent);
+                                                            channelFunctionManager.createChannel(interaction, 'Bots_Count', parent, bots_Count);
                                                             serverStatusIds_Constructor.Bots_Count_Id = bots_Count_Channel.id.toString()
                                                             console.log('case 2 done')
                                                         break;
                                                         case '3':
-                                                            let allOnline_Count_Channel = await channelFunctionManager.createChannel(interaction, 'All_Online_Count', parent, allOnline_Count)
+                                                            let allOnline_Count_Channel = await createChannel(interaction, `All_Online_Count:${allOnline_Count}`, 'textChannel', permissionOverwrites, parent);
+                                                            channelFunctionManager.createChannel(interaction, 'All_Online_Count', parent, allOnline_Count)
                                                             serverStatusIds_Constructor.All_Online_Count_Id = allOnline_Count_Channel.id.toString()
                                                             console.log('case 3 done')
                                                         break;
                                                         case '4':
-                                                            let allOnline_Count_Idle_included_Channel = await channelFunctionManager.createChannel(interaction, 'All_Online_Count_include_idle', parent, allOnline_Count_Idle_included)
+                                                            let allOnline_Count_Idle_included_Channel = await createChannel(interaction, `All_Online_Count_include_idle:${allOnline_Count_Idle_included}`, 'textChannel', permissionOverwrites, parent);
                                                             serverStatusIds_Constructor.All_Online_Count_include_idle_Id = allOnline_Count_Idle_included_Channel.id.toString()
                                                             console.log('case 4 done') 
                                                         break;
                                                         case '5':
-                                                            let allOnline_Count_Idle_Dnd_included_Channel = await channelFunctionManager.createChannel(interaction, 'All_Online_Count_include_idle_dnd', parent, allOnline_Count_Idle_Dnd_included)
+                                                            let allOnline_Count_Idle_Dnd_included_Channel = await createChannel(interaction, `All_Online_Count_include_idle_dnd:${allOnline_Count_Idle_Dnd_included}`, 'textChannel', permissionOverwrites, parent);
                                                             serverStatusIds_Constructor.All_Online_Count_include_idle_dnd_Id = allOnline_Count_Idle_Dnd_included_Channel.id.toString()
                                                             console.log('case 5 done')
                                                         break;
                                                         case '6':
-                                                            let allOffline_Count_Channel = await channelFunctionManager.createChannel(interaction, 'All_Offline_Count', parent, allOffline_Count)
+                                                            let allOffline_Count_Channel = await createChannel(interaction, `All_Offline_Count:${allOffline_Count}`, 'textChannel', permissionOverwrites, parent);
                                                             serverStatusIds_Constructor.All_Offline_Count_Id = allOffline_Count_Channel.id.toString()
                                                             console.log('case 6 done')
                                                         break;
                                                         case '7':
-                                                            let userOnline_Count_Channel = await channelFunctionManager.createChannel(interaction, 'Users_Online_Count', parent, userOnline_Count)
+                                                            let userOnline_Count_Channel = await createChannel(interaction, `Users_Online_Count:${userOnline_Count}`, 'textChannel', permissionOverwrites, parent);
                                                             serverStatusIds_Constructor.User_Online_Count_Id = userOnline_Count_Channel.id.toString()
                                                             console.log('case 7 done')
                                                         break;
                                                         case '8':
-                                                            let userOnline_Count_Idle_included_Channel = await channelFunctionManager.createChannel(interaction, 'Users_Online_Count_include_idle', parent, userOnline_Count_Idle_included)
+                                                            let userOnline_Count_Idle_included_Channel = await createChannel(interaction, `Users_Online_Count_include_idle:${userOnline_Count_Idle_included}`, 'textChannel', permissionOverwrites, parent);
                                                             serverStatusIds_Constructor.User_Online_Count_include_idle_Id = userOnline_Count_Idle_included_Channel.id.toString()   
                                                             console.log('case 8 done')
                                                         break;
                                                         case '9':
-                                                            let userOnline_Count_Idle_Dnd_included_Channel = await channelFunctionManager.createChannel(interaction, 'Users_Online_Count_include_idle_dnd', parent, userOnline_Count_Idle_Dnd_included)
+                                                            let userOnline_Count_Idle_Dnd_included_Channel = await createChannel(interaction, `Users_Online_Count_include_idle_dnd:${userOnline_Count_Idle_Dnd_included}`, 'textChannel', permissionOverwrites, parent);
                                                             serverStatusIds_Constructor.User_Online_Count_include_idle_dnd_Id = userOnline_Count_Idle_Dnd_included_Channel.id.toString()
                                                             console.log('case 9 done')
                                                         break;
                                                         case '10':
-                                                            let userIdle_Count_Channel = await channelFunctionManager.createChannel(interaction, 'Users_Idle_Count', parent, userIdle_Count)
+                                                            let userIdle_Count_Channel = await createChannel(interaction, `Users_Idle_Count:${userIdle_Count}`, 'textChannel', permissionOverwrites, parent);
                                                             serverStatusIds_Constructor.User_Idle_Count_Id = userIdle_Count_Channel.id.toString()
                                                             console.log('case 10 done')
                                                         break;
                                                         case '11':
-                                                            let userDnd_Count_Channel = await channelFunctionManager.createChannel(interaction, 'Users_Dnd_Count', parent, userDnd_Count)
+                                                            let userDnd_Count_Channel = await createChannel(interaction, `Users_Dnd_Count:${userDnd_Count}`, 'textChannel', permissionOverwrites, parent);
                                                             serverStatusIds_Constructor.User_Dnd_Count_Id = userDnd_Count_Channel.id.toString()
                                                             console.log('case 11 done')
                                                         break;
                                                         case '12':
-                                                            let userOffline_Count_Channel = await channelFunctionManager.createChannel(interaction, 'Users_Offline_Count', parent, userOffline_Count)
+                                                            let userOffline_Count_Channel = await createChannel(interaction, `Users_Offline_Count:${userOffline_Count}`, 'textChannel', permissionOverwrites, parent);
                                                             serverStatusIds_Constructor.User_Offline_Count_Id = userOffline_Count_Channel.id.toString()
                                                             console.log('case 12 done')
                                                         break;

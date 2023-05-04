@@ -1,14 +1,9 @@
 const {EmbedBuilder} = require('discord.js');
 const {Logger_DatabaseFunction} = require('../../commands_modules/logger/l_databaseFunctionManager.js');
+const sendEmbed = require('../../commands_modules/logger/L_eventsFunction.js')
 const loggerDbFunctionsManager = new Logger_DatabaseFunction();
 
-function sendEmbed(event_parameter, channel_Id, embed) {
-    if(channel_Id == null) return;
-    event_parameter.guild.channels.fetch(channel_Id).then(async channel => {
-        await channel.send({embeds: [embed]})
-    })
 
-}
 
 const GuildMemberUpdate = {
     name: 'guildMemberUpdate',

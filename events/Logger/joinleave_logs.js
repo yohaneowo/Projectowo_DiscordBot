@@ -1,13 +1,7 @@
 const {EmbedBuilder} = require('discord.js');
 const {Logger_DatabaseFunction} = require('../../commands_modules/logger/l_databaseFunctionManager.js');
+const sendEmbed = require('../../commands_modules/logger/L_eventsFunction.js')
 const loggerDbFunctionsManager = new Logger_DatabaseFunction();
-
-function sendEmbed(event_parameter, channel_id, embed) {
-    if(channel_id == null) return;
-    event_parameter.guild.channels.fetch(channel_id).then(async channel => {
-        await channel.send({embeds: [embed]})
-    })
-}
 
 const GuildMemberAdd = {
     name : 'guildMemberAdd',
@@ -36,10 +30,6 @@ const GuildMemberRemove = {
     name : 'guildMemberRemove',
     once : false,
     async execute(member) {
-        const eventEmitter_Guild_Id = member.guild.id;
-        const guildsUsingLogger = await loggerDbFunctionsManager.getGuild_Ids_Logger_Collection();
-        const loggerCollectionData = await loggerDbFunctionsManager.getChannelIds_Logger_Collection(eventEmitter_Guild_Id);
-        if(!guildsUsingLogger.includes(eventEmitter_Guild_Id)) return;
         const GuildMemberRemove_embed = new EmbedBuilder()
             .setAuthor({name: member.user.tag, iconURL: member.user.displayAvatarURL({dynamic: true}) })
             .setTitle(`Member Left`)
@@ -47,8 +37,13 @@ const GuildMemberRemove = {
             .setColor('#e06666')
             .setTimestamp()
             .setFooter({text: `ID: ${member.id}`})
-        const joinleaveLogsChannelId = loggerCollectionData[0].joinleaveLogsChannelId;
 
+
+        const eventEmitter_Guild_Id = member.guild.id;
+        const guildsUsingLogger = await loggerDbFunctionsManager.getGuild_Ids_Logger_Collection();
+        const loggerCollectionData = await loggerDbFunctionsManager.getChannelIds_Logger_Collection(eventEmitter_Guild_Id);
+        if(!guildsUsingLogger.includes(eventEmitter_Guild_Id)) return;
+        const joinleaveLogsChannelId = loggerCollectionData[0].joinleaveLogsChannelId;
         sendEmbed(member, joinleaveLogsChannelId, GuildMemberRemove_embed);
 
     }
