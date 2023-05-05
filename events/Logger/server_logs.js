@@ -59,6 +59,11 @@ const guildChannelUpdate = {
         if(oldChannel.name !== newChannel.name) {
             embedFieldString_Before += `**Name :** ${oldChannel.name}\n`;
             embedFieldString_After += `**Name :** ${newChannel.name}\n`;
+        } else {
+            embedFieldString_Before += `**Name :** ${oldChannel.name}\n`;
+            embedFieldString_After += `**Name :** ${newChannel.name}\n`;
+            embedFieldString_Before += `**Permissions :**${oldChannel.permissionOverwrites || 'None'}\n`;
+            embedFieldString_After += `**Permissions :**${newChannel.permissionOverwrites || 'None'}\n`;
         }
         if(oldChannel.topic !== newChannel.topic) {
             embedFieldString_Before += `**Topic :** ${oldChannel.topic || 'None'}\n`;
@@ -76,10 +81,7 @@ const guildChannelUpdate = {
             embedFieldString_Before += `**Category :**${oldChannel.parent.name || 'None'}\n`;
             embedFieldString_After += `**Category :**${newChannel.parent.name || 'None'}\n`;
         }
-        if(oldChannel.permissionOverwrites !== newChannel.permissionOverwrites) {
-            embedFieldString_Before += `**Permissions :**${oldChannel.permissionOverwrites || 'None'}\n`;
-            embedFieldString_After += `**Permissions :**${newChannel.permissionOverwrites || 'None'}\n`;
-        }
+        
         if(oldChannel.position !== newChannel.position) {
             embedFieldString_Before += `**Position :**${oldChannel.position}\n`;
             embedFieldString_After += `**Position :**${newChannel.position}\n`;
@@ -104,6 +106,7 @@ const guildChannelUpdate = {
             embedFieldString_Before += `**Raw Position :**${oldChannel.rawPosition}\n`;
             embedFieldString_After += `**Raw Position :**${newChannel.rawPosition}\n`;
         }
+        
          const guildChannelUpdate_embed = new EmbedBuilder() 
             .setTitle(`${channelType.getChannelTypeName(newChannel.type)} Updated`)
             .setColor('#546EED')
