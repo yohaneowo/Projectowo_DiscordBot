@@ -23,8 +23,7 @@ const GuildMemberUpdate = {
                     .setTimestamp()
                     .setFooter({text: `ID: ${newMember.id}`})
             sendEmbed(oldMember ,memberLogsChannelId, embed)
-        }
-        if(oldMember.roles !== newMember.roles) {
+        } else if(oldMember.roles.cache.size !== newMember.roles.cache.size){
             if(!guildsUsingLogger.includes(eventEmitter_Guild_Id)) return;
             const GuildMemberUpdate_embed = new EmbedBuilder()
                 .setAuthor({name: newMember.user.tag, iconURL: newMember.user.displayAvatarURL({dynamic: true})})
