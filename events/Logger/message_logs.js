@@ -55,8 +55,8 @@ const GuildMessageUpdate = {
     name: 'messageUpdate',
     once: false,
     async execute(oldMessage, newMessage) {
-        // limit to only user messages because bot keep editing messages due to deferReply
-        if(oldMessage.author.bot) return;
+        // limit to only user messages because bot keep editing messages due to deferReply & filter auto webhook embed by discord 
+        if(oldMessage.author.bot || newMessage.webhookId) return;
         const eventEmitter_Guild_Id = oldMessage.guild.id;
         const guildsUsingLogger = await loggerDbFunctionsManager.getGuild_Ids_Logger_Collection();
         const loggerCollectionData = await loggerDbFunctionsManager.getChannelIds_Logger_Collection(eventEmitter_Guild_Id);
