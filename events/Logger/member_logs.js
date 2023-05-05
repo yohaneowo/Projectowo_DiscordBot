@@ -25,16 +25,24 @@ const GuildMemberUpdate = {
             sendEmbed(oldMember ,memberLogsChannelId, embed)
         } else if(oldMember.roles.cache.size !== newMember.roles.cache.size){
             if(!guildsUsingLogger.includes(eventEmitter_Guild_Id)) return;
+            const oldRoles = new Set(oldMember.roles.cache.values());
+            const newRoles = new Set(newMember.roles.cache.values());
+            const addedRoles = [...newRoles].filter(role => !oldRoles.has(role));
+            const removedRoles = [...oldRoles].filter(role => !newRoles.has(role));
+            
             const GuildMemberUpdate_embed = new EmbedBuilder()
                 .setAuthor({name: newMember.user.tag, iconURL: newMember.user.displayAvatarURL({dynamic: true})})
                 .setTitle(`Role Update`)
-                .setDescription(`**Before**: ${
-                    oldMember.roles.cache.map(role => role.toString()).join(' ')}\n**After**: ${newMember.roles.cache.map(role => role.toString()).join(' ')}`)
                 .setColor('#2986cc')
                 .setTimestamp()
                 .setFooter({text: `ID: ${newMember.id}`})
+            if(addedRoles.length>0) {
+                GuildMemberUpdate_embed.setDescription(`**+${addedRoles}**`)
+            } else if(removedRoles) {
+                GuildMemberUpdate_embed.setDescription(`**-${removedRoles}**`)
+            }
             sendEmbed(oldMember ,memberLogsChannelId, GuildMemberUpdate_embed)
-        }
+        }   
     }
 }
 
@@ -138,6 +146,7 @@ const GuildBanRemove = {
         sendEmbed(guildBan, memberLogsChannelId, GuildBanRemove_embed)
     }
 }
+
 module.exports = {
     GuildMemberUpdate,
     GuildUserUpdate,
