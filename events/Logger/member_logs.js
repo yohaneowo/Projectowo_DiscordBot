@@ -41,8 +41,8 @@ const GuildMemberUpdate = {
             // }
             // const fuck = await loggerDbFunctionsManager.getTheFuck()
             // console.log(`THIS IS FUCK: ${fuck}`)
-            const fuck2 = await loggerDbFunctionsManager.getTheFuck2()
-            console.log(fuck2)
+            const x = await loggerDbFunctionsManager.getGuild_Ids_Logger_Collection()
+            console.log(x)
             const GuildMemberUpdate_embed = new EmbedBuilder()
                 .setAuthor({name: newMember.user.tag, iconURL: newMember.user.displayAvatarURL({dynamic: true})})
                 .setTitle(`Role Update`) 
