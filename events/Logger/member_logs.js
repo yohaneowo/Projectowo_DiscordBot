@@ -29,10 +29,23 @@ const GuildMemberUpdate = {
             const newRoles = new Set(newMember.roles.cache.values());
             const addedRoles = [...newRoles].filter(role => !oldRoles.has(role));
             const removedRoles = [...oldRoles].filter(role => !newRoles.has(role));
-            
+            // try {
+            //     const db = await sqlitePool.acquire();
+            //     console.log('Connection acquired.'); // 添加调试信息
+            //     const result = await db.all('SELECT * FROM Logger_Collection;');
+            //     console.log(result); // 打印查询结果
+            //     sqlitePool.release(db); // 在回调函数中释放连接
+            //     console.log('Connection released.'); // 添加调试信息
+            // } catch (error) {
+            //     console.error(error); // 打印错误信息
+            // }
+            // const fuck = await loggerDbFunctionsManager.getTheFuck()
+            // console.log(`THIS IS FUCK: ${fuck}`)
+            const fuck2 = await loggerDbFunctionsManager.getTheFuck2()
+            console.log(fuck2)
             const GuildMemberUpdate_embed = new EmbedBuilder()
                 .setAuthor({name: newMember.user.tag, iconURL: newMember.user.displayAvatarURL({dynamic: true})})
-                .setTitle(`Role Update`)
+                .setTitle(`Role Update`) 
                 .setColor('#2986cc')
                 .setTimestamp()
                 .setFooter({text: `ID: ${newMember.id}`})
@@ -51,18 +64,7 @@ const GuildUserUpdate = {
     once: false,
     async execute(oldUser, newUser, client) {
         if (oldUser.avatarURL() !== newUser.avatarURL() && !oldUser.bot) {
-            const memberLogs_Ids = await loggerDbFunctionsManager.getMemberLogs_Ids_Logger_Collection();
-            client.guilds.cache.forEach(async guild => {
-                const channel_Ids = Array.from(guild.channels.cache.values()).map(channel => channel.id);
-                let matchingChannel_Id;
-                channel_Ids.some(value => {
-                    if(memberLogs_Ids.includes(value)) {
-                    matchingChannel_Id = value;
-                    return true
-                    }
-                });
-                if(matchingChannel_Id) {
-                    const embed = new EmbedBuilder()
+            const embed = new EmbedBuilder()
                         .setAuthor({name: newUser.tag, iconURL: newUser.displayAvatarURL({dynamic: true})})
                         .setTitle(`Avatar Update`)
                         .setDescription(`${newUser.tag}`)
@@ -70,13 +72,7 @@ const GuildUserUpdate = {
                         .setColor('#2986cc')
                         .setTimestamp()
                         .setFooter({text: `ID: ${newUser.id}`})
-                    guild.channels.fetch(matchingChannel_Id).then(async channel => {
-                        await channel.send({embeds: [embed]})
-                    })
-                }
-            })
-        }
-        if (oldUser.username !== newUser.username && !oldUser.bot) {
+                        
             const memberLogs_Ids = await loggerDbFunctionsManager.getMemberLogs_Ids_Logger_Collection();
             client.guilds.cache.forEach(async guild => {
                 const channel_Ids = Array.from(guild.channels.cache.values()).map(channel => channel.id);
@@ -88,13 +84,32 @@ const GuildUserUpdate = {
                     }
                 });
                 if(matchingChannel_Id) {
-                    const embed = new EmbedBuilder()
+                    guild.channels.fetch(matchingChannel_Id).then(async channel => {
+                        await channel.send({embeds: [embed]})
+                    })
+                }
+            })
+        }
+        if (oldUser.username !== newUser.username && !oldUser.bot) {
+            const embed = new EmbedBuilder()
                         .setAuthor({name: newUser.tag, iconURL: newUser.displayAvatarURL({dynamic: true})})
                         .setTitle(`Username Update`)
                         .setDescription(`**${oldUser.username}** 🡺 **${newUser.username}**`)
                         .setColor('#2986cc')
                         .setTimestamp()
                         .setFooter({text: `ID: ${newUser.id}`})
+
+            const memberLogs_Ids = await loggerDbFunctionsManager.getMemberLogs_Ids_Logger_Collection();
+            client.guilds.cache.forEach(async guild => {
+                const channel_Ids = Array.from(guild.channels.cache.values()).map(channel => channel.id);
+                let matchingChannel_Id;
+                channel_Ids.some(value => {
+                    if(memberLogs_Ids.includes(value)) {
+                    matchingChannel_Id = value;
+                    return true
+                    }
+                });
+                if(matchingChannel_Id) {
                     guild.channels.fetch(matchingChannel_Id).then(async channel => {
                         await channel.send({embeds: [embed]})
                     })
@@ -108,11 +123,6 @@ const GuildBanAdd = {
     name: 'guildBanAdd',
     once: false,
     async execute(guildBan) {
-        const eventEmitter_Guild_Id = guildBan.guild.id;
-        const guildsUsingLogger = await loggerDbFunctionsManager.getGuild_Ids_Logger_Collection();
-        const loggerCollectionData = await loggerDbFunctionsManager.getChannelIds_Logger_Collection(eventEmitter_Guild_Id);
-        if(!guildsUsingLogger.includes(eventEmitter_Guild_Id)) return;
-        const memberLogsChannelId = loggerCollectionData[0].memberLogsChannelId;
         const GuildBanAdd_embed = new EmbedBuilder()
             .setAuthor({name: user.tag, iconURL: user.displayAvatarURL({dynamic: true})})
             .setTitle(`User Banned`)
@@ -121,6 +131,12 @@ const GuildBanAdd = {
             .setColor('#2986cc')
             .setTimestamp()
             .setFooter({text: `ID: ${user.id}`})
+
+        const eventEmitter_Guild_Id = guildBan.guild.id;
+        const guildsUsingLogger = await loggerDbFunctionsManager.getGuild_Ids_Logger_Collection();
+        const loggerCollectionData = await loggerDbFunctionsManager.getChannelIds_Logger_Collection(eventEmitter_Guild_Id);
+        if(!guildsUsingLogger.includes(eventEmitter_Guild_Id)) return;
+        const memberLogsChannelId = loggerCollectionData[0].memberLogsChannelId;
         sendEmbed(guildBan, memberLogsChannelId, GuildBanAdd_embed)
     }
 }
@@ -129,12 +145,6 @@ const GuildBanRemove = {
     name: 'guildBanRemove',
     once: false,
     async execute(guildBan) {
-        const eventEmitter_Guild_Id = guildBan.guild.id;
-        const databaseFunctionManager = new Logger_DatabaseFunction();
-        const guildsUsingLogger = await databaseFunctionManager.getGuild_Ids_Logger_Collection();
-        const loggerCollectionData = await databaseFunctionManager.getChannelIds_Logger_Collection(eventEmitter_Guild_Id);
-        if(!guildsUsingLogger.includes(eventEmitter_Guild_Id)) return;
-        const memberLogsChannelId = loggerCollectionData[0].memberLogsChannelId;
         const GuildBanRemove_embed = new EmbedBuilder()
             .setAuthor({name: user.tag, iconURL: user.displayAvatarURL({dynamic: true})})
             .setTitle(`User Unbanned`)
@@ -143,6 +153,13 @@ const GuildBanRemove = {
             .setColor('#2986cc')
             .setTimestamp()
             .setFooter({text: `ID: ${user.id}`})
+
+        const eventEmitter_Guild_Id = guildBan.guild.id;
+        const databaseFunctionManager = new Logger_DatabaseFunction();
+        const guildsUsingLogger = await databaseFunctionManager.getGuild_Ids_Logger_Collection();
+        const loggerCollectionData = await databaseFunctionManager.getChannelIds_Logger_Collection(eventEmitter_Guild_Id);
+        if(!guildsUsingLogger.includes(eventEmitter_Guild_Id)) return;
+        const memberLogsChannelId = loggerCollectionData[0].memberLogsChannelId;
         sendEmbed(guildBan, memberLogsChannelId, GuildBanRemove_embed)
     }
 }

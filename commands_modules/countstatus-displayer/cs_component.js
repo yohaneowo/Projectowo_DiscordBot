@@ -91,7 +91,7 @@ class MemberCount_Interaction_Components {
 // Temporary Data Storage For Database storing [channels ids]
 class ServerStatusIds {
 	ServerStatusIds() {
-		this.Guild_Id = '';
+		this.guild_id = '';
 		this.Category_Id = '';
 		this.All_Members_Count_Id = '';
 		this.Users_Count_Id = '';
