@@ -4,7 +4,7 @@
 
 - [x] Reply owo - Inspired by owo (bot depreciated?)
 
-- [x] Member Count Statue - Inspired by MemberCount (bot depreciated?)
+- [x] Member Count Status - Inspired by MemberCount (bot depreciated?)
 
 - [x] Dynamic Voice Channel -Inspired by [Yeecord](https://yeecord.com/) 
 
