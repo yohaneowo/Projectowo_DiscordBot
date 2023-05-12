@@ -1,7 +1,7 @@
 const {EmbedBuilder} = require('discord.js');
 const {Logger_DatabaseFunction} = require('../../commands_modules/logger/l_databaseFunctionManager.js');
 const {ChannelType} = require('../../commands_modules/misc/ChannelType.js')
-const sendEmbed = require('../../commands_modules/logger/L_eventsFunction.js')
+const sendEmbed = require('../../commands_modules/logger/l_eventsFunction.js')
 const loggerDbFunctionsManager = new Logger_DatabaseFunction();
 const channelType = new ChannelType();
 

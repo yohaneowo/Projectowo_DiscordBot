@@ -11,6 +11,8 @@ class Logger_DatabaseFunction {
                         return row.Guild_Id
                     })
                     resolve(guild_Ids)
+                    stmt.finalize()
+                    closeDb(db)
                     // console.log(guild_Ids)
                 } catch (err) {
                     reject(err)
