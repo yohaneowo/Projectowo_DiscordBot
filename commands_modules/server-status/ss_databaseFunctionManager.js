@@ -22,7 +22,7 @@ class server_status_database_commands {
         return new Promise(function (resolve, reject) {
             try{
                 const db = getDb();
-                const stmt = db.prepare('SELECT guild_id FROM Guild');
+                const stmt = db.prepare('SELECT guild_id FROM guild');
                 const guildIds = stmt.all().map(row => row.guild_id);
                 stmt.finalize();
                 closeDb(db);
