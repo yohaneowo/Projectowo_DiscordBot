@@ -2,6 +2,7 @@ const { SlashCommandSubcommandBuilder , EmbedBuilder, ComponentType } = require(
 const {Logger_ManageFunction} = require(`../../commands_modules/logger/l_channelFunctionManager.js`);
 const {Logger_DatabaseFunction} = require(`../../commands_modules/logger/l_databaseFunctionManager.js`);
 const {Logger_Interaction_Component, Logger_Channel_Ids} = require('../../commands_modules/logger/l.component.js');
+const { createChannel } = require('../../commands_modules/misc/CreateChannel.js');
 
 // 可能会出现的问题=达到channel上限
 module.exports =  
@@ -46,41 +47,52 @@ module.exports =
                     if (!Guild_Ids.includes(guild_Id.toString())) {
                         const logger_constructor = new Logger_Channel_Ids();
                             await new Promise (async (resolve, reject) => {
-                                const parent =  await logger_FunctionManager.createChannel(interaction, 'Category') 
+                                const permissionOverwrites =  [
+                                        {
+                                            id: interaction.guild.roles.everyone,
+                                            deny: [PermissionsBitField.Flags.ManageChannels],
+                                        },
+                                        {
+                                            id: interaction.guild.roles.everyone,
+                                            deny: [PermissionsBitField.Flags.ViewChannel],
+                                        },
+                                    ]
+                                const parent =  await createChannel(interaction, 'Category', 'categoryChannel', permissionOverwrites, null)
                                 logger_constructor.Guild_Id = guild_Id.toString();
                                 logger_constructor.Category_Id = parent.id.toString();
                                 logger_constructor.Select_Menu_Value = selectMenu_Values.toString();
                                 resolve(parent)
                             }).then(async (parent) => {
                                 for (let value of selectMenu_Values) {
+                                    
                                     switch (value) {
                                         case '0':
-                                            let default_logs = await logger_FunctionManager.createChannel(interaction, 'default-logs', parent);
+                                            let default_logs = await createChannel(interaction, 'default-logs', 'textChannel', permissionOverwrites, parent);
                                             logger_constructor.default_logs_Id = default_logs.id.toString();
                                             console.log('case 0 done')
                                         break;
                                         case '1':
-                                            let member_logs = await logger_FunctionManager.createChannel(interaction, 'member-logs', parent);
+                                            let member_logs = await createChannel(interaction, 'member-logs', 'textChannel', permissionOverwrites, parent);
                                             logger_constructor.member_logs_Id = member_logs.id.toString();
                                             console.log('case 1 done')
                                         break;
                                         case '2':
-                                            let server_logs = await logger_FunctionManager.createChannel(interaction, 'server-logs', parent);
+                                            let server_logs = await createChannel(interaction, 'server-logs', 'textChannel', permissionOverwrites, parent);
                                             logger_constructor.server_logs_Id = server_logs.id.toString();
                                             console.log('case 2 done')
                                         break;
                                         case '3':
-                                            let voice_logs = await logger_FunctionManager.createChannel(interaction, 'voice-logs', parent);
+                                            let voice_logs = await createChannel(interaction, 'voice-logs', 'textChannel', permissionOverwrites, parent);
                                             logger_constructor.voice_logs_Id = voice_logs.id.toString();
                                             console.log('case 3 done')
                                         break;
                                         case '4':
-                                            let message_logs = await logger_FunctionManager.createChannel(interaction, 'message-logs', parent);
+                                            let message_logs = await createChannel(interaction, 'message-logs', 'textChannel', permissionOverwrites, parent);
                                             logger_constructor.message_logs_Id = message_logs.id.toString();
                                             console.log('case 4 done')
                                         break;
                                         case '5':
-                                            let joinleave_logs = await logger_FunctionManager.createChannel(interaction, 'joinleave-logs', parent);
+                                            let joinleave_logs = await createChannel(interaction, 'joinleave-logs', 'textChannel', permissionOverwrites, parent);
                                             logger_constructor.joinleave_logs_Id = joinleave_logs.id.toString();
                                             console.log('case 5 done')
                                         break;

@@ -1,20 +1,40 @@
 const sqlite3 = require('sqlite3').verbose();
+const {getDb, closeDb} = require('../../sqlConnection.js'); 
 class Logger_DatabaseFunction {
-    getGuild_Ids_Logger_Collection() {
-        return new Promise(function (resolve, reject) {
-            const db = new sqlite3.Database('./lib/database/SQLite.db');
-            db.all('SELECT CAST(Guild_Id as TEXT) as Guild_Id FROM Logger_Collection', [], function (err, rows) {
-                db.close();
-                    if (err) {
-                        reject(err);
-                    } else {
-                        const guild_Ids = rows.map(row => row.Guild_Id);
-                        resolve(guild_Ids);
-                    }
+        getGuild_Ids_Logger_Collection() {
+           return new Promise(function(resolve, reject){
+                try {
+                    const db = getDb()
+                    const stmt = db.prepare('SELECT * FROM Logger_Collection')
+                    const guild_Ids = stmt.all()
+                    .map(row => {
+                        return row.Guild_Id
+                    })
+                    resolve(guild_Ids)
+                    stmt.finalize()
+                    closeDb(db)
+                    // console.log(guild_Ids)
+                } catch (err) {
+                    reject(err)
                 }
-            )
-        })
-    }
+           })
+        }
+
+    // getGuild_Ids_Logger_Collection() {
+    //     return new Promise(function (resolve, reject) {
+    //         const db = new sqlite3.Database('./lib/database/SQLite.db');
+    //         db.all('SELECT CAST(Guild_Id as TEXT) as Guild_Id FROM Logger_Collection', [], function (err, rows) {
+    //             db.close();
+    //                 if (err) {
+    //                     reject(err);
+    //                 } else {
+    //                     const guild_Ids = rows.map(row => row.Guild_Id);
+    //                     resolve(guild_Ids);
+    //                 }
+    //             }
+    //         )
+    //     })
+    // }
 
     getSelectValues_Logger_Collection(Guild_Id) {
         return new Promise(function (resolve, reject) {
@@ -50,7 +70,7 @@ class Logger_DatabaseFunction {
     getMemberLogs_Ids_Logger_Collection() {
         return new Promise(function (resolve, reject) {
             const db = new sqlite3.Database('./lib/database/SQLite.db');
-            db.all('SELECT Member_Logs_Id FROM Logger_Collection', [], function (err, rows) {
+            db.all('SELECT memberLogsChannelId FROM Logger_Collection', [], function (err, rows) {
                 db.close();
                     if (err) {
                         reject(err);

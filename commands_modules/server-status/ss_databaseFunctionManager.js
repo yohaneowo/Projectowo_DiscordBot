@@ -1,19 +1,35 @@
 const sqlite3 = require('sqlite3');
+const {getDb, closeDb} = require('../../sqlConnection.js'); 
 
 class server_status_database_commands {
-     get_Guild_Ids() {
+    //  get_Guild_Ids() {
+    //     return new Promise(function (resolve, reject) {
+    //         const db = new sqlite3.Database("./lib/database/SQLite.db")
+    //         db.all('SELECT CAST(Guild_Id as TEXT) as Guild_Id FROM Guild_Collection', [], function (err, rows) {
+    //             db.close();
+    //             if (err) {
+    //                 reject(err)
+    //             } else {
+    //                 const guild_Ids = rows.map(row => row.Guild_Id);
+    //                 resolve(guild_Ids)
+    //                 }
+    //             }, 
+    //         )
+    //     })
+    // }
+
+    getGuildIds() {
         return new Promise(function (resolve, reject) {
-            const db = new sqlite3.Database("./lib/database/SQLite.db")
-            db.all('SELECT CAST(Guild_Id as TEXT) as Guild_Id FROM Guild_Collection', [], function (err, rows) {
-                db.close();
-                if (err) {
-                    reject(err)
-                } else {
-                    const guild_Ids = rows.map(row => row.Guild_Id);
-                    resolve(guild_Ids)
-                    }
-                }, 
-            )
+            try{
+                const db = getDb();
+                const stmt = db.prepare('SELECT guild_id FROM guild');
+                const guildIds = stmt.all().map(row => row.guild_id);
+                stmt.finalize();
+                closeDb(db);
+                resolve(guildIds);
+            } catch (err) {a
+                reject(err);
+            }
         })
     }
 

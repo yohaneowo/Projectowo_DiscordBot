@@ -1,71 +1,69 @@
-const {EmbedBuilder, Embed} = require('discord.js');
+const {EmbedBuilder} = require('discord.js');
 const {Logger_DatabaseFunction} = require('../../commands_modules/logger/l_databaseFunctionManager.js');
 const {ChannelType} = require('../../commands_modules/misc/ChannelType.js')
+const sendEmbed = require('../../commands_modules/logger/l_eventsFunction.js')
+const loggerDbFunctionsManager = new Logger_DatabaseFunction();
+const channelType = new ChannelType();
 
 const guildChannelCreate = {
     name : "channelCreate",
     once : false,
-    async execute(channel, client) {
-        const channelType = new ChannelType();
-        const databaseFunctionManager = new Logger_DatabaseFunction();
-        const guild_ids = await databaseFunctionManager.getGuild_Ids_Logger_Collection();
-        const channelId = await databaseFunctionManager.getChannelIds_Logger_Collection(channel.guild.id);
-        if(!guild_ids.includes(channel.guild.id)) return;
-        const embed = new EmbedBuilder()
+    async execute(channel) {
+        const guildsUsingLogger = await loggerDbFunctionsManager.getGuild_Ids_Logger_Collection();
+        const loggerCollectionData = await loggerDbFunctionsManager.getChannelIds_Logger_Collection(channel.guild.id);
+        if(!guildsUsingLogger.includes(channel.guild.id)) return;
+        const guildChannelCreate_embed = new EmbedBuilder()
             .setAuthor({name: channel.guild.name, iconURL: channel.guild.iconURL({dynamic: true}) })
             .setTitle(`Channel Created #${channel.name}`)
             .setDescription(`Channel Type : \`${channelType.getChannelTypeName(channel.type)}\``)
             .setColor('#00FF00')
             .setTimestamp()
             .setFooter({text: `ID: ${channel.id}`})
-        channel.guild.channels.fetch(channelId[0].server_logs_Id).then(async channel => {
-            // console.log(channel);
-        if(channelId[0].server_logs_Id == null) return;
-            await channel.send({embeds: [embed]})
-        })
+            const serverLogsChannelId = loggerCollectionData[0].serverLogsChannelId
+            sendEmbed(channel, serverLogsChannelId, guildChannelCreate_embed);
+        
     }
 }
 const guildChannelDelete = {
     name: 'channelDelete',
     once: false,
-    async execute(channel, client) {
+    async execute(channel) {
+        const eventEmitter_Guild_Id = channel.guild.id;
         const channelType = new ChannelType();
-        const databaseFunctionManager = new Logger_DatabaseFunction();
-        const guild_ids = await databaseFunctionManager.getGuild_Ids_Logger_Collection();
-        const channelId = await databaseFunctionManager.getChannelIds_Logger_Collection(channel.guild.id);
-        if(!guild_ids.includes(channel.guild.id)) return;
-        const embed = new EmbedBuilder()
+        const guildsUsingLogger = await loggerDbFunctionsManager.getGuild_Ids_Logger_Collection();
+        const loggerCollectionData = await loggerDbFunctionsManager.getChannelIds_Logger_Collection(eventEmitter_Guild_Id);
+        if(!guildsUsingLogger.includes(eventEmitter_Guild_Id)) return;
+        const guildChannelDelete_embed = new EmbedBuilder()
             .setAuthor({name: channel.guild.name, iconURL: channel.guild.iconURL({dynamic: true}) })
             .setTitle(`Channel Deleted #${channel.name}`)
             .setDescription(`Channel Type : \`${channelType.getChannelTypeName(channel.type)}\``)
             .setColor('#FF0000')
             .setTimestamp()
             .setFooter({text: `ID: ${channel.id}`})
-        
-        if(channelId[0].server_logs_Id == null) return;
-        channel.guild.channels.fetch(channelId[0].server_logs_Id).then(async channel => {
-            // console.log(channel);
-        
-            await channel.send({embeds: [embed]})
-        })
+        const serverLogsChannelId = loggerCollectionData[0].serverLogsChannelId
+        sendEmbed(channel, serverLogsChannelId, guildChannelDelete_embed);
     }
 }
 
 const guildChannelUpdate = {
     name: 'channelUpdate',
     once: false,
-    async execute(oldChannel, newChannel, client) {
+    async execute(oldChannel, newChannel) {
+        const eventEmitter_Guild_Id = oldChannel.guild.id;
         let embedFieldString_Before = '';
         let embedFieldString_After = '';
-        const channelType = new ChannelType();
-        const databaseFunctionManager = new Logger_DatabaseFunction();
-        const guild_ids = await databaseFunctionManager.getGuild_Ids_Logger_Collection();
-        const channelId = await databaseFunctionManager.getChannelIds_Logger_Collection(oldChannel.guild.id);
-        if(!guild_ids.includes(oldChannel.guild.id)) return;
+        const guildsUsingLogger = await loggerDbFunctionsManager.getGuild_Ids_Logger_Collection();
+        const loggerCollectionData = await loggerDbFunctionsManager.getChannelIds_Logger_Collection(eventEmitter_Guild_Id);
+        if(!guildsUsingLogger.includes(eventEmitter_Guild_Id)) return;
 
         if(oldChannel.name !== newChannel.name) {
             embedFieldString_Before += `**Name :** ${oldChannel.name}\n`;
             embedFieldString_After += `**Name :** ${newChannel.name}\n`;
+        } else {
+            embedFieldString_Before += `**Name :** ${oldChannel.name}\n`;
+            embedFieldString_After += `**Name :** ${newChannel.name}\n`;
+            embedFieldString_Before += `**Permissions :**${oldChannel.permissionOverwrites || 'None'}\n`;
+            embedFieldString_After += `**Permissions :**${newChannel.permissionOverwrites || 'None'}\n`;
         }
         if(oldChannel.topic !== newChannel.topic) {
             embedFieldString_Before += `**Topic :** ${oldChannel.topic || 'None'}\n`;
@@ -83,10 +81,7 @@ const guildChannelUpdate = {
             embedFieldString_Before += `**Category :**${oldChannel.parent.name || 'None'}\n`;
             embedFieldString_After += `**Category :**${newChannel.parent.name || 'None'}\n`;
         }
-        if(oldChannel.permissionOverwrites !== newChannel.permissionOverwrites) {
-            embedFieldString_Before += `**Permissions :**${oldChannel.permissionOverwrites || 'None'}\n`;
-            embedFieldString_After += `**Permissions :**${newChannel.permissionOverwrites || 'None'}\n`;
-        }
+        
         if(oldChannel.position !== newChannel.position) {
             embedFieldString_Before += `**Position :**${oldChannel.position}\n`;
             embedFieldString_After += `**Position :**${newChannel.position}\n`;
@@ -111,19 +106,16 @@ const guildChannelUpdate = {
             embedFieldString_Before += `**Raw Position :**${oldChannel.rawPosition}\n`;
             embedFieldString_After += `**Raw Position :**${newChannel.rawPosition}\n`;
         }
-         const embed = new EmbedBuilder() 
+        
+         const guildChannelUpdate_embed = new EmbedBuilder() 
             .setTitle(`${channelType.getChannelTypeName(newChannel.type)} Updated`)
             .setColor('#546EED')
             .addFields({ name: '**Before**', value: `${embedFieldString_Before}`, inline: true })
             .addFields({ name: '**After**', value: `${embedFieldString_After}`, inline: true })
             .setTimestamp()
             .setFooter({text: `ID: ${oldChannel.id}`})
-        if(channelId[0].server_logs_Id == null) return;
-        oldChannel.guild.channels.fetch(channelId[0].server_logs_Id).then(async channel => {
-            // console.log(channel);
-        
-            await channel.send({embeds: [embed]})
-        })
+        const serverLogsChannelId = loggerCollectionData[0].serverLogsChannelId
+        sendEmbed(oldChannel, serverLogsChannelId, guildChannelUpdate_embed)
     }
 }
     

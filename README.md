@@ -10,7 +10,7 @@
 
 - [x]  Welcomer - Inspired by [Welcomer](https://top.gg/bot/330416853971107840) 
 
-- [ ]  Logger - Inspired by [LoggerBot](https://logger.bot/)
+- [x]  Logger - Inspired by [LoggerBot](https://logger.bot/)
 
 - [ ] Birthday  - Inspired by [Birthday Bot](https://top.gg/bot/618817616542433283?s=0351f3f814dfd)
 
@@ -18,7 +18,17 @@
 
 - [ ] Dota2 status 
 
-  
+- [ ] Free Animated Emoji - Inspired by [NQN](https://nqn.blue/)
+
+- [ ] Rich & Simple Poll Feature
+
+- [ ] Youtube Api
+
+- [ ] Anime Api
+
+- [ ] ?
+
+- [ ] Anti Mute VoiceChannel
 
 ## Requirements
 
