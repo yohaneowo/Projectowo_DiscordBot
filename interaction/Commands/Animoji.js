@@ -9,9 +9,9 @@ module.exports = {
                 .setDescription('The animoji subcommands')
                 .setRequired(true)
                 .addChoices(
-                        {name: "set", value: "set"},
+                        {name: "set-guild", value: "set-guild"},
                         {name: "set-prefix", value: "set-prefix"},
-                        {name: "delete", value: "delete"},   
+                        {name: "remove-this-guild's-emojis", value: "remove-this-guild's-emojis"},   
                     )
             ),
         
@@ -22,7 +22,6 @@ module.exports = {
             await interaction.deferReply({fetchReply: true})
             client.loadSubcommands(interaction, client);
         } else if (subcommand == "set-prefix") {
-            await interaction.deferReply({fetchReply: true})
             client.loadSubcommands(interaction, client);
         } else if (subcommand == "remove-this-guild's-emojis") {
             await interaction.deferReply({fetchReply: true})
