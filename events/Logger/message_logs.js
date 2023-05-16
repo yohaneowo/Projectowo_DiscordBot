@@ -14,11 +14,12 @@ const GuildMessageDelete = {
         const messageLogsChannelId = loggerCollectionData[0].messageLogsChannelId;
         const embed = new EmbedBuilder()
             .setAuthor({name: message.author.tag, iconURL: message.author.displayAvatarURL({dynamic: true}) })
-            .setTitle(`Message deleted in #${message.channel}`)
+            .setTitle(`Message deleted in ${message.channel}`)
             .setDescription(`${message.content}` || '`Embed Message`')
             .setColor('#FF0000')
             .setTimestamp()
             .setFooter({text: `ID: ${message.author.id}`})
+
 
 
         sendEmbed(message, messageLogsChannelId, embed);

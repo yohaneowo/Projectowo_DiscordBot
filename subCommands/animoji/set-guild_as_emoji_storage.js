@@ -20,13 +20,20 @@ module.exports =
                 console.log(`isEmojiGuildExist: ${isEmojiGuildExist}`)
                 if(!isEmojiGuildExist) {
                     await animojiDbManager.insertGuild(user_id, guild_id)
-                    await animojiFunctionManager.insertEmoji(interaction, guild_id, user_id) 
-                    interaction.editReply({content: `done set guild`, ephemeral: true})
+                    try {
+                        await animojiFunctionManager.insertEmoji(interaction, guild_id, user_id) 
+                        interaction.editReply({content: `done set guild`, ephemeral: true})
+                    } catch (err) {
+                        interaction.followUp({content: `发现有同名的哦`, ephemeral: true})
+                    }
                 } else {
                     await animojiDbManager.deleteEmoji(guild_id)
-                    await animojiFunctionManager.insertEmoji(interaction, guild_id, user_id)
-                    interaction.editReply({content: `done set guild`, ephemeral: true})
-
+                    try {
+                        await animojiFunctionManager.insertEmoji(interaction, guild_id, user_id) 
+                        interaction.editReply({content: `done set guild`, ephemeral: true})
+                    } catch (err) {
+                        interaction.followUp({content: `发现有同名的哦`, ephemeral: true})
+                    }
                 }
             }
         } else {
