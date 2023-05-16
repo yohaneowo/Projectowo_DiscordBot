@@ -35,25 +35,31 @@ class AnimojiFunctionManager {
             }
         }
     async insertEmoji(interaction, guild_id, belong_to) {
-        const animojiDbManager =  new Animoji_DatabaseFunction();
+        return new Promies (async (resolve, reject) => {
+            const animojiDbManager =  new Animoji_DatabaseFunction();
 
-        await interaction.guild.emojis.cache.forEach(async (emoji) => {
-            const emoji_id = emoji.id
-            const emoji_name = emoji.name
-            const emoji_identifier = emoji.toString()
-            const createdAt = emoji.createdAt.toString()
-            let animated = ((emoji.animated == 'true') || (emoji.animated == 'false') ? 1 : 0);
-            const emoji_url = emoji.url
-            // console.log(`emoji_id: ${emoji_id}`)
-            // console.log(`emoji_name: ${emoji_name}`)
-            // console.log(`emoji_identifier: ${emoji_identifier}`)
-            // console.log(`guild_id: ${guild_id}`)
-            // console.log(`createdAt: ${createdAt}`)
-            // console.log(`animated: ${animated}`)
-            // console.log(`emoji_url: ${emoji_url}`)
-            
-            await animojiDbManager.insertEmoji(emoji_id, emoji_name, emoji_identifier, guild_id, createdAt, animated, belong_to , emoji_url)
+            await interaction.guild.emojis.cache.forEach(async (emoji) => {
+                const emoji_id = emoji.id
+                const emoji_name = emoji.name
+                const emoji_identifier = emoji.toString()
+                const createdAt = emoji.createdAt.toString()
+                let animated = ((emoji.animated == 'true') || (emoji.animated == 'false') ? 1 : 0);
+                const emoji_url = emoji.url
+                // console.log(`emoji_id: ${emoji_id}`)
+                // console.log(`emoji_name: ${emoji_name}`)
+                // console.log(`emoji_identifier: ${emoji_identifier}`)
+                // console.log(`guild_id: ${guild_id}`)
+                // console.log(`createdAt: ${createdAt}`)
+                // console.log(`animated: ${animated}`)
+                // console.log(`emoji_url: ${emoji_url}`)
+                try {
+                    await animojiDbManager.insertEmoji(emoji_id, emoji_name, emoji_identifier, guild_id, createdAt, animated, belong_to , emoji_url)
+                    resolve()
+                } catch (err) {
+                    reject()
+                }
         })
+    })
     }
 
 }

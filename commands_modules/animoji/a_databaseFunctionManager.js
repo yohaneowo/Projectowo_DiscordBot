@@ -144,7 +144,7 @@ class Animoji_DatabaseFunction {
                 const stmt = db.prepare(`SELECT emoji_identifier FROM emoji_collection WHERE emoji_name = ?`)
                 const row = stmt.get(emoji_name)
                 if(row) {
-                    resolve(row.emoji_identifier)
+                    resolve(row.emoji_identifier) 
                 } else {
                     resolve(null)
                 }
@@ -153,15 +153,14 @@ class Animoji_DatabaseFunction {
             }
         })
     }
-    insertEmoji(emoji_id, emoji_name, emoji_identifier, guild_id, createdAt, animated, belong_to , emoji_url) {
+     insertEmoji(emoji_id, emoji_name, emoji_identifier, guild_id, createdAt, animated, belong_to , emoji_url) {
         return new Promise((resolve, reject) => {
             try {
                 const db = getDb();
                 const stmt = db.prepare(`INSERT INTO emoji_collection VALUES (?, ?, ?, ?, ?, ?, ?, ?)`)
                 stmt.run(emoji_id, emoji_name, emoji_identifier, guild_id, createdAt, animated, belong_to, emoji_url)
-                resolve()
-            } catch (err) {
-                reject(err)
+            } catch (err) { 
+                reject(';HELO')
             }
         })
     }

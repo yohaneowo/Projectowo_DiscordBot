@@ -25,14 +25,10 @@ module.exports = {
         console.log(user_prefix)
         if (user_prefix) {
             const emojis = await animojiDbManager.getAllEmojiName(user_id)
-            console.log(emojis)
             for (const emoji of emojis) {
-                console.log(content)
-                console.log(emoji)
-                console.log(typeof emoji) 
                 if (content.includes(emoji)) {
-                    message.delete()
                     if(content.includes(user_prefix+emoji)) {
+                        message.delete()
                         const emoji_name = emoji
                         const user_avatar = message.author.avatarURL()
                         const user_name = message.author.username
@@ -42,7 +38,6 @@ module.exports = {
                             name: user_name,
                             avatar: user_avatar,
                         })
-                            // .then(webhook => console.log(`Created webhook ${webhook}`))
                             .catch(console.error);
                         const webhooks = await message.channel.fetchWebhooks();
                         const webhook = webhooks.find(wh => wh.token);
@@ -51,7 +46,6 @@ module.exports = {
                             const regex = new RegExp(pattern, 'g');
                             const newContent = content.replace(regex, emoji_identifier);
                             await webhook.send({
-                               
                                 content: newContent,
                                 username: user_name,
                                 avatarURL: user_avatar,
@@ -61,15 +55,10 @@ module.exports = {
                         }
                         break;
                     } 
-                    console.log("YES YES YES")
                 } else {
-                    console.log("NO NO NO")
                 }
-            console.log('yes');
-            console.log("____")
             }
         } else {
-        console.log('no');
         }
     }
 }  
