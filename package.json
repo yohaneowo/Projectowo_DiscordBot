@@ -3,12 +3,11 @@
   "version": "1.0.0",
   "description": "happy coding",
   "main": "index.js",
-  "scripts": {
-   
-  },
+  "scripts": {},
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "adm-zip": "^0.5.10",
     "better-sqlite3": "^8.3.0",
     "canvas": "^2.11.2",
     "discord-api-types": "^0.37.37",
