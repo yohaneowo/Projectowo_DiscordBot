@@ -109,7 +109,34 @@ class Animoji_DatabaseFunction {
             }
         })
     }
-    deleteEmoji(guild_id) {
+
+    update_Emoji(old_emoji_identifier, emoji_identifier, emoji_name, emoji_id, emoji_url) {
+        return new Promise((resolve, reject) => {
+            try {
+                const db = getDb();
+                const stmt = db.prepare(`UPDATE emoji_collection SET emoji_identifier = ?, emoji_id = ?, emoji_name = ?, emoji_url = ? WHERE emoji_identifier = ?`)
+                stmt.run(emoji_identifier, emoji_name, emoji_id, emoji_url, animated, old_emoji_identifier)
+                resolve()
+            } catch (err) {
+                reject(err)
+            }
+        })
+    }
+
+    delete_Emoji(emoji_identifier) {
+        return new Promise((resolve, reject) => {
+            try {
+                const db = getDb();
+                const stmt = db.prepare(`DELETE FROM emoji_collection WHERE emoji_identifier = ?`)
+                stmt.run(emoji_identifier)
+                resolve()
+            } catch (err) {
+                console.log(err)
+                reject(err)
+            }
+        })
+    }
+    delete_AllEmoji(guild_id) {
         return new Promise((resolve, reject) => {
             try {
                 const db = getDb();
@@ -153,7 +180,7 @@ class Animoji_DatabaseFunction {
             }
         })
     }
-     insertEmoji(emoji_id, emoji_name, emoji_identifier, guild_id, createdAt, animated, belong_to , emoji_url) {
+     insert_Emoji(emoji_id, emoji_name, emoji_identifier, guild_id, createdAt, animated, belong_to , emoji_url) {
         return new Promise((resolve, reject) => {
             try {
                 const db = getDb();

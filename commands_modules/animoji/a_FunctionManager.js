@@ -1,8 +1,8 @@
 const { Animoji_DatabaseFunction } = require('../../commands_modules/animoji/a_databaseFunctionManager.js');
 
-class AnimojiFunctionManager {
+class Animoji_FunctionManager {
     async submitPrefix(interaction, modal) {
-            const animojiDbManager =  new Animoji_DatabaseFunction();
+            const animojiDbManager =  new AnimojiDatabaseFunction();
             const userPrefix = await animojiDbManager.getPrefix(interaction.user.id);
             console.log(userPrefix)
             if(userPrefix) {
@@ -34,7 +34,7 @@ class AnimojiFunctionManager {
                 }
             }
         }
-    async insertEmoji(interaction, guild_id, belong_to) {
+    async insert_AllEmoji(interaction, guild_id, belong_to) {
         return new Promies (async (resolve, reject) => {
             const animojiDbManager =  new Animoji_DatabaseFunction();
 
@@ -53,7 +53,7 @@ class AnimojiFunctionManager {
                 // console.log(`animated: ${animated}`)
                 // console.log(`emoji_url: ${emoji_url}`)
                 try {
-                    await animojiDbManager.insertEmoji(emoji_id, emoji_name, emoji_identifier, guild_id, createdAt, animated, belong_to , emoji_url)
+                    await animojiDbManager.insert_Emoji(emoji_id, emoji_name, emoji_identifier, guild_id, createdAt, animated, belong_to , emoji_url)
                     resolve()
                 } catch (err) {
                     reject()
@@ -65,5 +65,5 @@ class AnimojiFunctionManager {
 }
 
 module.exports = {
-    AnimojiFunctionManager
+    Animoji_FunctionManager
 }

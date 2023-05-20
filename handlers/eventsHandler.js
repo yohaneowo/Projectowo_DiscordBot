@@ -30,4 +30,18 @@ module.exports = (client, Discord) => {
             }
         }
     }
+
+    const AnimojiPath = path.join(process.cwd(), "events/Animoji");
+    const AnimojiFiles = fs.readdirSync(AnimojiPath).filter(file => file.endsWith(".js"));
+    for (const AnimojiFile of AnimojiFiles) {
+        const AnimojiFilePath = path.join(AnimojiPath, AnimojiFile);
+        const Animoji = require(AnimojiFilePath);
+        for(const [name, animoji] of Object.entries(Animoji)) {
+            if(Animoji.once) {
+                client.once(name, (...args) => animoji.execute(...args, client, Discord));
+            } else {
+                client.on(animoji.name, (...args) => animoji.execute(...args, client, Discord));
+            }
+        }
+    }
 }

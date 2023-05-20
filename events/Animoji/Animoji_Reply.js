@@ -1,7 +1,7 @@
-const { Animoji_DatabaseFunction } = require('../commands_modules/animoji/a_databaseFunctionManager.js');
+const { Animoji_DatabaseFunction } = require('../../commands_modules/animoji/a_databaseFunctionManager.js');
 
 
-module.exports = {
+const animojiInteraction = {
     name : 'messageCreate',
     once : false,
     async execute(message) {
@@ -43,7 +43,7 @@ module.exports = {
                         const webhook = webhooks.find(wh => wh.token);
                         try {
                             const pattern = user_prefix + emoji;
-                            const regex = new RegExp(pattern, 'g');
+                            const regex = new RegExp(pattern, 'g');-1
                             const newContent = content.replace(regex, emoji_identifier);
                             await webhook.send({
                                 content: newContent,
@@ -63,3 +63,6 @@ module.exports = {
     }
 }  
 
+module.exports = {
+    animojiInteraction
+}
