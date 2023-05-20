@@ -11,7 +11,7 @@ module.exports =
             console.log(`user_id: ${user_id}`)
             console.log(`guild_id: ${guild_id}`)
             await animojiDbManager.deleteGuild(guild_id)
-            await animojiDbManager.deleteEmoji(guild_id)
+            await animojiDbManager.delete_AllEmoji(guild_id)
             interaction.editReply({content: `done remove guild`, ephemeral: true})
         } else {
             interaction.editReply({content: `You are not the owner of this server`, ephemeral: true})
