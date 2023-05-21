@@ -14,9 +14,11 @@
     "discord.js": "^14.8.0",
     "dotenv": "^16.0.3",
     "generic-pool": "^3.9.0",
-    "sqlite3": "^5.1.6"
+    "sqlite3": "^5.1.6",
+    "yarn": "^1.22.19"
   },
   "devDependencies": {
-    "eslint": "^8.36.0"
+    "eslint": "^8.7.0",
+    "prettier": "^2.5.1"
   }
 }
