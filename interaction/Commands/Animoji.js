@@ -12,7 +12,8 @@ module.exports = {
                         {name: "set-guild_as_emoji_storage", value: "set-guild_as_emoji_storage"},
                         {name: "set-prefix", value: "set-prefix"},
                         {name: "manually-refresh_emoji", value: "manually-refresh_emoji"},
-                        {name: "remove-this-guild's-emojis", value: "remove-this-guild's-emojis"},   
+                        {name: "remove-this-guild's-emojis", value: "remove-this-guild's-emojis"},  
+                        {name: "set-emoji_pack_server", value: "set-emoji_pack_server"} 
                     )
             ),
         
@@ -29,6 +30,9 @@ module.exports = {
             await interaction.deferReply({fetchReply: true})
             client.loadSubcommands(interaction, client);
         } else if (subcommand == "remove-this-guild's-emojis") {
+            await interaction.deferReply({fetchReply: true})
+            client.loadSubcommands(interaction, client);
+        } else if (subcommand == "set-emoji_pack_server") {
             await interaction.deferReply({fetchReply: true})
             client.loadSubcommands(interaction, client);
         }
