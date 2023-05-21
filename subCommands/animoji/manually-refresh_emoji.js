@@ -7,10 +7,11 @@ module.exports =
         const animojiDbManager =  new Animoji_DatabaseFunction();
         const owner_id = interaction.guild.ownerId
         const user_id = interaction.user.id;
+        const isEmojiPack = 0;
         if(owner_id == user_id) {
             await animojiDbManager.delete_AllEmoji(guild_id)
             try {
-                await animojiFunctionManager.insert_AllEmoji(interaction, guild_id, user_id) 
+                await animojiFunctionManager.insert_AllEmoji(interaction, guild_id, user_id, isEmojiPack) 
                 interaction.editReply({content: `done set guild`, ephemeral: true})
             } catch (err) {
                 interaction.followUp({content: `发现有同名的哦`, ephemeral: true})

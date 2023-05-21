@@ -43,7 +43,7 @@ const animojiInteraction = {
                         const webhook = webhooks.find(wh => wh.token);
                         try {
                             const pattern = user_prefix + emoji;
-                            const regex = new RegExp(pattern, 'g');-1
+                            const regex = new RegExp(pattern, 'g');
                             const newContent = content.replace(regex, emoji_identifier);
                             await webhook.send({
                                 content: newContent,

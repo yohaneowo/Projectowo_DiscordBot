@@ -34,7 +34,7 @@ class Animoji_FunctionManager {
                 }
             }
         }
-    async insert_AllEmoji(interaction, guild_id, belong_to) {
+    async insert_AllEmoji(interaction, guild_id, belong_to, isEmojiPack) {
         return new Promies (async (resolve, reject) => {
             const animojiDbManager =  new Animoji_DatabaseFunction();
 
@@ -53,7 +53,7 @@ class Animoji_FunctionManager {
                 // console.log(`animated: ${animated}`)
                 // console.log(`emoji_url: ${emoji_url}`)
                 try {
-                    await animojiDbManager.insert_Emoji(emoji_id, emoji_name, emoji_identifier, guild_id, createdAt, animated, belong_to , emoji_url)
+                    await animojiDbManager.insert_Emoji(emoji_id, emoji_name, emoji_identifier, guild_id, createdAt, animated, belong_to , emoji_url, isEmojiPack)
                     resolve()
                 } catch (err) {
                     reject()

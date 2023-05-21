@@ -180,12 +180,12 @@ class Animoji_DatabaseFunction {
             }
         })
     }
-     insert_Emoji(emoji_id, emoji_name, emoji_identifier, guild_id, createdAt, animated, belong_to , emoji_url) {
+     insert_Emoji(emoji_id, emoji_name, emoji_identifier, guild_id, createdAt, animated, belong_to , emoji_url, isEmojiPack) {
         return new Promise((resolve, reject) => {
             try {
                 const db = getDb();
-                const stmt = db.prepare(`INSERT INTO emoji_collection VALUES (?, ?, ?, ?, ?, ?, ?, ?)`)
-                stmt.run(emoji_id, emoji_name, emoji_identifier, guild_id, createdAt, animated, belong_to, emoji_url)
+                const stmt = db.prepare(`INSERT INTO emoji_collection VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`)
+                stmt.run(emoji_id, emoji_name, emoji_identifier, guild_id, createdAt, animated, belong_to, emoji_url, isEmojiPack)
             } catch (err) { 
                 reject(';HELO')
             }
