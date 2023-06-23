@@ -7,6 +7,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@babel/eslint-parser": "^7.22.5",
     "adm-zip": "^0.5.10",
     "better-sqlite3": "^8.3.0",
     "canvas": "^2.11.2",
