@@ -84,7 +84,8 @@ class Animoji_FunctionManager {
           );
           resolve();
         } catch (err) {
-          reject();
+          console.log(err);
+          reject(err);
         }
       });
     });

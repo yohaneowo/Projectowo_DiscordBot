@@ -1,5 +1,7 @@
 // Require the necessary discord.js classes
 require("dotenv").config();
+var figlet = require("figlet");
+
 const { Client, GatewayIntentBits } = require("discord.js");
 // Create a new client instance
 const client = new Client({
@@ -14,6 +16,15 @@ module.exports = client
     require(`./handlers/${handler}`)(client, Client);
   }
 );
+
+figlet("Project owo ", function (err, data) {
+  if (err) {
+    console.log("Something went wrong...");
+    console.dir(err);
+    return;
+  }
+  console.log(data);
+});
 
 // Log in to Discord with your client's token
 
