@@ -1,4 +1,4 @@
-const { ChannelType, PermissionsBitField } = require("discord.js");
+const { ChannelType, PermissionsBitField } = require("discord.js")
 class MemberCount_ManageFunctions {
   // Create Channels
   async createChannel(
@@ -18,8 +18,8 @@ class MemberCount_ManageFunctions {
               deny: [PermissionsBitField.Flags.ManageChannels]
             }
           ]
-        });
-        return parent;
+        })
+        return parent
       }
       case "All_Members_Count": {
         const All_Members_Count = await interaction.guild.channels.create({
@@ -36,8 +36,8 @@ class MemberCount_ManageFunctions {
             }
           ],
           parent: parentChannel
-        });
-        return All_Members_Count;
+        })
+        return All_Members_Count
       }
       case "Users_Count": {
         const Users_Count = await interaction.guild.channels.create({
@@ -54,8 +54,8 @@ class MemberCount_ManageFunctions {
             }
           ],
           parent: parentChannel
-        });
-        return Users_Count;
+        })
+        return Users_Count
       }
       case "Bots_Count": {
         const Bots_Count = await interaction.guild.channels.create({
@@ -72,8 +72,8 @@ class MemberCount_ManageFunctions {
             }
           ],
           parent: parentChannel
-        });
-        return Bots_Count;
+        })
+        return Bots_Count
       }
       case "All_Online_Count": {
         const All_Online_Count = await interaction.guild.channels.create({
@@ -90,8 +90,8 @@ class MemberCount_ManageFunctions {
             }
           ],
           parent: parentChannel
-        });
-        return All_Online_Count;
+        })
+        return All_Online_Count
       }
       case "All_Online_Count_include_idle": {
         const All_Online_Count_include_idle =
@@ -109,8 +109,8 @@ class MemberCount_ManageFunctions {
               }
             ],
             parent: parentChannel
-          });
-        return All_Online_Count_include_idle;
+          })
+        return All_Online_Count_include_idle
       }
       case "All_Online_Count_include_idle_dnd": {
         const All_Online_Count_include_idle_dnd =
@@ -128,8 +128,8 @@ class MemberCount_ManageFunctions {
               }
             ],
             parent: parentChannel
-          });
-        return All_Online_Count_include_idle_dnd;
+          })
+        return All_Online_Count_include_idle_dnd
       }
       case "All_Offline_Count": {
         const All_Offline_Count = await interaction.guild.channels.create({
@@ -146,8 +146,8 @@ class MemberCount_ManageFunctions {
             }
           ],
           parent: parentChannel
-        });
-        return All_Offline_Count;
+        })
+        return All_Offline_Count
       }
       case "Users_Online_Count": {
         const Users_Online_Count = await interaction.guild.channels.create({
@@ -164,8 +164,8 @@ class MemberCount_ManageFunctions {
             }
           ],
           parent: parentChannel
-        });
-        return Users_Online_Count;
+        })
+        return Users_Online_Count
       }
       case "Users_Online_Count_include_idle": {
         const Users_Online_Count_include_idle =
@@ -183,8 +183,8 @@ class MemberCount_ManageFunctions {
               }
             ],
             parent: parentChannel
-          });
-        return Users_Online_Count_include_idle;
+          })
+        return Users_Online_Count_include_idle
       }
       case "Users_Online_Count_include_idle_dnd": {
         const Users_Online_Count_include_idle_dnd =
@@ -202,8 +202,8 @@ class MemberCount_ManageFunctions {
               }
             ],
             parent: parentChannel
-          });
-        return Users_Online_Count_include_idle_dnd;
+          })
+        return Users_Online_Count_include_idle_dnd
       }
       case "Users_Idle_Count": {
         const Users_Idle_Count = await interaction.guild.channels.create({
@@ -220,8 +220,8 @@ class MemberCount_ManageFunctions {
             }
           ],
           parent: parentChannel
-        });
-        return Users_Idle_Count;
+        })
+        return Users_Idle_Count
       }
       case "Users_Dnd_Count": {
         const Users_Dnd_Count = await interaction.guild.channels.create({
@@ -238,8 +238,8 @@ class MemberCount_ManageFunctions {
             }
           ],
           parent: parentChannel
-        });
-        return Users_Dnd_Count;
+        })
+        return Users_Dnd_Count
       }
       case "Users_Offline_Count": {
         const Users_Offline_Count = await interaction.guild.channels.create({
@@ -256,12 +256,12 @@ class MemberCount_ManageFunctions {
             }
           ],
           parent: parentChannel
-        });
-        return Users_Offline_Count;
+        })
+        return Users_Offline_Count
       }
     }
   }
 }
 module.exports = {
   MemberCount_ManageFunctions
-};
+}
