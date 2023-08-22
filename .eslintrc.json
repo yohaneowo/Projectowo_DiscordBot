@@ -9,7 +9,7 @@
     "parser": "@babel/eslint-parser"
   },
   "rules": {
-    "semi": ["error", "always"],
+    "semi": ["error", "never"],
     "quotes": ["error", "double"]
   }
 }
