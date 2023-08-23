@@ -51,6 +51,11 @@ class MovierParser_Interaction_Components {
     new ButtonBuilder()
       .setCustomId("cancel")
       .setLabel("不评分")
+      .setStyle(ButtonStyle.Danger),
+
+    new ButtonBuilder()
+      .setCustomId("cancel2")
+      .setLabel("取消")
       .setStyle(ButtonStyle.Danger)
   )
   pageButton = new ActionRowBuilder().addComponents(
@@ -86,6 +91,18 @@ class MovierParser_Interaction_Components {
       .setCustomId("rightArrow")
       .setEmoji("➡️")
       .setStyle(ButtonStyle.Primary)
+  )
+
+  voteButton = new ActionRowBuilder().addComponents(
+    new ButtonBuilder()
+      .setCustomId("good")
+      .setLabel("顶")
+      .setStyle(ButtonStyle.Success),
+
+    new ButtonBuilder()
+      .setCustomId("bad")
+      .setLabel("踩")
+      .setStyle(ButtonStyle.Danger)
   )
 }
 
