@@ -1,5 +1,5 @@
 const axios = require("axios")
-const { EmbedBuilder, ComponentType } = require("discord.js")
+const { EmbedBuilder, ComponentType, Component } = require("discord.js")
 const fs = require("fs")
 const path = require("path")
 const { createCanvas, loadImage } = require("canvas")
@@ -47,7 +47,8 @@ class MovieParser_FunctionManager {
     keyword,
     media_info,
     button,
-    button2
+    button2,
+    voteButton
   ) {
     try {
       const channel = message.guild.channels.cache.get(channel_id)
@@ -68,7 +69,14 @@ class MovieParser_FunctionManager {
           movie_data,
           user_avatar
         )
-        await this.sendResponse(message, embed, channel, button, button2)
+        await this.sendResponse(
+          message,
+          embed,
+          channel,
+          button,
+          button2,
+          voteButton
+        )
         await preMessage.delete()
       } else {
         const media_list = await this.searchMovie(keyword)
@@ -106,7 +114,14 @@ class MovieParser_FunctionManager {
             user_avatar
           )
           // const movie_title_zh = movie_data.title
-          await this.sendResponse(message, embed, channel, button, button2)
+          await this.sendResponse(
+            message,
+            embed,
+            channel,
+            button,
+            button2,
+            voteButton
+          )
 
           // await channel.send({
           //   components: [button],
@@ -345,7 +360,7 @@ class MovieParser_FunctionManager {
     }
   }
 
-  async sendResponse(message, embed, channel, button, button2) {
+  async sendResponse(message, embed, channel, button, button2, voteButton) {
     try {
       const response = await channel.send({
         components: [button, button2],
@@ -370,6 +385,7 @@ class MovieParser_FunctionManager {
         { value: 5, active: false }
       ]
       collector.on("collect", async (i) => {
+        // console.log(i)
         await i.deferUpdate()
 
         const star = stars.find((s) => s.value.toString() === i.customId)
@@ -418,13 +434,53 @@ class MovieParser_FunctionManager {
         }
         // console.log(i)
         // console.log(button2.components[1].data.label)
+        if (i.customId == "confirm" && userScore > 0) {
+          await response.edit({
+            components: [voteButton]
+          })
+        } else if (i.customId == "confirm" && userScore <= 0) {
+          const errMsg = await channel.send({
+            content: "你没有评分就按确定,你是要触发bug吗?!!?!?"
+          })
+          setTimeout(() => {
+            errMsg.delete()
+          }, 3000) //
+        } else if (i.customId == "cancel") {
+          await response.edit({
+            components: []
+          })
+        } else if (i.customId == "cancel2") {
+          await response.delete()
+        }
+
+        if (i.customId == "good") {
+          await response.edit({
+            components: []
+          })
+
+          channel.send({
+            content: `${message.author} **顶**了这个电影,并评分 ${userScore}⭐`,
+            component: []
+          })
+        } else if (i.customId == "bad") {
+          await response.edit({
+            components: []
+          })
+
+          channel.send({
+            content: `${message.author} **踩**了这个电影,并评分 ${userScore}⭐`,
+            component: []
+          })
+        }
       })
-      collector.on("end", async (i) => {
+      collector.on("end", async () => {
         // if (i.size === 0) {
         // 用户没有进行选择
-        await response.edit({
-          components: []
-        })
+        if (response.length > 0) {
+          await response.edit({
+            components: []
+          })
+        }
         // }
       })
     } catch (e) {

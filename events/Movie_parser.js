@@ -19,6 +19,7 @@ module.exports = {
     const mp_functionManager = new MovieParser_FunctionManager()
     const button = new MovierParser_Interaction_Components().button
     const button2 = new MovierParser_Interaction_Components().button2
+    const voteButton = new MovierParser_Interaction_Components().voteButton
 
     const user_id = message.author.id
     const user_avatar = message.author.avatarURL()
@@ -58,7 +59,8 @@ module.exports = {
           null,
           media_info,
           button,
-          button2
+          button2,
+          voteButton
         )
       } else {
         await mp_functionManager.sendMediaInfo(
@@ -67,7 +69,8 @@ module.exports = {
           keyword,
           null,
           button,
-          button2
+          button2,
+          voteButton
         )
       }
 
