@@ -42,6 +42,17 @@ module.exports = {
           .then((response) => {
             // console.log("response:", response.data);
             const jsonData = response.data
+            //   null 表示不使用任何自定义的 replacer，而使用默认的转换行为，即包含所有属性。而使用 2 表示每个级别缩进两个空格。
+            // const jsonString = JSON.stringify(jsonData, null, 2)
+            // // 保存JSON数据到文件
+            // fs.writeFile("data.json", jsonString, "utf8", (err) => {
+            //   if (err) {
+            //     console.error("保存文件时发生错误:", err)
+            //   } else {
+            //     console.log("JSON数据已保存到文件data.json")
+            //   }
+            // })
+
             const video_url = jsonData.video_data.nwm_video_url_HQ
             let video_playCount = jsonData.statistics.play_count
             let video_author = jsonData.author.nickname
@@ -49,7 +60,9 @@ module.exports = {
             axios
               .get(video_url, { responseType: "stream" })
               .then((response) => {
-                const writer = fs.createWriteStream("./video.mp4")
+                const writer = fs.createWriteStream(
+                  "./lib/video/tiktok_api/video.mp4"
+                )
                 response.data.pipe(writer)
                 return new Promise((resolve, reject) => {
                   writer.on("finish", resolve)
@@ -64,7 +77,7 @@ module.exports = {
                 let video_statistic = `===== ╔${space}╗ ======\n作者:${space2}${video_author}${space2}播放量:   ${video_playCount}\n===== ╚${space}╝ ======`
                 message.channel.send({
                   content: `${video_statistic}\n${video_desc}`,
-                  files: ["./video.mp4"]
+                  files: ["./lib/video/tiktok_api/video.mp4"]
                 })
               })
               .catch((error) => {
