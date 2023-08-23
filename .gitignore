@@ -2,3 +2,13 @@
 node_modules
 lib/database/SQLite.db
 lib/database/ignore_database
+# Ignore all files in the img folder
+
+lib/database/img/movie_poster/404.png
+lib/database/img/movie_poster/bigPoster0.jpg
+lib/database/img/movie_poster/bigPoster1.jpg
+lib/database/img/movie_poster/bigPoster2.jpg
+
+
+lib/video/tiktok_api/video.mp4
+data.json
