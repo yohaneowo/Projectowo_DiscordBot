@@ -6,39 +6,41 @@
 
 - [x] Member Count Statue - Inspired by MemberCount (bot depreciated?)
 
-- [x] Dynamic Voice Channel -Inspired by [Yeecord](https://yeecord.com/) 
+- [x] Dynamic Voice Channel -Inspired by [Yeecord](https://yeecord.com/)
 
-- [x]  Welcomer - Inspired by [Welcomer](https://top.gg/bot/330416853971107840) 
+- [x] Welcomer - Inspired by [Welcomer](https://top.gg/bot/330416853971107840)
 
-- [x]  Logger - Inspired by [LoggerBot](https://logger.bot/)
+- [x] Logger - Inspired by [LoggerBot](https://logger.bot/)
 
-- [ ] Birthday  - Inspired by [Birthday Bot](https://top.gg/bot/618817616542433283?s=0351f3f814dfd)
+- [ ] Birthday - Inspired by [Birthday Bot](https://top.gg/bot/618817616542433283?s=0351f3f814dfd)
 
 - [ ] DM other user with Animated Emoji
 
-- [ ] Dota2 status 
+- [ ] Dota2 status
 
-- [ ] Free Animated Emoji - Inspired by [NQN](https://nqn.blue/)
+- [x] Free Animated Emoji - Inspired by [NQN](https://nqn.blue/)
 
 - [ ] Rich & Simple Poll Feature
 
 - [ ] Youtube Api
 
+- [x] Tiktok Api
+
+- [x] Douyin Api
+
 - [ ] Anime Api
 
 - [ ] ?
 
-- [ ] Anti Mute VoiceChannel
+- [x] Anti Mute VoiceChannel
 
 ## Requirements
 
-+ Node -v18.15.0
-+ Discord Token - Get it from [Discord Developers Portal](https://discord.com/developers/applications)
-+ ClientID  - Get it from [Discord Developers Portal](https://discord.com/developers/applications)
-+ Install all dependence - npm install
-+ Sqlite Database
-
-
+- Node -v18.15.0
+- Discord Token - Get it from [Discord Developers Portal](https://discord.com/developers/applications)
+- ClientID - Get it from [Discord Developers Portal](https://discord.com/developers/applications)
+- Install all dependence - npm install
+- Sqlite Database
 
 ## Installation Guide
 
@@ -56,7 +58,7 @@ git clone https://github.com/Yohanewww/DiscordBot-Project_QAQ.git
 npm install
 ```
 
-### CreateSQLite 
+### CreateSQLite
 
 ##### database files locate in Deployment_script folder
 
