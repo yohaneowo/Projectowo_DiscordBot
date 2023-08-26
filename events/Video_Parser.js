@@ -75,9 +75,26 @@ module.exports = {
                 let space = " ".repeat(alphabeticStr.length * 4.2)
                 let space2 = " ".repeat(alphabeticStr.length)
                 let video_statistic = `===== ╔${space}╗ ======\n作者:${space2}${video_author}${space2}播放量:   ${video_playCount}\n===== ╚${space}╝ ======`
-                message.channel.send({
-                  content: `${video_statistic}\n${video_desc}`,
-                  files: ["./lib/video/tiktok_api/video.mp4"]
+
+                const videoPath = "./lib/video/tiktok_api/video.mp4"
+                fs.stat(videoPath, (err, stats) => {
+                  if (err) {
+                    console.error(err)
+                    return
+                  }
+                  const fileSizeInBytes = stats.size
+                  const fileSizeInMB = fileSizeInBytes / (1024 * 1024)
+                  console.log(fileSizeInMB)
+                  if (fileSizeInMB < 25) {
+                    message.channel.send({
+                      content: `${video_statistic}\n${video_desc}`,
+                      files: ["./lib/video/tiktok_api/video.mp4"]
+                    })
+                  } else {
+                    message.channel.send({
+                      content: "文件太大,还没做压缩功能"
+                    })
+                  }
                 })
               })
               .catch((error) => {
