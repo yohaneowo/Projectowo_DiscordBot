@@ -38,7 +38,7 @@ module.exports = {
         })
 
         axios
-          .get(`http://192.168.31.95:4488/api/hybrid_parsing/${result[0]}`)
+          .get(`http://192.168.31.218:4488/api/hybrid_parsing/${result[0]}`)
           .then((response) => {
             // console.log("response:", response.data);
             const jsonData = response.data
@@ -49,7 +49,7 @@ module.exports = {
             //   if (err) {
             //     console.error("保存文件时发生错误:", err)
             //   } else {
-            //     console.log("JSON数据已保存到文件data.json")
+            //     console.log("JSON数据已保存到文件dat a.json")
             //   }
             // })
 
@@ -83,8 +83,10 @@ module.exports = {
                     return
                   }
                   const fileSizeInBytes = stats.size
-                  const fileSizeInMB = fileSizeInBytes / (1024 * 1024)
-                  console.log(fileSizeInMB)
+                  const fileSizeInMB = Math.floor(
+                    fileSizeInBytes / (1024 * 1024)
+                  )
+                  // console.log(fileSizeInMB)
                   if (fileSizeInMB < 25) {
                     message.channel.send({
                       content: `${video_statistic}\n${video_desc}`,
