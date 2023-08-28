@@ -16,7 +16,7 @@
         with:
           registry: registry.hub.docker.com
           organization: "${{ github.event.repository.owner.login }}"
-          repository: "${{ github.event.repository.name }}"
+          repository: "yohane0w0"
           login: "${{ secrets.DOCKERHUB_USERNAME }}"
           password: "${{ secrets.DOCKERHUB_PASSWORD }}"
           platforms: linux/amd64,linux/arm64
