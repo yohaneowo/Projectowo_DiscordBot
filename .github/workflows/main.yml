@@ -19,8 +19,8 @@ jobs:
         uses: cloudposse/github-action-docker-build-push@main
         with:
           registry: registry.hub.docker.com
-          organization: "${{ github.event.repository.owner.login }}"
-          repository: "yohane0w0"
+          organization: "yohane0w0"
+          repository: "${{ github.event.repository.name }}"
           login: "${{ secrets.DOCKERHUB_USERNAME }}"
           password: "${{ secrets.DOCKERHUB_PASSWORD }}"
           platforms: linux/amd64,linux/arm64
