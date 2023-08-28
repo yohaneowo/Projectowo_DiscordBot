@@ -1,7 +1,8 @@
   name: Push into main branch
   on:
-    pull_request:
+    push:
       branches: [ master ]
+
 
   jobs:
     context:
