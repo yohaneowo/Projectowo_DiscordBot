@@ -1,13 +1,15 @@
+
 const { SlashCommandBuilder, EmbedBuilder } = require("discord.js")
 // database_command.js中獲取Database指令
 const {
   server_status_database_commands
 } = require("../../commands_modules/server-status/ss_databaseFunctionManager.js")
 
+
 module.exports = {
-  data: new SlashCommandBuilder()
-    .setName("server-info")
-    .setDescription("获取服务器信息"),
+    data: new SlashCommandBuilder()
+        .setName('server-info')
+        .setDescription('获取服务器信息'),
 
   async execute(interaction) {
     const commands = new server_status_database_commands()

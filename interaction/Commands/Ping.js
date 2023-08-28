@@ -1,3 +1,4 @@
+
 const { SlashCommandBuilder, EmbedBuilder } = require("discord.js")
 
 module.exports = {
@@ -18,3 +19,4 @@ module.exports = {
     await interaction.reply({ embeds: [InteractionFinalReply] })
   }
 }
+

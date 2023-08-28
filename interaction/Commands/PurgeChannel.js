@@ -1,3 +1,4 @@
+
 const { SlashCommandBuilder } = require("discord.js")
 const { modal } = require("../../commands_modules/animoji/a_compoment.js")
 module.exports = {
@@ -28,3 +29,4 @@ module.exports = {
     })
   }
 }
+

@@ -1,3 +1,4 @@
+
 const {
   SlashCommandBuilder,
   EmbedBuilder,
@@ -47,3 +48,4 @@ module.exports = {
     }, 5000)
   }
 }
+

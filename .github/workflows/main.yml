@@ -1,3 +1,4 @@
+
 name: Push into main branch
 on:
   pull_request:
@@ -23,8 +24,10 @@ jobs:
           password: "${{ secrets.DOCKERHUB_PASSWORD }}"
           platforms: linux/amd64,linux/arm64
 
+
       - run: echo "Build Docker & Push Image Success🎉"
 
     outputs:
       image: ${{ steps.build.outputs.image }}
       tag: ${{ steps.build.outputs.tag }}
+

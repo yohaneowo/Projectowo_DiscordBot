@@ -1,3 +1,4 @@
+
 const client = require("../index.js")
 const sqlite3 = require("sqlite3")
 const { PermissionsBitField, ChannelType } = require("discord.js")
@@ -33,3 +34,4 @@ module.exports = {
     }
   }
 }
+
