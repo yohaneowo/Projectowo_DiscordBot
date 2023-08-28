@@ -1,14 +1,15 @@
-  name: Push into main branch
-  on:
-    pull_request:
-      types:
-        - closed
 
-  jobs:
-    context:
-      if: github.event.pull_request.merged == true
-      runs-on: ubuntu-latest
-      steps:
+name: Push into main branch
+on:
+  pull_request:
+    types:
+      - closed
+
+jobs:
+  context:
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    steps:
       - name: Checkout
         uses: actions/checkout@v3
 
@@ -22,10 +23,11 @@
           login: "${{ secrets.DOCKERHUB_USERNAME }}"
           password: "${{ secrets.DOCKERHUB_PASSWORD }}"
           platforms: linux/amd64,linux/arm64
-          
-      - run: echo "Build Docker & Push Image Success🎉"    
 
-      outputs:
-        image: ${{ steps.build.outputs.image }}
-        tag: ${{ steps.build.outputs.tag }}
+
+      - run: echo "Build Docker & Push Image Success🎉"
+
+    outputs:
+      image: ${{ steps.build.outputs.image }}
+      tag: ${{ steps.build.outputs.tag }}
 

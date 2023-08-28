@@ -12,45 +12,18 @@ const { ActionRowBuilder, ButtonBuilder, ButtonStyle } = require('discord.js');
 // When the client is ready, run this code (only once)
 // We use 'c' for the event parameter to keep it separate from the already defined 'client'
 
-
-['EventsHandler', 'CommandsHandler','ErrorsHandler', 'Function'].forEach(handler => {
-    require(`./handlers/${handler}`)(client, Client);
-});
-
-const embed = new EmbedBuilder()
-	.setTitle('Some Title')
-	.setColor(0x00FFFF);
-
-
-
-client.on("messageCreate", async (message) => {
-	if (message.content.startsWith(PREFIX) && !message.author.bot) {
-		// console.log(message.content)
-		if (message.content.slice(PREFIX.length) === "ae") {
-			// client.commands.get("ae").execute(message, message.content);
-			message.channel.createWebhook({
-				name: 'Some-username',
-				avatar: 'https://i.imgur.com/AfFp7pu.png',
-			})
-				.then(webhook => console.log(`Created webhook ${webhook}`))
-				.catch(console.error);
-			const webhooks = await message.channel.fetchWebhooks();
-			const webhook = webhooks.find(wh => wh.token);
-			try {
-				await webhook.send({
-					content: 'Webhook test',
-					username: '夜羽',
-					avatarURL: 'https://cdn.discordapp.com/avatars/559762654084857876/e49636c0db11b2b37b0213a60b4513a2.webp?size=32',
-					embeds: [embed],
-				});
-			} catch (err) {
-				console.log(err)
-			}
-			
-		 
-		}
-
-	}
+;["EventsHandler", "CommandsHandler", "ErrorsHandler", "Function"].forEach(
+  (handler) => {
+    require(`./handlers/${handler}`)(client, Client)
+  }
+)
+figlet("Project uwu ", function (err, data) {
+  if (err) {
+    console.log("Something went wrong...")
+    console.dir(err)
+    return
+  }
+  console.log(data)
 
 })
 
