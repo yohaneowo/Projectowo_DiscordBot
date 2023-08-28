@@ -10,6 +10,11 @@ const commandFiles = fs
   .readdirSync(commandsPath)
   .filter((file) => file.endsWith(".js"))
 
+const commandsPath = path.join(__dirname, "interaction", "Commands")
+const commandFiles = fs
+  .readdirSync(commandsPath)
+  .filter((file) => file.endsWith(".js"))
+
 // Grab the SlashCommandBuilder#toJSON() output of each command's data for deployment
 for (const file of commandFiles) {
   const command = require(`./interaction/Commands/${file}`)

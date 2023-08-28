@@ -4,6 +4,7 @@ const {
   server_status_database_commands
 } = require("../../commands_modules/server-status/ss_databaseFunctionManager.js");
 
+
 module.exports = {
   data: new SlashCommandBuilder()
     .setName("server-info")

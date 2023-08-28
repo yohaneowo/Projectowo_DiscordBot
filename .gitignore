@@ -1,7 +1,7 @@
 .env
 node_modules
 lib/database/SQLite.db
-lib/database/ignore_database
+lib/database/backup/SQLite.db
 # Ignore all files in the img folder
 
 lib/img/movie_poster/404.png
