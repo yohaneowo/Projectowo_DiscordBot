@@ -16,8 +16,7 @@ module.exports = client
     require(`./handlers/${handler}`)(client, Client)
   }
 )
-
-figlet("Project owo ", function (err, data) {
+figlet("Project uwu ", function (err, data) {
   if (err) {
     console.log("Something went wrong...")
     console.dir(err)

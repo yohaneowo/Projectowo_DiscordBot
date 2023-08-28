@@ -1,4 +1,4 @@
-const { SlashCommandBuilder } = require("discord.js");
+const { SlashCommandBuilder } = require("discord.js")
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -16,13 +16,13 @@ module.exports = {
     ),
 
   async execute(interaction, client) {
-    const subcommand = interaction.options.getString("meow_ヽowoノ");
+    const subcommand = interaction.options.getString("meow_ヽowoノ")
     if (subcommand === "set") {
-      await interaction.deferReply({ fetchReply: true });
-      client.loadSubcommands(interaction, client);
+      await interaction.deferReply({ fetchReply: true })
+      client.loadSubcommands(interaction, client)
     } else if (subcommand === "delete") {
-      await interaction.deferReply({ fetchReply: true });
-      client.loadSubcommands(interaction, client);
+      await interaction.deferReply({ fetchReply: true })
+      client.loadSubcommands(interaction, client)
     }
   }
-};
+}

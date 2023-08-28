@@ -1,24 +1,24 @@
-const { InteractionType } = require("discord.js");
-const client = require("../index.js");
+const { InteractionType } = require("discord.js")
+const client = require("../index.js")
 module.exports = {
   name: "interactionCreate",
   once: false,
   async execute(interaction) {
     if (interaction.isChatInputCommand()) {
-      const command = interaction.client.commands.get(interaction.commandName);
+      const command = interaction.client.commands.get(interaction.commandName)
       // console.log(command);
-      const message = client.message;
+      const message = client.message
       if (!command) {
         console.error(
           `No command matching ${interaction.commandName} was found.`
-        );
-        return;
+        )
+        return
       }
 
       try {
-        await command.execute(interaction, client, message);
+        await command.execute(interaction, client, message)
       } catch (err) {
-        console.error(err);
+        console.error(err)
         // if (interaction.replied || interaction.deferred) {
         // 	} else {
         // 		await interaction.followUp({ content: 'There was an error while executing this command!', ephemeral: true });
@@ -28,12 +28,12 @@ module.exports = {
     } else if (
       interaction.type == InteractionType.ApplicationCommandAutocomplete
     ) {
-      const command = client.commands.get(interaction.commandName);
+      const command = client.commands.get(interaction.commandName)
       if (!command) {
         console.error(
           `No command matching ${interaction.commandName} was found.`
-        );
-        return;
+        )
+        return
       }
       //   try {
       //     await command.autocomplete(interaction, client);
@@ -54,4 +54,4 @@ module.exports = {
       //   }
     }
   }
-};
+}
