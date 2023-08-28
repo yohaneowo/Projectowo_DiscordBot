@@ -1,11 +1,13 @@
 name: Push into main branch
 on:
   pull_request:
+    branches:
+      - master
     types:
       - closed
 
 jobs:
-  context:
+  Build_Docker_Image_Push:
     if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     steps:
