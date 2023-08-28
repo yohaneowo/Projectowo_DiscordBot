@@ -22,7 +22,7 @@ figlet("Project owo ", function (err, data) {
     console.log("Something went wrong...")
     console.dir(err)
     return
-    // test 1
+    // test 2
   }
   console.log(data)
 })
