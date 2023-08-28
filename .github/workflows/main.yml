@@ -8,6 +8,10 @@
     context:
       runs-on: ubuntu-latest
       steps:
+
+      - name: pull request
+        if: github.event_name == 'pull_request' && github.event.action == 'closed' && github.event.pull_request.merged == true
+
       - name: Checkout
         uses: actions/checkout@v3
 
