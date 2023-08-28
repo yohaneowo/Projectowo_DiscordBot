@@ -1,5 +1,4 @@
-
-const { SlashCommandBuilder } = require("discord.js")
+const { SlashCommandBuilder } = require("discord.js");
 module.exports = {
   data: new SlashCommandBuilder()
     .setName("welcomer")
@@ -15,17 +14,16 @@ module.exports = {
         )
     ),
   async execute(interaction, client) {
-    const subcommand = interaction.options.getString("meow_ヽowoノ")
-    console.log(subcommand)
+    const subcommand = interaction.options.getString("meow_ヽowoノ");
+    console.log(subcommand);
     if (subcommand === "set") {
       // Set the status display of the member count
-      await interaction.deferReply({ fetchReply: true })
-      client.loadSubcommands(interaction, client)
+      await interaction.deferReply({ fetchReply: true });
+      client.loadSubcommands(interaction, client);
     } else if (subcommand === "delete") {
       // Delete the status display of the member count
-      await interaction.deferReply({ fetchReply: true })
-      client.loadSubcommands(interaction, client)
+      await interaction.deferReply({ fetchReply: true });
+      client.loadSubcommands(interaction, client);
     }
   }
-
-}
+};

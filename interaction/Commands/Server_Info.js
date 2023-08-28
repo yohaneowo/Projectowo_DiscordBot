@@ -1,57 +1,56 @@
-
-const { SlashCommandBuilder, EmbedBuilder } = require("discord.js")
+const { SlashCommandBuilder, EmbedBuilder } = require("discord.js");
 // database_command.js中獲取Database指令
 const {
   server_status_database_commands
-} = require("../../commands_modules/server-status/ss_databaseFunctionManager.js")
+} = require("../../commands_modules/server-status/ss_databaseFunctionManager.js");
 
 
 module.exports = {
-    data: new SlashCommandBuilder()
-        .setName('server-info')
-        .setDescription('获取服务器信息'),
+  data: new SlashCommandBuilder()
+    .setName("server-info")
+    .setDescription("获取服务器信息"),
 
   async execute(interaction) {
-    const commands = new server_status_database_commands()
-    const guildId = interaction.guild.id
-    const guildName = interaction.guild.name
+    const commands = new server_status_database_commands();
+    const guildId = interaction.guild.id;
+    const guildName = interaction.guild.name;
     const description =
-      interaction.guild.description || "這個群主太懶了吧，什麼介紹都沒寫"
-    const ownerId = interaction.guild.ownerId
-    const boss = interaction.guild.members.cache.get(ownerId)
-    const preferredLocale = interaction.guild.preferredLocale
-    const createdAt = interaction.guild.createdAt
-    const maximumBitrate = interaction.guild.maximumBitrate
-    const premiumTier = interaction.guild.premiumTier
-    const premiumSubscriptionCount = interaction.guild.premiumSubscriptionCount
-    const large = interaction.guild.large
-    const maximumMembers = interaction.guild.maximumMembers
-    const nsfwLevel = interaction.guild.nsfwLevel
-    const partnered = interaction.guild.partnered
-    const allMemberCount = interaction.guild.memberCount
+      interaction.guild.description || "這個群主太懶了吧，什麼介紹都沒寫";
+    const ownerId = interaction.guild.ownerId;
+    const boss = interaction.guild.members.cache.get(ownerId);
+    const preferredLocale = interaction.guild.preferredLocale;
+    const createdAt = interaction.guild.createdAt;
+    const maximumBitrate = interaction.guild.maximumBitrate;
+    const premiumTier = interaction.guild.premiumTier;
+    const premiumSubscriptionCount = interaction.guild.premiumSubscriptionCount;
+    const large = interaction.guild.large;
+    const maximumMembers = interaction.guild.maximumMembers;
+    const nsfwLevel = interaction.guild.nsfwLevel;
+    const partnered = interaction.guild.partnered;
+    const allMemberCount = interaction.guild.memberCount;
     const userCount = interaction.guild.members.cache.filter(
       (member) => !member.user.bot
-    ).size
+    ).size;
     const onlineCount =
       interaction.guild.members.cache.filter(
         (member) => member.presence && member.presence.status !== "offline"
-      ).size || "Null"
+      ).size || "Null";
     const offlineCount =
       interaction.guild.members.cache.filter(
         (member) => member.presence && member.presence.status === "offline"
-      ).size || "Null"
+      ).size || "Null";
     const Bots_Count = interaction.guild.members.cache.filter(
       (member) => member.user.bot
-    ).size
+    ).size;
     const presenceCount =
       interaction.guild.members.cache.filter(
         (member) => member.presence && member.presence.status !== "offline"
-      ).size - Bots_Count || "Null"
+      ).size - Bots_Count || "Null";
     const guildIcon =
       interaction.guild.iconURL() ||
-      "https://cdn.discordapp.com/attachments/876461907840745513/1089581164752273468/404-error-icon-vector-symbol-260nw-1545236357_1.png"
-    const userTag = interaction.user.tag
-    const userAvatar = interaction.user.displayAvatarURL({ dynamic: true })
+      "https://cdn.discordapp.com/attachments/876461907840745513/1089581164752273468/404-error-icon-vector-symbol-260nw-1545236357_1.png";
+    const userTag = interaction.user.tag;
+    const userAvatar = interaction.user.displayAvatarURL({ dynamic: true });
 
     // 設置Embed
     const embed = new EmbedBuilder()
@@ -104,7 +103,7 @@ module.exports = {
       .setFooter({
         text: `Requested by ${userTag}`,
         iconURL: userAvatar
-      })
+      });
 
     commands.update_Guild_Collection_Database(
       guildId,
@@ -120,7 +119,7 @@ module.exports = {
       premiumSubscriptionCount,
       nsfwLevel,
       partnered
-    )
-    await interaction.reply({ embeds: [embed] })
+    );
+    await interaction.reply({ embeds: [embed] });
   }
-}
+};

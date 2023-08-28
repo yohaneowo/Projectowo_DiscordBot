@@ -1,24 +1,32 @@
 {
   "name": "discordbot-project_qaq",
   "version": "0.5.7",
-
   "description": "happy coding",
   "main": "index.js",
-  "scripts": {
-   
-  },
+  "scripts": {},
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@babel/eslint-parser": "^7.22.5",
+    "adm-zip": "^0.5.10",
+    "axios": "^1.4.0",
     "better-sqlite3": "^8.3.0",
     "canvas": "^2.11.2",
+    "cheerio": "^1.0.0-rc.12",
     "discord-api-types": "^0.37.37",
     "discord.js": "^14.8.0",
     "dotenv": "^16.0.3",
+    "figlet": "^1.6.0",
     "generic-pool": "^3.9.0",
-    "sqlite3": "^5.1.6"
+    "openai": "^3.3.0",
+    "playwright": "^1.35.1",
+    "pretty": "^2.0.0",
+    "puppeteer": "^20.7.3",
+    "sqlite3": "^5.1.6",
+    "yarn": "^1.22.19"
   },
   "devDependencies": {
-    "eslint": "^8.36.0"
+    "eslint": "^8.7.0",
+    "prettier": "^2.5.1"
   }
 }
