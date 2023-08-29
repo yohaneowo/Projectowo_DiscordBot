@@ -20,8 +20,11 @@ RUN npm install --unsafe-perm
 # 暴露你的应用监听的端口
 EXPOSE 8080
 COPY . .
-RUN ls -la ./
 COPY initial_file/.env ./.env
+
+RUN ls -la ./
+RUN ls -la ./initial_file
+
 RUN sqlite3 ./lib/database/SQLite.db < ./initial_file/SQLite.db.sql
 
 CMD ["node", "./index.js"]
