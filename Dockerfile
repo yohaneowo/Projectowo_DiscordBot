@@ -22,7 +22,7 @@ EXPOSE 8080
 COPY . .
 
 COPY initial_file/.env ./.env
-RUN sqlite3 lib/database/SQLite.db < initial_file/SQLite.db.sql
+RUN sqlite3 /usr/src/app/lib/database/SQLite.db < /usr/src/app/initial_file/SQLite.db.sql
 
 CMD ["node", "./index.js"]
 
