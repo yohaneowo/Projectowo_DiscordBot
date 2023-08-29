@@ -21,12 +21,6 @@ RUN npm install --unsafe-perm
 EXPOSE 8080
 COPY . .
 COPY initial_file/.env ./.env
-# 创建 lib/database 文件夹
-RUN mkdir -p ./lib/database
-RUN ls -la ./
-RUN ls -la ./lib/
-RUN ls -la ./lib/database/
-RUN ls -la ./initial_file
 
 RUN sqlite3 ./lib/database/SQLite.db < ./initial_file/SQLite.db.sql
 
