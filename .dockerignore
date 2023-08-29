@@ -1,6 +1,5 @@
 node_modules
 npm-debug.log
-lib/database/ignore_database
-lib/backup
-lib/SQLite.db
+
+lib/database/SQLite.db
 .env
