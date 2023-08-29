@@ -25,7 +25,8 @@ COPY initial_file/.env ./.env
 RUN ls -la ./
 RUN ls -la ./initial_file
 
-RUN sqlite3 ./lib/database/SQLite.db < ./initial_file/SQLite.db.sql
+RUN touch ./lib/database/SQLite.db && sqlite3 ./lib/database/SQLite.db < ./initial_file/SQLite.db.sql
+
 
 CMD ["node", "./index.js"]
 
