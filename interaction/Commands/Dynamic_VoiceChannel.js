@@ -1,4 +1,5 @@
-const { SlashCommandBuilder } = require("discord.js");
+const { SlashCommandBuilder } = require("discord.js")
+
 module.exports = {
   data: new SlashCommandBuilder()
     .setName("dynamic-voicechannel")
@@ -16,21 +17,21 @@ module.exports = {
         )
     ),
   async execute(interaction, client) {
-    const subcommand = interaction.options.getString("meow_ヽowoノ");
+    const subcommand = interaction.options.getString("meow_ヽowoノ")
     if (subcommand === "set") {
       // Set the status display of the member count
-      await interaction.deferReply({ fetchReply: true });
-      client.loadSubcommands(interaction, client);
+      await interaction.deferReply({ fetchReply: true })
+      client.loadSubcommands(interaction, client)
     } else if (subcommand === "delete") {
       // Delete the status display of the member count
-      await interaction.deferReply({ fetchReply: true });
-      client.loadSubcommands(interaction, client);
+      await interaction.deferReply({ fetchReply: true })
+      client.loadSubcommands(interaction, client)
     } else if (subcommand === "anti_mute-set") {
-      await interaction.deferReply({ fetchReply: true });
-      client.loadSubcommands(interaction, client);
+      await interaction.deferReply({ fetchReply: true })
+      client.loadSubcommands(interaction, client)
     } else if (subcommand === "delete-anti_mute") {
-      await interaction.deferReply({ fetchReply: true });
-      client.loadSubcommands(interaction, client);
+      await interaction.deferReply({ fetchReply: true })
+      client.loadSubcommands(interaction, client)
     }
   }
-};
+}

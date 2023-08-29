@@ -1,12 +1,12 @@
-const { SlashCommandBuilder } = require("discord.js");
+const { SlashCommandBuilder } = require("discord.js")
 
 module.exports = {
   data: new SlashCommandBuilder()
     .setName("github")
     .setDescription("Github Repository"),
   async execute(interaction, client) {
-    const guild_id = interaction.guild.id;
-    const interaction_channel_id = interaction.channelId;
+    const guild_id = interaction.guild.id
+    const interaction_channel_id = interaction.channelId
     client.guilds.fetch(guild_id).then((guild) => {
       guild.channels.fetch(interaction_channel_id).then(async (channel) => {
         const inviteLink = await channel.createInvite({
@@ -15,12 +15,12 @@ module.exports = {
           temporary: false,
           unique: true,
           reason: "Project_QAQ's Server"
-        });
+        })
         await interaction.reply(
           "https://github.com/Yohanewww/DiscordBot-Project_QAQ"
-        );
-        await interaction.followUp(`${inviteLink}`);
-      });
-    });
+        )
+        await interaction.followUp(`${inviteLink}`)
+      })
+    })
   }
-};
+}

@@ -1,4 +1,4 @@
-const { SlashCommandBuilder } = require("discord.js");
+const { SlashCommandBuilder } = require("discord.js")
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -38,26 +38,26 @@ module.exports = {
     ),
 
   async execute(interaction, client) {
-    const subcommand = interaction.options.getString("meow_ヽowoノ");
+    const subcommand = interaction.options.getString("meow_ヽowoノ")
 
     if (subcommand == "set-guild_as_emoji_storage") {
-      await interaction.deferReply({ fetchReply: true });
-      client.loadSubcommands(interaction, client);
+      await interaction.deferReply({ fetchReply: true })
+      client.loadSubcommands(interaction, client)
     } else if (subcommand == "set-prefix") {
       // prefix didn't not use defer due to modal cant use defer
-      client.loadSubcommands(interaction, client);
+      client.loadSubcommands(interaction, client)
     } else if (subcommand == "manually-refresh_emoji") {
-      await interaction.deferReply({ fetchReply: true });
-      client.loadSubcommands(interaction, client);
+      await interaction.deferReply({ fetchReply: true })
+      client.loadSubcommands(interaction, client)
     } else if (subcommand == "remove-this_guild's_emojis_database") {
-      await interaction.deferReply({ fetchReply: true });
-      client.loadSubcommands(interaction, client);
+      await interaction.deferReply({ fetchReply: true })
+      client.loadSubcommands(interaction, client)
     } else if (subcommand == "set-emoji_pack_server") {
-      await interaction.deferReply({ fetchReply: true });
-      client.loadSubcommands(interaction, client);
+      await interaction.deferReply({ fetchReply: true })
+      client.loadSubcommands(interaction, client)
     } else if (subcommand == "delete-emoji_pack_server") {
-      await interaction.deferReply({ fetchReply: true });
-      client.loadSubcommands(interaction, client);
+      await interaction.deferReply({ fetchReply: true })
+      client.loadSubcommands(interaction, client)
     }
   }
-};
+}

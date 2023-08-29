@@ -1,4 +1,4 @@
-const { SlashCommandBuilder, EmbedBuilder } = require("discord.js");
+const { SlashCommandBuilder, EmbedBuilder } = require("discord.js")
 module.exports = {
   data: new SlashCommandBuilder()
     .setName("user-info")
@@ -11,7 +11,7 @@ module.exports = {
     ),
 
   async execute(interaction) {
-    const user = interaction.options.getUser("user");
+    const user = interaction.options.getUser("user")
     const User_Embed = new EmbedBuilder()
       .setTitle(`${user.tag}`)
       .setColor("#fdadad")
@@ -33,7 +33,7 @@ module.exports = {
           text: interaction?.user.username || "Unknown",
           iconURL: interaction?.user.displayAvatarURL({ dynamic: true })
         } || "Unknown"
-      );
-    interaction.reply({ embeds: [User_Embed] });
+      )
+    interaction.reply({ embeds: [User_Embed] })
   }
-};
+}
