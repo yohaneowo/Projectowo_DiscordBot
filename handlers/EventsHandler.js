@@ -1,12 +1,11 @@
-const { mergeDefault } = require('discord.js')
-const fs = require('node:fs')
-const path = require('node:path')
+const fs = require("node:fs")
+const path = require("node:path")
 
 module.exports = (client, Discord) => {
-  const eventsPath = path.join(process.cwd(), 'events')
+  const eventsPath = path.join(process.cwd(), "events")
   const eventsFiles = fs
     .readdirSync(eventsPath)
-    .filter((file) => file.endsWith('.js'))
+    .filter((file) => file.endsWith(".js"))
   for (const eventsFile of eventsFiles) {
     const eventsFilePath = path.join(eventsPath, eventsFile)
     const event = require(eventsFilePath)
@@ -21,10 +20,10 @@ module.exports = (client, Discord) => {
     }
   }
 
-  const LoggerPath = path.join(process.cwd(), 'events/Logger')
+  const LoggerPath = path.join(process.cwd(), "events/Logger")
   const LoggerFiles = fs
     .readdirSync(LoggerPath)
-    .filter((file) => file.endsWith('.js'))
+    .filter((file) => file.endsWith(".js"))
   for (const LoggerFile of LoggerFiles) {
     const LoggerFilePath = path.join(LoggerPath, LoggerFile)
     const Logger = require(LoggerFilePath)
@@ -41,10 +40,10 @@ module.exports = (client, Discord) => {
     }
   }
 
-  const AnimojiPath = path.join(process.cwd(), 'events/Animoji')
+  const AnimojiPath = path.join(process.cwd(), "events/Animoji")
   const AnimojiFiles = fs
     .readdirSync(AnimojiPath)
-    .filter((file) => file.endsWith('.js'))
+    .filter((file) => file.endsWith(".js"))
   for (const AnimojiFile of AnimojiFiles) {
     const AnimojiFilePath = path.join(AnimojiPath, AnimojiFile)
     const Animoji = require(AnimojiFilePath)
