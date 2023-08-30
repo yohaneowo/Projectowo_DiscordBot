@@ -14,15 +14,12 @@ module.exports = {
   name: "messageCreate",
   once: false,
   async execute(message) {
-    const guild_id = message.guild.id
     const mp_databaseManager = new Genaral_DatabaseManager()
     const mp_functionManager = new MovieParser_FunctionManager()
     const button = new MovierParser_Interaction_Components().button
     const button2 = new MovierParser_Interaction_Components().button2
     const voteButton = new MovierParser_Interaction_Components().voteButton
 
-    const user_id = message.author.id
-    const user_avatar = message.author.avatarURL()
     if (message.author.bot) return
     if (message.channel.type === "DM") return
     const serverConfig = await mp_databaseManager.getServerConfig(guild_id)
@@ -41,6 +38,9 @@ module.exports = {
       serverConfig.movie_parser !== "" &&
       serverConfig.movie_parser == message.channel.id
     ) {
+      const guild_id = message.guild.id
+      const user_id = message.author.id
+
       const channel_id = serverConfig.movie_parser
       const keyword = message.content
       const user_avatar = message.author.avatarURL()

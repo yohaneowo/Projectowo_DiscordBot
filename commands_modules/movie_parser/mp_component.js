@@ -104,6 +104,18 @@ class MovierParser_Interaction_Components {
       .setLabel("踩")
       .setStyle(ButtonStyle.Danger)
   )
+
+  authConfirmButton = new ActionRowBuilder().addComponents(
+    new ButtonBuilder()
+      .setCustomId("confirm")
+      .setLabel("确定")
+      .setStyle(ButtonStyle.Success),
+
+    new ButtonBuilder()
+      .setCustomId("cancel")
+      .setLabel("取消")
+      .setStyle(ButtonStyle.Danger)
+  )
 }
 
 // Exporting Module

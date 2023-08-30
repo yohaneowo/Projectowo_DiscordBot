@@ -24,7 +24,6 @@ COPY initial_file/.env ./.env
 
 RUN sqlite3 ./lib/database/SQLite.db < ./initial_file/SQLite.db.sql
 
-
 CMD ["node", "./index.js"]
 
 # docker push yohane0w0/owobot:latest
