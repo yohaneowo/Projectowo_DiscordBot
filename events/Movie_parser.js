@@ -1,8 +1,9 @@
 const Genaral_DatabaseManager = require("../commands_modules/general_modules/general_dbManager.js")
 const MovierParser_Interaction_Components = require("../commands_modules/movie_parser/mp_component.js")
 const MovieParser_FunctionManager = require("../commands_modules/movie_parser/mp_functionManager.js")
+const client = require("../index.js")
 require("dotenv").config()
-
+const { EmbedBuilder, ComponentType } = require("discord.js")
 const { Configuration, OpenAIApi } = require("openai")
 const configuration = new Configuration({
   //   organization: "org-WecKezcKCTAvPKnYCL5UEv3Y",
@@ -14,12 +15,11 @@ module.exports = {
   name: "messageCreate",
   once: false,
   async execute(message) {
+    if (!message.guild) return
+    const mp_InteractionComponents = new MovierParser_Interaction_Components()
     const mp_databaseManager = new Genaral_DatabaseManager()
     const mp_functionManager = new MovieParser_FunctionManager()
-    const button = new MovierParser_Interaction_Components().button
-    const button2 = new MovierParser_Interaction_Components().button2
-    const voteButton = new MovierParser_Interaction_Components().voteButton
-
+    const guild_id = message.guild.id
     if (message.author.bot) return
     if (message.channel.type === "DM") return
     const serverConfig = await mp_databaseManager.getServerConfig(guild_id)
@@ -38,42 +38,104 @@ module.exports = {
       serverConfig.movie_parser !== "" &&
       serverConfig.movie_parser == message.channel.id
     ) {
-      const guild_id = message.guild.id
-      const user_id = message.author.id
-
-      const channel_id = serverConfig.movie_parser
-      const keyword = message.content
-      const user_avatar = message.author.avatarURL()
-      const regex =
-        /http[s]?:\/\/(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\\(\\)\\,]|(?:%[0-9a-fA-F][0-9a-fA-F]))+/
-      const str = message.content
-      const url = str.match(regex)
-      if (url && url.length > 0 && url[0].includes("themoviedb")) {
-        const movie_regex = /http[s]?:\/\/www.themoviedb.org\/(.+)\/(\d+)-?/
-        const media_info = url[0].match(movie_regex)
-        console.log(media_info)
-
-        await mp_functionManager.sendMediaInfo(
-          message,
-          channel_id,
-          null,
-          media_info,
-          button,
-          button2,
-          voteButton
+      let desc
+      const initialEmbedButtonLine1 =
+        mp_InteractionComponents.initialEmbedButtonLine1
+      const initialEmbed = new EmbedBuilder()
+        .setAuthor({
+          name: "Project owo",
+          iconURL: client.user.avatarURL({ dynamic: true })
+        })
+        .setTitle("欢迎来到电影区")
+        // .setThumbnail("")
+        //  .setColor("#FF0000")
+        .setTimestamp()
+        .setFooter({ text: "Project owo" })
+        .setImage(
+          "https://cdn.discordapp.com/attachments/876461907840745513/876461936659791902/Untitled.jpg"
         )
-      } else {
-        await mp_functionManager.sendMediaInfo(
+      if (message.content.toLowerCase() == "owo") {
+        desc = "owo 聽到你的召喚了!"
+        initialEmbed.setDescription(desc)
+        const initialRes = await mp_functionManager.sendInitialEmbedMsg(
           message,
-          channel_id,
-          keyword,
-          null,
-          button,
-          button2,
-          voteButton
+          initialEmbed,
+          initialEmbedButtonLine1
         )
+        try {
+          const collector = initialRes.createMessageComponentCollector({
+            componentType: ComponentType.Button,
+            time: 3_600_000
+          })
+          collector.on("collect", async (buttonPressed) => {
+            // console.log(i)
+            buttonPressed.deferUpdate()
+            if (buttonPressed.customId === "searchMovie") {
+              message.channel.send({
+                content: "你选择了搜索电影"
+              })
+            }
+          })
+
+          // if (buttonPressed.customId === "searchMovie") {
+          //   message.channel.send({
+          //     content: "你选择了搜索电影"
+          //   })
+        } catch (error) {
+          console.log(error)
+        }
       }
 
+      // message.channel.send({
+      //   embeds: [initialEmbed]
+      // })
+      // const guild_id = message.guild.id
+      // const user_id = message.author.id
+      // const channel_id = serverConfig.movie_parser
+      // const channel = message.guild.channels.cache.get(channel_id)
+      // const keyword = message.content
+      // const user_avatar = message.author.avatarURL()
+      // const regex =
+      //   /http[s]?:\/\/(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\\(\\)\\,]|(?:%[0-9a-fA-F][0-9a-fA-F]))+/
+      // const str = message.content
+      // const url = str.match(regex)
+      // if (url && url.length > 0 && url[0].includes("themoviedb")) {
+      //   const movie_regex = /http[s]?:\/\/www.themoviedb.org\/(.+)\/(\d+)-?/
+      //   const media_info = url[0].match(movie_regex)
+      //   console.log(media_info)
+      //   await mp_functionManager.handleMediaSearch(
+      //     message,
+      //     channel_id,
+      //     null,
+      //     media_info
+      //   )
+      // } else {
+      //   const { media_type, media_data } =
+      //     await mp_functionManager.handleMediaSearch(
+      //       message,
+      //       channel_id,
+      //       keyword,
+      //       null
+      //     )
+      //   const embed = await mp_functionManager.convertEmbed(
+      //     media_type,
+      //     media_data,
+      //     user_avatar
+      //   )
+      //   const mediaInfoMsg = await mp_functionManager.sendMediaInfo(
+      //     channel,
+      //     embed
+      //   )
+      //   const ratingScore = await mp_functionManager.sendRatingForm(
+      //     message,
+      //     channel,
+      //     embed,
+      //     mediaInfoMsg
+      //   )
+      //   await channel.send({
+      //     content: `你评分${ratingScore}`
+      //   })
+      // }
       //   let conversationLog = [
       //     {
       //       role: "system",
@@ -81,7 +143,6 @@ module.exports = {
       //         "你将会被提供一串文字,你的任务是从文字中提取一个电影名字,你不能回复除了提取的电影名字以外的文字以及标点符号,如果文字中没有任何一个电影名字,你就回复false"
       //     }
       //   ];
-
       //   conversationLog.push({
       //     role: "user",
       //     content: keyword

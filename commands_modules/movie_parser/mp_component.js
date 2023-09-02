@@ -1,7 +1,7 @@
 const { ActionRowBuilder, ButtonBuilder, ButtonStyle } = require("discord.js")
 class MovierParser_Interaction_Components {
   // Button Component FOR Slash Command
-  button = new ActionRowBuilder().addComponents(
+  ratingButtonLine1 = new ActionRowBuilder().addComponents(
     new ButtonBuilder()
       .setCustomId("1")
       .setLabel("1⭐")
@@ -29,7 +29,7 @@ class MovierParser_Interaction_Components {
       .setStyle(ButtonStyle.Primary)
   )
 
-  button2 = new ActionRowBuilder().addComponents(
+  ratingButtonLine2 = new ActionRowBuilder().addComponents(
     new ButtonBuilder()
       .setCustomId("0.5")
       .setLabel("0.5⭐")
@@ -115,6 +115,13 @@ class MovierParser_Interaction_Components {
       .setCustomId("cancel")
       .setLabel("取消")
       .setStyle(ButtonStyle.Danger)
+  )
+
+  initialEmbedButtonLine1 = new ActionRowBuilder().addComponents(
+    new ButtonBuilder()
+      .setCustomId("searchMovie")
+      .setLabel("搜索电影")
+      .setStyle(ButtonStyle.Primary)
   )
 }
 

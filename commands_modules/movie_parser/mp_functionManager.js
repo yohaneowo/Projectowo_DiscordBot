@@ -4,52 +4,9 @@ const fs = require("fs")
 const path = require("path")
 const { createCanvas, loadImage } = require("canvas")
 const MovierParser_Interaction_Components = require("./mp_component.js")
-
+const TMDB_ApiFunction = require("./tmdb_apiFunction.js")
 class MovieParser_FunctionManager {
-  async searchMovie(keyword) {
-    try {
-      const renponse = await axios.get(
-        "https://api.themoviedb.org/3/search/multi",
-        {
-          params: {
-            language: "zh-CN",
-            query: keyword,
-            api_key: process.env.TMDB_API_KEY
-          }
-        }
-      )
-      return renponse.data
-    } catch (e) {
-      console.log(e)
-    }
-  }
-
-  async getMovieData(media_type, movie_id) {
-    try {
-      const response = await axios.get(
-        `https://api.themoviedb.org/3/${media_type}/${movie_id}`,
-        {
-          params: {
-            language: "zh-CN",
-            api_key: process.env.TMDB_API_KEY
-          }
-        }
-      )
-      return response.data
-    } catch (e) {
-      console.log(e)
-    }
-  }
-
-  async sendMediaInfo(
-    message,
-    channel_id,
-    keyword,
-    media_info,
-    button,
-    button2,
-    voteButton
-  ) {
+  async handleMediaSearch(message, channel_id, keyword, media_info) {
     try {
       const channel = message.guild.channels.cache.get(channel_id)
       const user_avatar = message.author.avatarURL()
@@ -58,36 +15,43 @@ class MovieParser_FunctionManager {
       message.delete()
       const preMessage = await channel.send("正在查询电影信息...")
       // console.log(button2)
-
+      const tmdb_apiFunction = new TMDB_ApiFunction()
       if (keyword === null) {
         const media_type = media_info[1] || "未知"
         const media_id = media_info[2] || "未知"
-
-        const movie_data = await this.getMovieData(media_type, media_id)
-        const embed = await this.convertEmbed(
+        const media_data = await tmdb_apiFunction.getMovieData(
           media_type,
-          movie_data,
-          user_avatar
-        )
-        await this.sendResponse(
-          message,
-          embed,
-          channel,
-          button,
-          button2,
-          voteButton
+          media_id
         )
         await preMessage.delete()
+
+        return { media_type, media_data }
+
+        // const embed = await this.convertEmbed(
+        //   media_type,
+        //   movie_data,
+        //   user_avatar
+        // )
+
+        // const ratingScore = await this.sendRatingForm(
+        //   message,
+        //   channel,
+        //   embed,
+        //   button,
+        //   button2,
+        //   voteButton
+        // )
+        // await tmdb_apiFunction.addRating(session_id, movie_id, ratingScore)
+        // console.log(`ratingScore: ${ratingScore}`)
       } else {
-        const media_list = await this.searchMovie(keyword)
+        const media_list = await tmdb_apiFunction.searchMovie(keyword)
         // console.log(media_list)
         if (media_list.results.length === 0) {
           await channel.send("未找到相关电影")
         } else {
           const bigPosterCount = await this.createBigPoster(media_list)
-          console.log(`bigPosterCount: ${bigPosterCount}`)
-          let totalResult = media_list.total_results
-          console.log(`OUTSITEtotalResult: ${totalResult}`)
+          // console.log(`bigPosterCount: ${bigPosterCount}`)
+          // console.log(`OUTSITEtotalResult: ${totalResult}`)
           let pageIndex = 0
 
           const bufferMessage = await channel.send({
@@ -107,21 +71,23 @@ class MovieParser_FunctionManager {
           const id = result.id
           const media_type = result.media_type
 
-          const movie_data = await this.getMovieData(media_type, id)
-          const embed = await this.convertEmbed(
-            media_type,
-            movie_data,
-            user_avatar
-          )
-          // const movie_title_zh = movie_data.title
-          await this.sendResponse(
-            message,
-            embed,
-            channel,
-            button,
-            button2,
-            voteButton
-          )
+          const media_data = await tmdb_apiFunction.getMovieData(media_type, id)
+          return { media_type, media_data }
+          // const embed = await this.convertEmbed(
+          //   media_type,
+          //   media_data,
+          //   user_avatar
+          // )
+          // // const movie_title_zh = movie_data.title
+          // const ratingScore = await this.sendRatingForm(
+          //   message,
+          //   channel,
+          //   embed,
+          //   button,
+          //   button2,
+          //   voteButton
+          // )
+          // console.log(`ratingScore: ${ratingScore}`)
 
           // await channel.send({
           //   components: [button],
@@ -202,6 +168,7 @@ class MovieParser_FunctionManager {
     // console.log(media_list)
     // return bigPosterCount
   }
+
   async chooseMedia(
     message,
     channel,
@@ -249,7 +216,7 @@ class MovieParser_FunctionManager {
       // const lastPageMediaCount =
       //   remainingMediaCount === 0 ? bigPosterCount : remainingMediaCount
     }
-    console.log(`pageIndex: ${pageIndex}`)
+    // console.log(`pageIndex: ${pageIndex}`)
     const new_Path = path.join(
       __dirname,
       `../../lib/img/movie_poster/bigPoster${pageIndex}.jpg`
@@ -319,21 +286,22 @@ class MovieParser_FunctionManager {
     })
   }
 
-  async convertEmbed(media_type, movie_data, user_avatar) {
+  async convertEmbed(media_type, media_data, user_avatar, username, sessionId) {
     try {
       if (media_type === "movie") {
-        const movie_title_zh = movie_data.title
-        const movie_title_en = movie_data.original_title
-        const movie_poster = movie_data.poster_path
-        const movie_release_date = movie_data.release_date
-        const minutes = movie_data.runtime
+        const media_title_zh = media_data.title
+        const media_title_en = media_data.original_title
+        const movie_poster = media_data.poster_path
+        const movie_release_date = media_data.release_date
+        const minutes = media_data.runtime
         const hours = Math.floor(minutes / 60)
         const remainingMinutes = minutes % 60
         const movie_runtime = `${hours}小时 ${remainingMinutes}分钟`
         const embed = new EmbedBuilder()
-          .setTitle(`${movie_title_zh} `)
-          .setURL(`https://www.themoviedb.org/${media_type}/${movie_data.id}`)
-          .setDescription(`${movie_title_en}`)
+
+          .setTitle(`${media_title_zh} `)
+          .setURL(`https://www.themoviedb.org/${media_type}/${media_data.id}`)
+          .setDescription(`${media_title_en}`)
           .addFields(
             {
               name: "首映日期",
@@ -350,6 +318,30 @@ class MovieParser_FunctionManager {
           .setThumbnail(`${user_avatar}`)
           .setColor("#7F8C8D")
           .setTimestamp()
+        if (sessionId) {
+          const tmdb_apiFunction = new TMDB_ApiFunction()
+          // They named it account_status somehow
+          const account_states = await tmdb_apiFunction.getAccountStates(
+            sessionId,
+            media_data.id
+          )
+          const singleStar = "🌕"
+          const halfStar = "🌗"
+          const emptyStar = "🌑"
+          const rating = account_states.rated.value
+          let starFloor = Math.floor(rating / 2)
+          let starQuotient = rating % 2
+          let emptyStarCount = 5 - starFloor - starQuotient
+          // convert rating 1-10 to stars
+          let starString = `${singleStar.repeat(starFloor)}${halfStar.repeat(
+            Math.ceil(starQuotient)
+          )}${emptyStar.repeat(emptyStarCount)}`
+
+          embed.setAuthor({
+            name: `${username} 评分: ${starString}`,
+            iconURL: `${user_avatar}`
+          })
+        }
 
         return embed
       } else if (media_type === "tv") {
@@ -359,23 +351,38 @@ class MovieParser_FunctionManager {
       console.log(e)
     }
   }
-
-  async sendResponse(message, embed, channel, button, button2, voteButton) {
+  async sendMediaInfo(channel, embed) {
     try {
       const response = await channel.send({
-        components: [button, button2],
+        embeds: [embed]
+      })
+      return response
+    } catch (e) {
+      console.log(e)
+    }
+  }
+
+  async sendRatingForm(message, channel, embed, mediaInfoMsg) {
+    const mp_InteractionComponents = new MovierParser_Interaction_Components()
+    const ratingButtonLine1 = mp_InteractionComponents.ratingButtonLine1
+    const ratingButtonLine2 = mp_InteractionComponents.ratingButtonLine2
+    const voteButton = mp_InteractionComponents.voteButton
+
+    try {
+      await mediaInfoMsg.edit({
+        components: [ratingButtonLine1, ratingButtonLine2],
         embeds: [embed]
       })
 
       const collectorFilter = (i) => i.user.id === message.author.id
 
-      const collector = response.createMessageComponentCollector({
+      const collector = mediaInfoMsg.createMessageComponentCollector({
         filter: collectorFilter,
         componentType: ComponentType.Button,
         time: 300_000
       })
 
-      let userScore = 0
+      let ratingScore = 0
       const stars = [
         { value: 0.5, active: false },
         { value: 1, active: false },
@@ -384,108 +391,117 @@ class MovieParser_FunctionManager {
         { value: 4, active: false },
         { value: 5, active: false }
       ]
-      collector.on("collect", async (i) => {
-        // console.log(i)
-        await i.deferUpdate()
+      return new Promise((resolve) => {
+        collector.on("collect", async (i) => {
+          // console.log(i)
+          await i.deferUpdate()
 
-        const star = stars.find((s) => s.value.toString() === i.customId)
-        if (star) {
-          // confirming button pressed
-          star.active = !star.active
-          // score calculate
-          userScore += star.active ? star.value : -star.value
-          // console.log(`userScore: ${userScore}`)
-          // console.log(`star.value: ${star.value}`)
+          const star = stars.find((s) => s.value.toString() === i.customId)
+          if (star) {
+            // confirming button pressed
+            star.active = !star.active
+            // score calculate
+            ratingScore += star.active ? star.value : -star.value
+            // console.log(`userScore: ${userScore}`)
+            // console.log(`star.value: ${star.value}`)
 
-          // disable other button if a button is pressed
-          if (userScore >= 1) {
-            for (let i = 0; i < 5; i++) {
-              if (stars[i + 1].active === false) {
-                console.log(`i check: ${i}`)
-                console.log(`stars[i].active: ${stars[i].active}`)
-                console.log(`stars[i].value: ${stars[i].value}`)
-                button.components[i].setDisabled(true)
+            // disable other button if a button is pressed
+            if (ratingScore >= 1) {
+              for (let i = 0; i < 5; i++) {
+                if (stars[i + 1].active === false) {
+                  // console.log(`i check: ${i}`)
+                  // console.log(`stars[i].active: ${stars[i].active}`)
+                  // console.log(`stars[i].value: ${stars[i].value}`)
+                  ratingButtonLine1.components[i].setDisabled(true)
+                }
               }
             }
-          }
 
-          // enable button when score below 0.5
-          if (userScore <= 0.5) {
-            button.components[0].setDisabled(false)
-            button.components[1].setDisabled(false)
-            button.components[2].setDisabled(false)
-            button.components[3].setDisabled(false)
-            button.components[4].setDisabled(false)
-            button2.components[0].setDisabled(false)
-            if (userScore == 0.5 && stars[0].active === true) {
-              // disable button 5 star when score equal 0.5
-              button.components[4].setDisabled(true)
+            // enable button when score below 0.5
+            if (ratingScore <= 0.5) {
+              ratingButtonLine1.components[0].setDisabled(false)
+              ratingButtonLine1.components[1].setDisabled(false)
+              ratingButtonLine1.components[2].setDisabled(false)
+              ratingButtonLine1.components[3].setDisabled(false)
+              ratingButtonLine1.components[4].setDisabled(false)
+              ratingButtonLine2.components[0].setDisabled(false)
+              if (ratingScore == 0.5 && stars[0].active === true) {
+                // disable button 5 star when score equal 0.5
+                ratingButtonLine1.components[4].setDisabled(true)
+              }
+              // disable button 0.5 star when score equal 5
+            } else if (ratingScore === 5) {
+              ratingButtonLine2.components[0].setDisabled(true)
             }
-            // disable button 0.5 star when score equal 5
-          } else if (userScore === 5) {
-            button2.components[0].setDisabled(true)
+
+            // console.log(`star.value22: ${star.value}`)
+            ratingButtonLine2.components[1].setLabel(`${ratingScore}⭐`)
+            await i.editReply({
+              components: [ratingButtonLine1, ratingButtonLine2]
+            })
           }
-
-          console.log(`star.value22: ${star.value}`)
-          button2.components[1].setLabel(`${userScore}⭐`)
-          await i.editReply({
-            components: [button, button2]
-          })
-        }
-        // console.log(i)
-        // console.log(button2.components[1].data.label)
-        if (i.customId == "confirm" && userScore > 0) {
-          await response.edit({
-            components: [voteButton]
-          })
-        } else if (i.customId == "confirm" && userScore <= 0) {
-          const errMsg = await channel.send({
-            content: "你没有评分就按确定,你是要触发bug吗?!!?!?"
-          })
-          setTimeout(() => {
-            errMsg.delete()
-          }, 3000) //
-        } else if (i.customId == "cancel") {
-          await response.edit({
-            components: []
-          })
-        } else if (i.customId == "cancel2") {
-          await response.delete()
-        }
-
-        if (i.customId == "good") {
-          await response.edit({
-            components: []
-          })
-
-          channel.send({
-            content: `${message.author} **顶**了这个电影,并评分 ${userScore}⭐`,
-            component: []
-          })
-        } else if (i.customId == "bad") {
-          await response.edit({
-            components: []
-          })
-
-          channel.send({
-            content: `${message.author} **踩**了这个电影,并评分 ${userScore}⭐`,
-            component: []
-          })
-        }
-      })
-      collector.on("end", async () => {
-        // if (i.size === 0) {
-        // 用户没有进行选择
-        if (response.length > 0) {
-          await response.edit({
-            components: []
-          })
-        }
-        // }
+          // console.log(i)
+          // console.log(button2.components[1].data.label)
+          if (i.customId == "confirm" && ratingScore > 0) {
+            await mediaInfoMsg.edit({
+              components: [voteButton]
+            })
+          } else if (i.customId == "confirm" && ratingScore <= 0) {
+            const errMsg = await channel.send({
+              content: "你没有评分就按确定,你是要触发bug吗?!!?!?"
+            })
+            setTimeout(() => {
+              errMsg.delete()
+            }, 3000) //
+          } else if (i.customId == "cancel") {
+            await mediaInfoMsg.edit({
+              components: []
+            })
+          } else if (i.customId == "cancel2") {
+            await mediaInfoMsg.delete()
+          }
+          if (i.customId == "good") {
+            await mediaInfoMsg.edit({
+              components: []
+            })
+            channel.send({
+              content: `${message.author} **顶**了这个电影,并评分 ${ratingScore}⭐`,
+              component: []
+            })
+            resolve(ratingScore)
+          } else if (i.customId == "bad") {
+            await mediaInfoMsg.edit({
+              components: []
+            })
+            channel.send({
+              content: `${message.author} **踩**了这个电影,并评分 ${ratingScore}⭐`,
+              component: []
+            })
+            resolve(ratingScore)
+          }
+        })
+        collector.on("end", async () => {
+          // if (i.size === 0) {
+          // 用户没有进行选择
+          if (mediaInfoMsg.length > 0) {
+            await mediaInfoMsg.edit({
+              components: []
+            })
+          }
+          // }
+        })
       })
     } catch (e) {
       console.log(e)
     }
+  }
+
+  async sendInitialEmbedMsg(message, initialEmbed, initialEmbedButtonLine1) {
+    const response = await message.channel.send({
+      embeds: [initialEmbed],
+      components: [initialEmbedButtonLine1]
+    })
+    return response
   }
 }
 

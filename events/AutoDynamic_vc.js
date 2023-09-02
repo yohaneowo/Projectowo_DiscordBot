@@ -13,7 +13,7 @@ async function createSubChannel(
 ) {
   const subChannel = parameter.guild.channels.create({
     name: channel_name,
-    bitrate: 96000,
+    bitrate: 128000,
     type: ChannelType.GuildVoice,
     permissionOverwrites: [
       {
