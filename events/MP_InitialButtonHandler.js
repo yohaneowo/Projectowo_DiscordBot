@@ -6,6 +6,8 @@ const client = require("../index.js")
 client.on("interactionCreate", async (interaction) => {
   if (interaction.type == InteractionType.MessageComponent) {
     if (interaction.customId == "searchMovie") {
+      interaction.deferUpdate()
+
       const informKeyInMsg = await interaction.channel.send({
         content: "请输入你要搜索的电影名字"
       })
@@ -66,9 +68,11 @@ client.on("interactionCreate", async (interaction) => {
         console.log(`Collected ${message.content}`)
       })
 
-      //   msgCollector.on("end", (collected) => {
-      //     console.log(`Collected ${collected.size} items`)
-      //   })
+      msgCollector.on("end", async (collected) => {
+        await informKeyInMsg.delete()
+
+        console.log(`Collected ${collected.size} items`)
+      })
 
       //   console.log("searchMovie")
     }

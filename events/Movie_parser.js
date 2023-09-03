@@ -12,6 +12,8 @@ const configuration = new Configuration({
   apiKey: process.env.OPENAI_API_KEY
 })
 const openai = new OpenAIApi(configuration)
+let timer
+let lastInitialEmbedMsg
 
 module.exports = {
   name: "messageCreate",
@@ -42,10 +44,13 @@ module.exports = {
       serverConfig.movie_parser == message.channel.id
     ) {
       let desc
-      const tmdb_SessionId = new TMDB_SessionId()
+      const channel_id = serverConfig.movie_parser
+      const channel = message.guild.channels.cache.get(channel_id)
 
+      const tmdb_SessionId = new TMDB_SessionId()
       const initialEmbedButtonLine1 =
         mp_InteractionComponents.initialEmbedButtonLine1
+
       const initialEmbed = new EmbedBuilder()
         .setAuthor({
           name: "Project owo",
@@ -59,46 +64,56 @@ module.exports = {
         .setImage(
           "https://cdn.discordapp.com/attachments/876461907840745513/876461936659791902/Untitled.jpg"
         )
+
       if (message.content.toLowerCase() == "owo") {
+        console.log(lastInitialEmbedMsg)
+        if (lastInitialEmbedMsg) {
+          lastInitialEmbedMsg
+            .delete()
+            .catch((error) =>
+              console.error("Failed to delete the message due to: ", error)
+            )
+        }
+
         desc = "owo 聽到你的召喚了!"
         initialEmbed.setDescription(desc)
-        const initialRes = await mp_functionManager.sendInitialEmbedMsg(
+        lastInitialEmbedMsg = await mp_functionManager.sendInitialEmbedMsg(
           message,
           initialEmbed,
           initialEmbedButtonLine1
         )
-        try {
-          const collector = initialRes.createMessageComponentCollector({
-            componentType: ComponentType.Button
-            // time: 3_600_000
-          })
-          collector.on("collect", async (buttonPressed) => {
-            // console.log(i)
-            buttonPressed.deferUpdate()
-            // if (buttonPressed.customId === "searchMovie") {
-            //   message.channel.send({
-            //     content: "你选择了搜索电影"
-            //   })
-            // }
-          })
-          // if (buttonPressed.customId === "searchMovie") {
-          //   message.channel.send({
-          //     content: "你选择了搜索电影"
-          //   })
-        } catch (error) {
-          console.log(error)
-        }
+        console.log(lastInitialEmbedMsg)
       }
+      if (timer) {
+        clearTimeout(timer)
+      }
+
+      timer = setTimeout(async () => {
+        let lastMessage = channel.lastMessage
+        console.log(lastMessage)
+        // console.log(lastMessage)
+        if (lastMessage == lastInitialEmbedMsg) return
+        console.log(lastInitialEmbedMsg)
+        if (lastInitialEmbedMsg) {
+          lastInitialEmbedMsg
+            .delete()
+            .catch((error) =>
+              console.error("Failed to delete the message due to: ", error)
+            )
+        }
+
+        lastInitialEmbedMsg = await mp_functionManager.sendInitialEmbedMsg(
+          message,
+          initialEmbed,
+          initialEmbedButtonLine1
+        )
+      }, 5000)
 
       // message.channel.send({
       //   embeds: [initialEmbed]
       // })
-      const guild_id = message.guild.id
       const user_id = message.author.id
       const sessionId = await tmdb_SessionId.getSessionId(user_id)
-
-      const channel_id = serverConfig.movie_parser
-      const channel = message.guild.channels.cache.get(channel_id)
       const user_avatar = message.author.avatarURL()
       const regex =
         /http[s]?:\/\/(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\\(\\)\\,]|(?:%[0-9a-fA-F][0-9a-fA-F]))+/
