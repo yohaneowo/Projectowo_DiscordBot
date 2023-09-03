@@ -35,7 +35,7 @@ client.on("interactionCreate", async (interaction) => {
 
         let keyword = message.content
         const sessionId = await tmdb_SessionId.getSessionId(user_id)
-        await informKeyInMsg.delete()
+        // await informKeyInMsg.delete()
         const { media_type, media_data } =
           await mp_functionManager.handleMediaSearch(
             message,

@@ -12,7 +12,7 @@ class MovieParser_FunctionManager {
       const user_avatar = message.author.avatarURL()
       // console.log(media_info)
       channel.sendTyping()
-      message.delete()
+      // message.delete()
       const preMessage = await channel.send("正在查询电影信息...")
       // console.log(button2)
       const tmdb_apiFunction = new TMDB_ApiFunction()

@@ -107,7 +107,7 @@ module.exports = {
           initialEmbed,
           initialEmbedButtonLine1
         )
-      }, 5000)
+      }, 60000 * 3)
 
       // message.channel.send({
       //   embeds: [initialEmbed]

@@ -15,6 +15,7 @@ async function createSubChannel(
     name: channel_name,
     bitrate: 128000,
     type: ChannelType.GuildVoice,
+    rtcRegion: "japan",
     permissionOverwrites: [
       {
         id: parameter.guild.roles.everyone,
