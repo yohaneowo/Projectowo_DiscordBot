@@ -286,7 +286,13 @@ class MovieParser_FunctionManager {
     })
   }
 
-  async convertEmbed(media_type, media_data, user_avatar, username, sessionId) {
+  async convertEmbed(
+    media_type,
+    media_data,
+    user_avatar,
+    displayName,
+    sessionId
+  ) {
     try {
       if (media_type === "movie") {
         const media_title_zh = media_data.title
@@ -325,22 +331,24 @@ class MovieParser_FunctionManager {
             sessionId,
             media_data.id
           )
-          const singleStar = "🌕"
-          const halfStar = "🌗"
-          const emptyStar = "🌑"
-          const rating = account_states.rated.value
-          let starFloor = Math.floor(rating / 2)
-          let starQuotient = rating % 2
-          let emptyStarCount = 5 - starFloor - starQuotient
-          // convert rating 1-10 to stars
-          let starString = `${singleStar.repeat(starFloor)}${halfStar.repeat(
-            Math.ceil(starQuotient)
-          )}${emptyStar.repeat(emptyStarCount)}`
+          if (account_states.rated != false) {
+            const singleStar = "🌕"
+            const halfStar = "🌗"
+            const emptyStar = "🌑"
+            const rating = account_states.rated.value
+            let starFloor = Math.floor(rating / 2)
+            let starQuotient = rating % 2
+            let emptyStarCount = 5 - starFloor - starQuotient
+            // convert rating 1-10 to stars
+            let starString = `${singleStar.repeat(starFloor)}${halfStar.repeat(
+              Math.ceil(starQuotient)
+            )}${emptyStar.repeat(emptyStarCount)}`
 
-          embed.setAuthor({
-            name: `${username} 评分: ${starString}`,
-            iconURL: `${user_avatar}`
-          })
+            embed.setAuthor({
+              name: `${displayName} 评分: ${starString}`,
+              iconURL: `${user_avatar}`
+            })
+          }
         }
 
         return embed
@@ -502,6 +510,30 @@ class MovieParser_FunctionManager {
       components: [initialEmbedButtonLine1]
     })
     return response
+  }
+
+  async convertEmbedSendMediaInfoAndSendRatingForm(
+    searchedData,
+    user_info,
+    interaction_params
+  ) {
+    const { media_type, media_data } = searchedData
+    const { sessionId, user_avatar, displayName } = user_info
+    const { message, channel } = interaction_params
+    const embed = await this.convertEmbed(
+      media_type,
+      media_data,
+      user_avatar,
+      displayName,
+      sessionId
+    )
+    const mediaInfoMsg = await this.sendMediaInfo(channel, embed)
+    const ratingScore = await this.sendRatingForm(
+      message,
+      channel,
+      embed,
+      mediaInfoMsg
+    )
   }
 }
 

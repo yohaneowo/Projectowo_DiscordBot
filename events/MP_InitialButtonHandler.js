@@ -3,9 +3,12 @@ const Genaral_DatabaseManager = require("../commands_modules/general_modules/gen
 const MovieParser_FunctionManager = require("../commands_modules/movie_parser/mp_functionManager.js")
 const TMDB_SessionId = require("../databaseFunction/TMDB_SessionId.js")
 const client = require("../index.js")
-client.on("interactionCreate", (interaction) => {
+client.on("interactionCreate", async (interaction) => {
   if (interaction.type == InteractionType.MessageComponent) {
     if (interaction.customId == "searchMovie") {
+      const informKeyInMsg = await interaction.channel.send({
+        content: "请输入你要搜索的电影名字"
+      })
       const tmdb_SessionId = new TMDB_SessionId()
       const mp_functionManager = new MovieParser_FunctionManager()
       const user_id = interaction.user.id
@@ -22,7 +25,7 @@ client.on("interactionCreate", (interaction) => {
         const user_id = message.author.id
         const channel = message.guild.channels.cache.get(channel_id)
         const user_avatar = message.author.avatarURL()
-        const user_name = interaction.user.displayName
+        const displayName = interaction.user.displayName
 
         console.log(
           `Interaction_display_name: ${interaction.member.displayName}`
@@ -30,7 +33,7 @@ client.on("interactionCreate", (interaction) => {
 
         let keyword = message.content
         const sessionId = await tmdb_SessionId.getSessionId(user_id)
-
+        await informKeyInMsg.delete()
         const { media_type, media_data } =
           await mp_functionManager.handleMediaSearch(
             message,
@@ -38,26 +41,28 @@ client.on("interactionCreate", (interaction) => {
             keyword,
             null
           )
-        const embed = await mp_functionManager.convertEmbed(
-          media_type,
-          media_data,
-          user_avatar,
-          user_name,
-          sessionId
+        let searchedData = {
+          media_type: media_type,
+          media_data: media_data
+        }
+        let user_info = {
+          sessionId: sessionId,
+          user_avatar: user_avatar,
+          displayName: displayName
+        }
+        let interaction_params = {
+          message: message,
+          channel: channel
+        }
+        await mp_functionManager.convertEmbedSendMediaInfoAndSendRatingForm(
+          searchedData,
+          user_info,
+          interaction_params
         )
-        const mediaInfoMsg = await mp_functionManager.sendMediaInfo(
-          channel,
-          embed
-        )
-        const ratingScore = await mp_functionManager.sendRatingForm(
-          message,
-          channel,
-          embed,
-          mediaInfoMsg
-        )
-        await channel.send({
-          content: `你评分${ratingScore}`
-        })
+
+        // await channel.send({
+        //   content: `你评分${ratingScore}`
+        // })
         console.log(`Collected ${message.content}`)
       })
 

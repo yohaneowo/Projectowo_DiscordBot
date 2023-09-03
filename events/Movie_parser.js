@@ -1,6 +1,8 @@
 const Genaral_DatabaseManager = require("../commands_modules/general_modules/general_dbManager.js")
 const MovierParser_Interaction_Components = require("../commands_modules/movie_parser/mp_component.js")
 const MovieParser_FunctionManager = require("../commands_modules/movie_parser/mp_functionManager.js")
+const TMDB_SessionId = require("../databaseFunction/TMDB_SessionId.js")
+
 const client = require("../index.js")
 require("dotenv").config()
 const { EmbedBuilder, ComponentType } = require("discord.js")
@@ -22,6 +24,7 @@ module.exports = {
     const guild_id = message.guild.id
     if (message.author.bot) return
     if (message.channel.type === "DM") return
+    const displayName = message.member.displayName
     const serverConfig = await mp_databaseManager.getServerConfig(guild_id)
     // const videoParser = await vp_databaseManager.getVideoParserConfig(
     //   message.guild.id
@@ -39,6 +42,8 @@ module.exports = {
       serverConfig.movie_parser == message.channel.id
     ) {
       let desc
+      const tmdb_SessionId = new TMDB_SessionId()
+
       const initialEmbedButtonLine1 =
         mp_InteractionComponents.initialEmbedButtonLine1
       const initialEmbed = new EmbedBuilder()
@@ -64,19 +69,18 @@ module.exports = {
         )
         try {
           const collector = initialRes.createMessageComponentCollector({
-            componentType: ComponentType.Button,
-            time: 3_600_000
+            componentType: ComponentType.Button
+            // time: 3_600_000
           })
           collector.on("collect", async (buttonPressed) => {
             // console.log(i)
             buttonPressed.deferUpdate()
-            if (buttonPressed.customId === "searchMovie") {
-              message.channel.send({
-                content: "你选择了搜索电影"
-              })
-            }
+            // if (buttonPressed.customId === "searchMovie") {
+            //   message.channel.send({
+            //     content: "你选择了搜索电影"
+            //   })
+            // }
           })
-
           // if (buttonPressed.customId === "searchMovie") {
           //   message.channel.send({
           //     content: "你选择了搜索电影"
@@ -89,53 +93,48 @@ module.exports = {
       // message.channel.send({
       //   embeds: [initialEmbed]
       // })
-      // const guild_id = message.guild.id
-      // const user_id = message.author.id
-      // const channel_id = serverConfig.movie_parser
-      // const channel = message.guild.channels.cache.get(channel_id)
-      // const keyword = message.content
-      // const user_avatar = message.author.avatarURL()
-      // const regex =
-      //   /http[s]?:\/\/(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\\(\\)\\,]|(?:%[0-9a-fA-F][0-9a-fA-F]))+/
-      // const str = message.content
-      // const url = str.match(regex)
-      // if (url && url.length > 0 && url[0].includes("themoviedb")) {
-      //   const movie_regex = /http[s]?:\/\/www.themoviedb.org\/(.+)\/(\d+)-?/
-      //   const media_info = url[0].match(movie_regex)
-      //   console.log(media_info)
-      //   await mp_functionManager.handleMediaSearch(
-      //     message,
-      //     channel_id,
-      //     null,
-      //     media_info
-      //   )
-      // } else {
-      //   const { media_type, media_data } =
-      //     await mp_functionManager.handleMediaSearch(
-      //       message,
-      //       channel_id,
-      //       keyword,
-      //       null
-      //     )
-      //   const embed = await mp_functionManager.convertEmbed(
-      //     media_type,
-      //     media_data,
-      //     user_avatar
-      //   )
-      //   const mediaInfoMsg = await mp_functionManager.sendMediaInfo(
-      //     channel,
-      //     embed
-      //   )
-      //   const ratingScore = await mp_functionManager.sendRatingForm(
-      //     message,
-      //     channel,
-      //     embed,
-      //     mediaInfoMsg
-      //   )
-      //   await channel.send({
-      //     content: `你评分${ratingScore}`
-      //   })
-      // }
+      const guild_id = message.guild.id
+      const user_id = message.author.id
+      const sessionId = await tmdb_SessionId.getSessionId(user_id)
+
+      const channel_id = serverConfig.movie_parser
+      const channel = message.guild.channels.cache.get(channel_id)
+      const user_avatar = message.author.avatarURL()
+      const regex =
+        /http[s]?:\/\/(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\\(\\)\\,]|(?:%[0-9a-fA-F][0-9a-fA-F]))+/
+      const str = message.content
+      const url = str.match(regex)
+      if (url && url.length > 0 && url[0].includes("themoviedb")) {
+        const movie_regex = /http[s]?:\/\/www.themoviedb.org\/(.+)\/(\d+)-?/
+        const media_info = url[0].match(movie_regex)
+        console.log(media_info)
+        const { media_type, media_data } =
+          await mp_functionManager.handleMediaSearch(
+            message,
+            channel_id,
+            null,
+            media_info
+          )
+        let searchedData = {
+          media_type: media_type,
+          media_data: media_data
+        }
+        let user_info = {
+          sessionId: sessionId,
+          user_avatar: user_avatar,
+          displayName: displayName
+        }
+        let interaction_params = {
+          message: message,
+          channel: channel
+        }
+        await mp_functionManager.convertEmbedSendMediaInfoAndSendRatingForm(
+          searchedData,
+          user_info,
+          interaction_params
+        )
+      }
+
       //   let conversationLog = [
       //     {
       //       role: "system",
