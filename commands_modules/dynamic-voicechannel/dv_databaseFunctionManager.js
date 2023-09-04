@@ -205,6 +205,4 @@ class DynamicVC_DatabaseManager {
     })
   }
 }
-module.exports = {
-  DynamicVC_DatabaseManager
-}
+module.exports = DynamicVC_DatabaseManager
