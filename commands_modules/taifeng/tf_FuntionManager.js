@@ -3,7 +3,7 @@ const axios = require("axios")
 require("dotenv").config()
 class TaiFeng_FunctionManager {
   async getTaiFengScreenshot(url, path) {
-    const browser = await puppeteer.launch()
+    const browser = await puppeteer.launch({ headless: "old" })
     const page = await browser.newPage()
     await page.goto(url, { timeout: 60000 })
     await page.screenshot({ path: path })
