@@ -15,7 +15,7 @@ module.exports = {
     let custom_desc
     let custom_color
     const user_id = interaction.user.id
-    const tmdb_SessionId = new TMDB_Sess() / ionId()
+    const tmdb_SessionId = new TMDB_SessionId()
     const tmdb_apiFunction = new TMDB_ApiFunction()
     const mp_InteractionComponents = new MovieParser_Interaction_Components()
     const mp_FunctionManager = new MovieParser_FunctionManager(interaction)
