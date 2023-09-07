@@ -184,32 +184,36 @@ class TMDB_ApiFunction {
     }
   }
 
-  async addRating(session_id, movie_id, ratingScore) {
+  async addRating(session_id, searchedData, ratingScore) {
+    const { media_type, media_data } = searchedData
     ratingScore = ratingScore * 2
-    const apiUrl = `https://api.themoviedb.org/3/movie/${movie_id}/rating`
-    const headers = {
-      "Content-Type": "application/json;charset=utf-8"
-    }
-    const data = {
-      value: ratingScore
-    }
-    const params = {
-      api_key: this.TMDB_API_KEY,
-      session_id: session_id
-    }
+    if (media_type === "movie") {
+      const movie_id = media_data.id
+      const apiUrl = `https://api.themoviedb.org/3/movie/${movie_id}/rating`
+      const headers = {
+        "Content-Type": "application/json;charset=utf-8"
+      }
+      const data = {
+        value: ratingScore
+      }
+      const params = {
+        api_key: this.TMDB_API_KEY,
+        session_id: session_id
+      }
 
-    axios
-      .post(apiUrl, data, { headers: headers, params: params })
-      .then((response) => {
-        if (response.status === 201) {
-          console.log("评分成功")
-        } else {
-          console.log("评分失败")
-        }
-      })
-      .catch((error) => {
-        console.log(error)
-      })
+      axios
+        .post(apiUrl, data, { headers: headers, params: params })
+        .then((response) => {
+          if (response.status === 201) {
+            console.log("评分成功")
+          } else {
+            console.log("评分失败")
+          }
+        })
+        .catch((error) => {
+          console.log(error)
+        })
+    }
   }
 
   async getAccountStates(session_id, movie_id) {

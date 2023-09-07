@@ -2,12 +2,18 @@ const { Interaction, InteractionType } = require("discord.js")
 const Genaral_DatabaseManager = require("../commands_modules/general_modules/general_dbManager.js")
 const MovieParser_FunctionManager = require("../commands_modules/movie_parser/mp_functionManager.js")
 const MovierParser_Interaction_Components = require("../commands_modules/movie_parser/mp_component.js")
+const TMDB_ApiFunction = require("../commands_modules/movie_parser/TMDB_apiFunction.js")
 const TMDB_SessionId = require("../databaseFunction/TMDB_SessionId.js")
 const client = require("../index.js")
+
+const searchCooldowns = new Map()
+
 client.on("interactionCreate", async (interaction) => {
   if (interaction.type == InteractionType.MessageComponent) {
     if (interaction.customId == "searchMovie") {
+      // interaction.deferUpdate()
       interaction.deferUpdate()
+
       let custom_desc
       let custom_color
       const user_id = interaction.user.id
@@ -32,7 +38,15 @@ client.on("interactionCreate", async (interaction) => {
         }, 60000)
         return
       }
-      interaction.deferUpdate()
+
+      if (searchCooldowns.has(user_id)) {
+        // 如果用户在冷却时间内连续点击，忽略按钮点击事件
+        return
+      }
+      searchCooldowns.set(user_id, true)
+      setTimeout(() => {
+        searchCooldowns.delete(user_id)
+      }, 60000)
 
       const informKeyInMsg = await interaction.channel.send({
         content: "请输入你要搜索的电影名字"
@@ -45,7 +59,9 @@ client.on("interactionCreate", async (interaction) => {
         time: 60000,
         max: 1
       })
+
       msgCollector.on("collect", async (message) => {
+        const tmdb_apiFunction = new TMDB_ApiFunction()
         const channel_id = message.channel.id
         const guild_id = message.guild.id
         const user_id = message.author.id
@@ -79,12 +95,13 @@ client.on("interactionCreate", async (interaction) => {
           message: message,
           channel: channel
         }
-        await mp_functionManager.convertEmbedSendMediaInfoAndSendRatingForm(
-          searchedData,
-          user_info,
-          interaction_params
-        )
-
+        const ratingScore =
+          await mp_functionManager.convertEmbedSendMediaInfoAndSendRatingForm(
+            searchedData,
+            user_info,
+            interaction_params
+          )
+        await tmdb_apiFunction.addRating(sessionId, searchedData, ratingScore)
         // await channel.send({
         //   content: `你评分${ratingScore}`
         // })

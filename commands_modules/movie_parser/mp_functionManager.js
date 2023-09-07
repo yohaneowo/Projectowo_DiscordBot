@@ -263,6 +263,7 @@ class MovieParser_FunctionManager {
       if (media_type === "movie") {
         const media_title_zh = media_data.title
         const media_title_en = media_data.original_title
+        const media_id = media_data.id
         const movie_poster = media_data.poster_path
         const movie_release_date = media_data.release_date
         const minutes = media_data.runtime
@@ -272,7 +273,7 @@ class MovieParser_FunctionManager {
         const embed = new EmbedBuilder()
 
           .setTitle(`${media_title_zh} `)
-          .setURL(`https://www.themoviedb.org/${media_type}/${media_data.id}`)
+          .setURL(`https://www.themoviedb.org/${media_type}/${media_id}`)
           .setDescription(`${media_title_en}`)
           .addFields(
             {
@@ -500,6 +501,7 @@ class MovieParser_FunctionManager {
       embed,
       mediaInfoMsg
     )
+    return ratingScore
   }
 
   async handleResetSessionIdConfirmation(

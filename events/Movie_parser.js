@@ -2,7 +2,7 @@ const Genaral_DatabaseManager = require("../commands_modules/general_modules/gen
 const MovierParser_Interaction_Components = require("../commands_modules/movie_parser/mp_component.js")
 const MovieParser_FunctionManager = require("../commands_modules/movie_parser/mp_functionManager.js")
 const TMDB_SessionId = require("../databaseFunction/TMDB_SessionId.js")
-
+const TMDB_ApiFunction = require("../commands_modules/movie_parser/TMDB_apiFunction.js")
 const client = require("../index.js")
 require("dotenv").config()
 const { EmbedBuilder, ComponentType } = require("discord.js")
@@ -50,7 +50,7 @@ module.exports = {
       const tmdb_SessionId = new TMDB_SessionId()
       const initialEmbedButtonLine1 =
         mp_InteractionComponents.initialEmbedButtonLine1
-
+      const tmdb_apiFunction = new TMDB_ApiFunction()
       const initialEmbed = new EmbedBuilder()
         .setAuthor({
           name: "Project owo",
@@ -82,8 +82,9 @@ module.exports = {
           initialEmbed,
           initialEmbedButtonLine1
         )
-        console.log(lastInitialEmbedMsg)
+        // console.log(lastInitialEmbedMsg)
       }
+
       if (timer) {
         clearTimeout(timer)
       }
@@ -143,11 +144,13 @@ module.exports = {
           message: message,
           channel: channel
         }
-        await mp_functionManager.convertEmbedSendMediaInfoAndSendRatingForm(
-          searchedData,
-          user_info,
-          interaction_params
-        )
+        const ratingScore =
+          await mp_functionManager.convertEmbedSendMediaInfoAndSendRatingForm(
+            searchedData,
+            user_info,
+            interaction_params
+          )
+        await tmdb_apiFunction.addRating(sessionId, searchedData, ratingScore)
       }
 
       //   let conversationLog = [
