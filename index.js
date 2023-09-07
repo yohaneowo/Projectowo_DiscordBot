@@ -1,8 +1,14 @@
 // Require the necessary discord.js classes
 require("dotenv").config()
-var figlet = require("figlet")
-
 const { Client, GatewayIntentBits } = require("discord.js")
+var figlet = require("figlet")
+const app = require("./express.js")
+const port = process.env.EXPRESS_PORT || 3366
+
+app.listen(port, () => {
+  console.log(`Express server is running at http://localhost:${port}`)
+})
+
 // Create a new client instance
 const client = new Client({
   intents: [3276799, GatewayIntentBits.GuildPresences, 8]
@@ -17,7 +23,7 @@ module.exports = client
   }
 )
 
-figlet("Project owo ", function (err, data) {
+figlet("Project UwU ", function (err, data) {
   if (err) {
     console.log("Something went wrong...")
     console.dir(err)
@@ -27,6 +33,13 @@ figlet("Project owo ", function (err, data) {
   console.log(data)
 })
 
-// Log in to Discord with your client's token
+// Automatic choose token
+let token
+if (process.env.NODE_ENV === "production") {
+  token = process.env.PRODUCTION_DISCORD_TOKEN
+} else {
+  token = process.env.DEV_DISCORD_TOKEN
+}
 
-client.login(process.env.DISCORD_TOKEN)
+// Log in to Discord with your client's token
+client.login(token)

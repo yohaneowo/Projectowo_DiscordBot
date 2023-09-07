@@ -1,9 +1,7 @@
 const client = require("../index.js")
 const sqlite3 = require("sqlite3")
 const { PermissionsBitField, ChannelType } = require("discord.js")
-const {
-  DynamicVC_DatabaseManager
-} = require("../commands_modules/dynamic-voicechannel/dv_databaseFunctionManager.js")
+const DynamicVC_DatabaseManager = require("../commands_modules/dynamic-voicechannel/dv_databaseFunctionManager.js")
 async function createSubChannel(
   parameter,
   channel_name,
@@ -13,8 +11,9 @@ async function createSubChannel(
 ) {
   const subChannel = parameter.guild.channels.create({
     name: channel_name,
-    bitrate: 96000,
+    bitrate: 128000,
     type: ChannelType.GuildVoice,
+    rtcRegion: "japan",
     permissionOverwrites: [
       {
         id: parameter.guild.roles.everyone,
