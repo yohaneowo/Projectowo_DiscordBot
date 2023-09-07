@@ -50,7 +50,7 @@ class TMDB_ApiFunction {
     let user = interaction.user || message.author
     let request_token = response_data.request_token
     const userId = interaction.user.id
-    let authLink = `https://www.themoviedb.org/authenticate/${request_token}?redirect_to=https://dowouwu.com/api/TMDB_Auth/${userId}`
+    let authLink = `https://www.themoviedb.org/authenticate/${request_token}?redirect_to=https://dowouwu.com/auth/TMDB_Auth/${userId}`
     let content = `点击以下网址跳转TMDB官网进行授权 \n ==================================\n ${authLink} \n ==================================`
 
     const embed = new EmbedBuilder()

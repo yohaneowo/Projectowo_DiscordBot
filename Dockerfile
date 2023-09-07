@@ -18,7 +18,7 @@ COPY package*.json ./
 
 RUN npm install --unsafe-perm
 # 暴露你的应用监听的端口
-EXPOSE 8080
+EXPOSE 3366
 COPY . .
 COPY initial_file/.env ./.env
 

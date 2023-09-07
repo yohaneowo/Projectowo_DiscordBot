@@ -10,11 +10,12 @@ module.exports = {
     .setName("tmdb-登入")
     .setDescription("TMDB 登入"),
   async execute(interaction) {
+    await interaction.deferReply()
+
     let custom_desc
     let custom_color
     const user_id = interaction.user.id
-    await interaction.deferReply()
-    const tmdb_SessionId = new TMDB_SessionId()
+    const tmdb_SessionId = new TMDB_Sess() / ionId()
     const tmdb_apiFunction = new TMDB_ApiFunction()
     const mp_InteractionComponents = new MovieParser_Interaction_Components()
     const mp_FunctionManager = new MovieParser_FunctionManager(interaction)
