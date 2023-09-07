@@ -3,7 +3,7 @@ require("dotenv").config()
 const { Client, GatewayIntentBits } = require("discord.js")
 var figlet = require("figlet")
 const app = require("./express.js")
-const port = process.env.PORT || 3000
+const port = process.env.EXPRESS_PORT || 3366
 
 app.listen(port, () => {
   console.log(`Express server is running at http://localhost:${port}`)

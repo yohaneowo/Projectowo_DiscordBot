@@ -26,13 +26,31 @@ class TMDB_ApiFunction {
       throw error
     }
   }
+  // async authRequestCombination(interaction) {
+  //   const pre_msg = await interaction.editReply({
+  //     content: "已发送授权链接，请查收",
+  //     ephemeral: true
+  //   })
+  //   setTimeout(() => {
+  //     interaction.deleteReply()
+  //   }, 3000)
+  //   await this.sendAuthRequestLink(interaction, null, pre_msg)
+  // }
 
-  async sendAuthRequestLink(interaction, message, pre_msg) {
+  async sendAuthRequestLink(interaction, message) {
+    const pre_msg = await interaction.editReply({
+      content: "已发送授权链接，请查收",
+      ephemeral: true
+    })
+    // setTimeout(() => {
+    //   interaction.deleteReply()
+    // }, 3000)
+
     const response_data = await this.createRequestToken()
     let user = interaction.user || message.author
     let request_token = response_data.request_token
     const userId = interaction.user.id
-    let authLink = `https://www.themoviedb.org/authenticate/${request_token}?redirect_to=http://127.0.0.1:3000/TMDB_Auth/${userId}`
+    let authLink = `https://www.themoviedb.org/authenticate/${request_token}?redirect_to=https://dowouwu.com/api/TMDB_Auth/${userId}`
     let content = `点击以下网址跳转TMDB官网进行授权 \n ==================================\n ${authLink} \n ==================================`
 
     const embed = new EmbedBuilder()

@@ -1,4 +1,9 @@
-const { ActionRowBuilder, ButtonBuilder, ButtonStyle } = require("discord.js")
+const {
+  ActionRowBuilder,
+  ButtonBuilder,
+  ButtonStyle,
+  EmbedBuilder
+} = require("discord.js")
 class MovierParser_Interaction_Components {
   // Button Component FOR Slash Command
   ratingButtonLine1 = new ActionRowBuilder().addComponents(
@@ -123,6 +128,31 @@ class MovierParser_Interaction_Components {
       .setLabel("搜索电影")
       .setStyle(ButtonStyle.Primary)
   )
+
+  handleSessionIdButton = new ActionRowBuilder().addComponents(
+    new ButtonBuilder()
+      .setCustomId("resetSessionId")
+      .setLabel("重置")
+      .setStyle(ButtonStyle.Primary),
+
+    new ButtonBuilder()
+      .setCustomId("cancelManipulateSessionId")
+      .setLabel("取消操作")
+      .setStyle(ButtonStyle.Secondary),
+
+    new ButtonBuilder()
+      .setCustomId("deleteSessionId")
+      .setLabel("刪除")
+      .setStyle(ButtonStyle.Danger)
+  )
+
+  tmdb_AuthenticationEmbed = new EmbedBuilder()
+    .setTitle("TMDB Authentication")
+    .setTimestamp()
+    .setThumbnail(
+      "https://cdn.discordapp.com/attachments/1146652474363609210/1146652578491412490/tmdb.png"
+    )
+    .setFooter({ text: "Project UwU" })
 }
 
 // Exporting Module

@@ -9,12 +9,15 @@ class TMDB_SessionId {
           "SELECT session_id FROM TMDB_SessionId WHERE user_id = ?"
         )
         const session_id = stmt.get(user_id)
-        // console.log("session_id: ", session_id);
+        // console.log("session_id: ", session_id)
 
         if (session_id) {
           resolve(session_id.session_id)
+        } else {
+          resolve(null)
         }
       } catch (err) {
+        console.log(err)
         reject(err)
       }
     })

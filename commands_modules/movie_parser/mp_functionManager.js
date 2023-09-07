@@ -5,7 +5,13 @@ const path = require("path")
 const { createCanvas, loadImage } = require("canvas")
 const MovierParser_Interaction_Components = require("./mp_component.js")
 const TMDB_ApiFunction = require("./tmdb_apiFunction.js")
+const TMDB_SessionId = require("../../databaseFunction/TMDB_SessionId.js")
+
 class MovieParser_FunctionManager {
+  constructor(interaction, message) {
+    this.interaction = interaction
+    this.message = message
+  }
   async handleMediaSearch(message, channel_id, keyword, media_info) {
     try {
       const channel = message.guild.channels.cache.get(channel_id)
@@ -24,25 +30,7 @@ class MovieParser_FunctionManager {
           media_id
         )
         await preMessage.delete()
-
         return { media_type, media_data }
-
-        // const embed = await this.convertEmbed(
-        //   media_type,
-        //   movie_data,
-        //   user_avatar
-        // )
-
-        // const ratingScore = await this.sendRatingForm(
-        //   message,
-        //   channel,
-        //   embed,
-        //   button,
-        //   button2,
-        //   voteButton
-        // )
-        // await tmdb_apiFunction.addRating(session_id, movie_id, ratingScore)
-        // console.log(`ratingScore: ${ratingScore}`)
       } else {
         const media_list = await tmdb_apiFunction.searchMovie(keyword)
         // console.log(media_list)
@@ -58,7 +46,6 @@ class MovieParser_FunctionManager {
             content: "请稍等..."
           })
           await preMessage.delete()
-
           const chosenIndex = await this.chooseMedia(
             message,
             channel,
@@ -70,29 +57,8 @@ class MovieParser_FunctionManager {
           const result = media_list.results[chosenIndex]
           const id = result.id
           const media_type = result.media_type
-
           const media_data = await tmdb_apiFunction.getMovieData(media_type, id)
           return { media_type, media_data }
-          // const embed = await this.convertEmbed(
-          //   media_type,
-          //   media_data,
-          //   user_avatar
-          // )
-          // // const movie_title_zh = movie_data.title
-          // const ratingScore = await this.sendRatingForm(
-          //   message,
-          //   channel,
-          //   embed,
-          //   button,
-          //   button2,
-          //   voteButton
-          // )
-          // console.log(`ratingScore: ${ratingScore}`)
-
-          // await channel.send({
-          //   components: [button],
-          //   embeds: [embed]
-          // })
         }
       }
     } catch (e) {
@@ -534,6 +500,103 @@ class MovieParser_FunctionManager {
       embed,
       mediaInfoMsg
     )
+  }
+
+  async handleResetSessionIdConfirmation(
+    confirmationResponse,
+    tmdb_AuthenticationEmbed
+  ) {
+    const tmdb_SessionId = new TMDB_SessionId()
+    const tmdb_apiFunction = new TMDB_ApiFunction()
+    let custom_desc
+    let custom_color
+    const user_id = this.interaction.user.id
+    try {
+      const collectorFilter = (i) => i.user.id === this.interaction.user.id
+      const confirmationButton =
+        await confirmationResponse.awaitMessageComponent({
+          filter: collectorFilter,
+          time: 60_000
+        })
+
+      if (confirmationButton.customId === "confirm") {
+        confirmationButton.deferUpdate()
+        custom_desc = "已重置授权"
+        custom_color = "#FF0000"
+        tmdb_AuthenticationEmbed.setDescription(custom_desc)
+        tmdb_AuthenticationEmbed.setColor(custom_color)
+        await tmdb_SessionId.deleteSessionId(user_id)
+        await this.interaction.editReply({
+          embeds: [tmdb_AuthenticationEmbed],
+          components: []
+        })
+        await tmdb_SessionId.deleteSessionId(user_id)
+        await tmdb_apiFunction.sendAuthRequestLink(this.interaction, null)
+        // await response.delete()
+      } else if (confirmationButton.customId === "cancel") {
+        confirmationButton.deferUpdate()
+        custom_desc = "**已取消`重置授权`**"
+        custom_color = "#FF0000"
+        tmdb_AuthenticationEmbed.setDescription(custom_desc)
+        tmdb_AuthenticationEmbed.setColor(custom_color)
+        await this.interaction.editReply({
+          embeds: [tmdb_AuthenticationEmbed],
+          components: []
+        })
+      }
+    } catch (error) {
+      this.interaction.deleteReply()
+      // // console.log(error)
+    }
+  }
+
+  async handleDeleteSessionIdConfirmation(
+    confirmationResponse,
+    tmdb_AuthenticationEmbed
+  ) {
+    let custom_desc
+    let custom_color
+    const tmdb_SessionId = new TMDB_SessionId()
+    const user_id = this.interaction.user.id
+    const collectorFilter = (i) => i.user.id === this.interaction.user.id
+    const confirmationButton = await confirmationResponse.awaitMessageComponent(
+      {
+        filter: collectorFilter,
+        time: 60_000
+      }
+    )
+    try {
+      if (confirmationButton.customId === "confirm") {
+        confirmationButton.deferUpdate()
+
+        custom_desc = "**已刪除授权**"
+        custom_color = "#FF0000"
+
+        confirmationButton.deferUpdate()
+
+        tmdb_AuthenticationEmbed.setDescription(custom_desc)
+        tmdb_AuthenticationEmbed.setColor(custom_color)
+
+        await tmdb_SessionId.deleteSessionId(user_id)
+        await this.interaction.editReply({
+          embeds: [tmdb_AuthenticationEmbed],
+          components: []
+        })
+      } else if (confirmationButton.customId === "cancel") {
+        confirmationButton.deferUpdate()
+        custom_desc = "**已取消`刪除授权`**"
+        custom_color = "#FF0000"
+        tmdb_AuthenticationEmbed.setDescription(custom_desc)
+        tmdb_AuthenticationEmbed.setColor(custom_color)
+        await this.interaction.editReply({
+          embeds: [tmdb_AuthenticationEmbed],
+          components: []
+        })
+      }
+    } catch (error) {
+      this.interaction.deleteReply()
+      // // console.log(error)
+    }
   }
 }
 
