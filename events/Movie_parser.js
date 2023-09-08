@@ -2,7 +2,7 @@ const Genaral_DatabaseManager = require("../commands_modules/general_modules/gen
 const MovierParser_Interaction_Components = require("../commands_modules/movie_parser/mp_component.js")
 const MovieParser_FunctionManager = require("../commands_modules/movie_parser/mp_functionManager.js")
 const TMDB_SessionId = require("../databaseFunction/TMDB_SessionId.js")
-const TMDB_ApiFunction = require("../commands_modules/movie_parser/TMDB_apiFunction.js")
+const TMDB_ApiFunction = require("../commands_modules/movie_parser/tmdb_apiFunction.js")
 const client = require("../index.js")
 require("dotenv").config()
 const { EmbedBuilder, ComponentType } = require("discord.js")
