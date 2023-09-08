@@ -2,7 +2,7 @@ const { Interaction, InteractionType } = require("discord.js")
 const Genaral_DatabaseManager = require("../commands_modules/general_modules/general_dbManager.js")
 const MovieParser_FunctionManager = require("../commands_modules/movie_parser/mp_functionManager.js")
 const MovierParser_Interaction_Components = require("../commands_modules/movie_parser/mp_component.js")
-const TMDB_ApiFunction = require("../commands_modules/movie_parser/TMDB_apiFunction.js")
+const TMDB_ApiFunction = require("../commands_modules/movie_parser/tmdb_apiFunction")
 const TMDB_SessionId = require("../databaseFunction/TMDB_SessionId.js")
 const client = require("../index.js")
 
