@@ -2,7 +2,6 @@ const axios = require("axios")
 const fs = require("fs")
 const tiktok_parser = async (message, regex_result) => {
   const user_id = message.author.id
-  message.delete()
   const wait_massage = await message.channel.send({
     content: `<@${user_id}> 请你稍等,正在解析当中...`
   })
@@ -43,7 +42,7 @@ const tiktok_parser = async (message, regex_result) => {
           var alphabeticStr = video_author.replace(/[^a-zA-Z]/g, "")
           let space = " ".repeat(alphabeticStr.length * 4.2)
           let space2 = " ".repeat(alphabeticStr.length)
-          let video_statistic = `===== ╔${space}╗ ======\n作者:${space2}${video_author}${space2}播放量:   ${video_playCount}  [鏈接](${regex_result[0]})\n===== ╚${space}╝ ======`
+          let video_statistic = `===== ╔${space}╗ ======\n作者:${space2}${video_author}${space2}播放量:   ${video_playCount}  [鏈接](<${regex_result[0]}>)\n===== ╚${space}╝ ======`
 
           const videoPath = "./lib/video/tiktok_api/video.mp4"
           fs.stat(videoPath, (err, stats) => {
@@ -59,6 +58,7 @@ const tiktok_parser = async (message, regex_result) => {
                 content: `${video_statistic}\n${video_desc}`,
                 files: ["./lib/video/tiktok_api/video.mp4"]
               })
+              message.delete()
               wait_massage.delete()
             } else {
               message.channel.send({

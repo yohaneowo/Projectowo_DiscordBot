@@ -56,7 +56,7 @@ const facebook_parser = async (message, URL) => {
   var alphabeticStr = video_title.replace(/[^a-zA-Z]/g, "")
   let space = " ".repeat(alphabeticStr.length * 4.2)
   let space2 = " ".repeat(alphabeticStr.length)
-  let video_statistic = `===== ╔${space}╗ ======\nTitle:${space2}${video_title}${space2} [鏈接](${original_url})\n===== ╚${space}╝ ======`
+  let video_statistic = `===== ╔${space}╗ ======\nTitle:${space2}${video_title}${space2} [鏈接](<${original_url}>)\n===== ╚${space}╝ ======`
   fs.stat(filePath, async (err, stats) => {
     if (err) {
       console.error(err)
