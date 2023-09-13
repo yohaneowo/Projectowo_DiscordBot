@@ -47,7 +47,8 @@ module.exports = {
       (matchedUrl &&
         matchedUrl.length > 0 &&
         matchedUrl[0].includes("facebook")) ||
-      matchedUrl[0].includes("fb")
+      matchedUrl[0].includes("fb") ||
+      matchedUrl[0].includes("reel")
     ) {
       const pattern = /posts|groups|photo/
       if (pattern.test(matchedUrl[0])) {

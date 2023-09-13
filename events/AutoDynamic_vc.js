@@ -9,9 +9,11 @@ async function createSubChannel(
   ChannelType,
   PermissionsBitField
 ) {
+  const maximumBitrate = parameter.guild.maximumBitrate
+
   const subChannel = parameter.guild.channels.create({
     name: channel_name,
-    bitrate: 128000,
+    bitrate: `${maximumBitrate}`,
     type: ChannelType.GuildVoice,
     rtcRegion: "japan",
     permissionOverwrites: [
@@ -31,6 +33,16 @@ module.exports = {
   async execute(oldState, newState) {
     if (newState.channel) {
       try {
+        const channel_names = [
+          "▬▬i═══════ﺤ",
+          "ඞ ඞ ඞ ඞ ඞ ඞ ඞ",
+          "█▬▬",
+          "╾━╤ デ ╦︻",
+          "︻╦̵̵͇̿̿̿̿╤──",
+          "▄︻̷̿┻̿═━一",
+          "【〞-ω･\\)︻┻┳══━一",
+          "𓆝 𓆟 𓆞 𓆝 𓆟"
+        ]
         const dynamicVC_DbFunctionManager = new DynamicVC_DatabaseManager()
         const guildsUsingDynamicVC =
           await dynamicVC_DbFunctionManager.getGuildIds_DynamicVC_Collection()
@@ -49,9 +61,12 @@ module.exports = {
               row.isAntiMuteChannel == 0 &&
               newState.channelId == row.Set_mainChannel_Id
             ) {
+              const randomIndex = Math.floor(
+                Math.random() * channel_names.length
+              )
               const subChannel = await createSubChannel(
                 newState,
-                "可改頻道名喲OWO",
+                `${channel_names[randomIndex]}`,
                 mainChannel.parentId,
                 ChannelType,
                 PermissionsBitField
