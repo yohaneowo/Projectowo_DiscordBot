@@ -18,8 +18,10 @@ for (const file of commandFiles) {
 }
 let token
 if (process.env.NODE_ENV === "production") {
+  console.log("production deployment")
   token = process.env.PRODUCTION_DISCORD_TOKEN
 } else {
+  console.log("development deployment")
   token = process.env.DEV_DISCORD_TOKEN
 }
 
@@ -35,8 +37,12 @@ const rest = new REST({ version: "10" }).setToken(token)
     // The put method is used to fully refresh all commands in the guild with the current set
     let client_ID
     if (process.env.NODE_ENV === "production") {
+      console.log("production deployment")
+
       client_ID = process.env.PRODUCTION_CLIENT_ID
     } else {
+      console.log("development deployment")
+
       client_ID = process.env.DEV_CLIENT_ID
     }
 

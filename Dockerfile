@@ -1,4 +1,5 @@
-FROM node:18.15
+FROM nikolaik/python-nodejs:latest
+
 WORKDIR /usr/src/app
 
 # 安装 canvas 依赖的库
@@ -9,11 +10,11 @@ RUN apt-get update && apt-get install -y \
     libjpeg-dev \
     libgif-dev \
     librsvg2-dev \
-    sqlite3
+    sqlite3 \
+    ffmpeg
     
 # 复制 package.json 和 package-lock.json 到工作目录
 COPY package*.json ./
-
 # 运行你的 SQL 脚本文件以创建初始数据库
 
 RUN npm install --unsafe-perm
@@ -21,6 +22,7 @@ RUN npm install --unsafe-perm
 EXPOSE 3366
 COPY . .
 COPY initial_file/.env ./.env
+RUN pip install -r requirements.txt
 
 RUN sqlite3 ./lib/database/SQLite.db < ./initial_file/SQLite.db.sql
 
