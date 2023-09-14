@@ -11,5 +11,11 @@ lib/img/movie_poster/bigPoster2.jpg
 lib/img/api/taifeng/taifeng.png
 !initial_file/.env
 
-lib/video/tiktok_api/video.mp4
+lib/video/tiktok_api/*.mp4
+lib/video/douyin_api/*.mp4
+lib/video/facebook/*.mp4
+lib/video/*.mp4
+
+
+
 data.json

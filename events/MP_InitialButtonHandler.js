@@ -49,7 +49,7 @@ client.on("interactionCreate", async (interaction) => {
       }, 60000)
 
       const informKeyInMsg = await interaction.channel.send({
-        content: "请输入你要搜索的电影名字"
+        content: `<@${user_id}>请输入你要搜索的电影名字`
       })
       const mp_functionManager = new MovieParser_FunctionManager()
 

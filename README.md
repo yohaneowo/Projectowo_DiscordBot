@@ -28,6 +28,8 @@
 
 - [x] Douyin Api
 
+- [x] TMDB Api
+
 - [ ] Anime Api
 
 - [ ] ?

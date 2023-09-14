@@ -1,6 +1,6 @@
 {
   "name": "discordbot-project_qaq",
-  "version": "0.5.17",
+  "version": "0.6.1",
   "description": "happy coding",
   "main": "index.js",
   "scripts": {},
@@ -18,12 +18,14 @@
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
     "figlet": "^1.6.0",
+    "fluent-ffmpeg": "^2.1.2",
     "generic-pool": "^3.9.0",
     "openai": "^3.3.0",
     "pino": "^8.15.0",
     "playwright": "^1.35.1",
     "pretty": "^2.0.0",
     "puppeteer": "^20.9.0",
+    "python-shell": "^5.0.0",
     "sqlite3": "^5.1.6",
     "yarn": "^1.22.19"
   },
