@@ -17,7 +17,7 @@ def generate_unique_filename():
     filename = f"facebook_{unique_string}"  # 创建文件名，例如：video_1234567890.mp4
     return filename
 
-class MyLogger:
+class MyLogger:=
     def debug(self, msg):
         # For compatibility with youtube-dl, both debug and info are passed into debug
         # You can distinguish them by the prefix '[debug] '
@@ -73,7 +73,7 @@ ydl_opts = {
     # 'postprocessor_hooks': [end_hook],
     'version': True,
     'paths': {
-        'home': '{}/lib/video/facebook/'.format(pwd)
+        'home': '{}/src/lib/video/facebook/'.format(pwd)
     },
     'outtmpl': '{}.mp4'.format(filename),
     "verbose": True,

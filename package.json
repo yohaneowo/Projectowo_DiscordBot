@@ -2,9 +2,21 @@
   "name": "discordbot-project_qaq",
   "version": "0.6.1",
   "description": "happy coding",
-  "main": "index.js",
-  "scripts": {},
+  "main": "./dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "tsc-watch --onCompilationComplete \"node ./dist/index.js\""
+  },
   "author": "",
+  "dev": "tsx watch ./src/index.ts",
+  "start": "node ./dist/index.js",
+  "_moduleAliases": {
+    "@root": ".",
+    "@database": "lib/database/SQLite.db",
+    "@sqlConnection": "dist/sqlConnection.js",
+    "@index": "dist/index.js",
+    "@dbFunc": "dist/databaseFunction"
+  },
   "license": "ISC",
   "dependencies": {
     "@babel/eslint-parser": "^7.22.5",
@@ -20,6 +32,7 @@
     "figlet": "^1.6.0",
     "fluent-ffmpeg": "^2.1.2",
     "generic-pool": "^3.9.0",
+    "module-alias": "^2.2.3",
     "openai": "^3.3.0",
     "pino": "^8.15.0",
     "playwright": "^1.35.1",
@@ -30,7 +43,14 @@
     "yarn": "^1.22.19"
   },
   "devDependencies": {
+    "@types/express": "^4.17.17",
+    "@types/node": "^20.6.2",
     "eslint": "^8.7.0",
-    "prettier": "^2.5.1"
+    "prettier": "^2.5.1",
+    "ts-migrate": "^0.1.35",
+    "tsc-watch": "^6.0.4",
+    "tsup": "^7.2.0",
+    "tsx": "^3.12.10",
+    "typescript": "^5.2.2"
   }
 }

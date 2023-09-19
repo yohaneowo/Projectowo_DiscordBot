@@ -16,6 +16,6 @@ lib/video/douyin_api/*.mp4
 lib/video/facebook/*.mp4
 lib/video/*.mp4
 
-
+dist
 
 data.json
