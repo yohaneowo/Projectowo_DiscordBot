@@ -1,19 +1,13 @@
-
-
-
-
 import axios from "axios"
 require("dotenv").config()
 
 const MovierParser_Interaction_Components = require("./mp_component.js")
 const eventManager = require("../../handlers/CustomEvent")
 import EmbedBuilder from "discord.js"
-import db_TMDB_SessionId from "@dbFunc/db_TMDB_SessionId"
-class TMDB_ApiFunction {
-  TMDB_API_KEY: any;
+import * as db_TMDB_SessionId from "@dbFunc/db_TMDB_SessionId"
+export default class TMDB_ApiFunction {
+  TMDB_API_KEY: any
   constructor() {
-
-
     this.TMDB_API_KEY = process.env.TMDB_API_KEY
   }
 
@@ -143,7 +137,6 @@ class TMDB_ApiFunction {
             language: "zh-CN",
             query: keyword,
 
-
             api_key: process.env.TMDB_API_KEY
           }
         }
@@ -161,7 +154,6 @@ class TMDB_ApiFunction {
         {
           params: {
             language: "zh-CN",
-
 
             api_key: process.env.TMDB_API_KEY
           }
@@ -240,6 +232,3 @@ class TMDB_ApiFunction {
     }
   }
 }
-
-
-export default TMDB_ApiFunction

@@ -1,30 +1,9 @@
-
-// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'SlashComma... Remove this comment to see the full error message
 const { SlashCommandBuilder, EmbedBuilder, Component } = require("discord.js")
-
-
-
-// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'TMDB_ApiFu... Remove this comment to see the full error message
 import TMDB_ApiFunction from "../tmdb_apiFunction"
-
-
-// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'eventManag... Remove this comment to see the full error message
 const eventManager = require("../../../handlers/CustomEvent")
-
-
-
-// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'TMDB_Sessi... Remove this comment to see the full error message
-import db_TMDB_SessionId from "@dbFunc/db_TMDB_SessionId"
-
-const MovieParser_Interaction_Components = require("../mp_component.js")
-
-
-
-// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'MovieParse... Remove this comment to see the full error message
-const MovieParser_FunctionManager = require("../mp_functionManager.js")
-
-
-
+import * as db_TMDB_SessionId from "@dbFunc/db_TMDB_SessionId"
+import MovieParser_Interaction_Components from "../mp_component"
+import MovieParser_FunctionManager from "../mp_functionManager"
 module.exports = {
   data: new SlashCommandBuilder()
     .setName("tmdb-登入")
@@ -37,7 +16,10 @@ module.exports = {
     const user_id = interaction.user.id
     const tmdb_apiFunction = new TMDB_ApiFunction()
     const mp_InteractionComponents = new MovieParser_Interaction_Components()
-    const mp_FunctionManager = new MovieParser_FunctionManager(interaction)
+    const mp_FunctionManager = new MovieParser_FunctionManager(
+      interaction,
+      null
+    )
     const tmdb_AuthenticationEmbed =
       mp_InteractionComponents.tmdb_AuthenticationEmbed
     const handleSessionIdButton = mp_InteractionComponents.handleSessionIdButton
@@ -64,7 +46,6 @@ module.exports = {
           filter: collectorFilter,
           time: 60_000
         })
-
         if (selectedButton.customId === "resetSessionId") {
           custom_desc = "確認重置授权"
           custom_color = "#6A5ACD"

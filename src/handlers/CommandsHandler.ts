@@ -1,14 +1,8 @@
-
-
-
 import fs from "node:fs"
-
 
 import path from "node:path"
 
-
 import { Collection } from "discord.js"
-
 
 module.exports = (client) => {
   client.commands = new Collection()
@@ -22,9 +16,7 @@ module.exports = (client) => {
         .readdirSync(commandPath)
         .filter((file) => file.endsWith(".js"))
       for (const command_file of command_files) {
-
         const filepath = path.join(commandPath, command_file)
-
 
         const command = require(filepath)
         if ("data" in command && "execute" in command) {

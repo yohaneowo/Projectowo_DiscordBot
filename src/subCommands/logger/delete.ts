@@ -1,12 +1,7 @@
 const {
-
-
-
   // @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'Logger_Dat... Remove this comment to see the full error message
   Logger_DatabaseFunction
 } = require("../../../commands_modules/logger/l_databaseFunctionManager.js")
-
-
 
 module.exports = async (interaction) => {
   // declare database function manager
@@ -21,14 +16,11 @@ module.exports = async (interaction) => {
       databaseFunctionManager.getGuild_Ids_Logger_Collection()
     ])
 
-
     // @ts-expect-error TS(2571): Object is of type 'unknown'.
     if (Guild_ids.includes(guild_Id)) {
       try {
         // delete the category channel individually
         const channelCategory = await interaction.guild.channels.fetch(
-
-
           // @ts-expect-error TS(2571): Object is of type 'unknown'.
           channelId[0].Category_Id
         )
@@ -45,8 +37,6 @@ module.exports = async (interaction) => {
               )
             })
         } else {
-
-
           // @ts-expect-error TS(2571): Object is of type 'unknown'.
           console.error(`找不到頻道 ${channelId[0].Category_Id}`)
         }
@@ -54,7 +44,6 @@ module.exports = async (interaction) => {
         console.error("找不到頻道 ")
       }
       // selectValues is a object with comma separated values
-
 
       // @ts-expect-error TS(2571): Object is of type 'unknown'.
       selectValues
@@ -67,8 +56,6 @@ module.exports = async (interaction) => {
 
               const channelCreate_Channel =
                 await interaction.guild.channels.fetch(
-
-
                   // @ts-expect-error TS(2571): Object is of type 'unknown'.
                   channelId[0].channelCreate_Id
                 )
@@ -94,8 +81,6 @@ module.exports = async (interaction) => {
             case "1": {
               const channelUpdate_Channel =
                 await interaction.guild.channels.fetch(
-
-
                   // @ts-expect-error TS(2571): Object is of type 'unknown'.
                   channelId[0].channelUpdate_Id
                 )
@@ -119,8 +104,6 @@ module.exports = async (interaction) => {
             case "2": {
               const channelDelete_Channel =
                 await interaction.guild.channels.fetch(
-
-
                   // @ts-expect-error TS(2571): Object is of type 'unknown'.
                   channelId[0].channelDelete_Id
                 )
@@ -144,8 +127,6 @@ module.exports = async (interaction) => {
             case "3": {
               const guildBanAdd_Channel =
                 await interaction.guild.channels.fetch(
-
-
                   // @ts-expect-error TS(2571): Object is of type 'unknown'.
                   channelId[0].guildBanAdd_Id
                 )
@@ -169,8 +150,6 @@ module.exports = async (interaction) => {
             case "4": {
               const guildBanRemove_Channel =
                 await interaction.guild.channels.fetch(
-
-
                   // @ts-expect-error TS(2571): Object is of type 'unknown'.
                   channelId[0].guildBanRemove_Id
                 )
@@ -194,8 +173,6 @@ module.exports = async (interaction) => {
             case "5": {
               const guildRoleCreate_Channel =
                 await interaction.guild.channels.fetch(
-
-
                   // @ts-expect-error TS(2571): Object is of type 'unknown'.
                   channelId[0].guildRoleCreate_Id
                 )
@@ -219,8 +196,6 @@ module.exports = async (interaction) => {
             case "6": {
               const guildRoleDelete_Channel =
                 await interaction.guild.channels.fetch(
-
-
                   // @ts-expect-error TS(2571): Object is of type 'unknown'.
                   channelId[0].guildRoleDelete_Id
                 )
@@ -244,8 +219,6 @@ module.exports = async (interaction) => {
             case "7": {
               const guildRoleUpdate_Channel =
                 await interaction.guild.channels.fetch(
-
-
                   // @ts-expect-error TS(2571): Object is of type 'unknown'.
                   channelId[0].guildRoleUpdate_Id
                 )
@@ -269,8 +242,6 @@ module.exports = async (interaction) => {
             case "8": {
               const guildUpdate_Channel =
                 await interaction.guild.channels.fetch(
-
-
                   // @ts-expect-error TS(2571): Object is of type 'unknown'.
                   channelId[0].guildUpdate_Id
                 )
@@ -294,8 +265,6 @@ module.exports = async (interaction) => {
             case "9": {
               const messageDelete_Channel =
                 await interaction.guild.channels.fetch(
-
-
                   // @ts-expect-error TS(2571): Object is of type 'unknown'.
                   channelId[0].messageDelete_Id
                 )
@@ -319,8 +288,6 @@ module.exports = async (interaction) => {
             case "10": {
               const messageDeleteBulk_Channel =
                 await interaction.guild.channels.fetch(
-
-
                   // @ts-expect-error TS(2571): Object is of type 'unknown'.
                   channelId[0].messageDeleteBulk_Id
                 )
@@ -346,8 +313,6 @@ module.exports = async (interaction) => {
             case "11": {
               const messageUpdate_Channel =
                 await interaction.guild.channels.fetch(
-
-
                   // @ts-expect-error TS(2571): Object is of type 'unknown'.
                   channelId[0].messageUpdate_Id
                 )
@@ -371,8 +336,6 @@ module.exports = async (interaction) => {
             case "12": {
               const guildMemberAdd_Channel =
                 await interaction.guild.channels.fetch(
-
-
                   // @ts-expect-error TS(2571): Object is of type 'unknown'.
                   channelId[0].guildMemberAdd_Id
                 )
@@ -396,8 +359,6 @@ module.exports = async (interaction) => {
             case "13": {
               const guildMemberKick_Channel =
                 await interaction.guild.channels.fetch(
-
-
                   // @ts-expect-error TS(2571): Object is of type 'unknown'.
                   channelId[0].guildMemberKick_Id
                 )
@@ -421,8 +382,6 @@ module.exports = async (interaction) => {
             case "14": {
               const guildMemberRemove_Channel =
                 await interaction.guild.channels.fetch(
-
-
                   // @ts-expect-error TS(2571): Object is of type 'unknown'.
                   channelId[0].guildMemberRemove_Id
                 )
@@ -448,8 +407,6 @@ module.exports = async (interaction) => {
             case "15": {
               const guildMemberUpdate_Channel =
                 await interaction.guild.channels.fetch(
-
-
                   // @ts-expect-error TS(2571): Object is of type 'unknown'.
                   channelId[0].guildMemberUpdate_Id
                 )
@@ -475,8 +432,6 @@ module.exports = async (interaction) => {
             case "16": {
               const guildMemberNickUpdate_Channel =
                 await interaction.guild.channels.fetch(
-
-
                   // @ts-expect-error TS(2571): Object is of type 'unknown'.
                   channelId[0].guildMemberNickUpdate_Id
                 )
@@ -502,8 +457,6 @@ module.exports = async (interaction) => {
             case "17": {
               const voiceChannelLeave_Channel =
                 await interaction.guild.channels.fetch(
-
-
                   // @ts-expect-error TS(2571): Object is of type 'unknown'.
                   channelId[0].voiceChannelLeave_Id
                 )
@@ -529,8 +482,6 @@ module.exports = async (interaction) => {
             case "18": {
               const voiceChannelJoin_Channel =
                 await interaction.guild.channels.fetch(
-
-
                   // @ts-expect-error TS(2571): Object is of type 'unknown'.
                   channelId[0].voiceChannelJoin_Id
                 )
@@ -554,8 +505,6 @@ module.exports = async (interaction) => {
             case "19": {
               const voiceStateUpdate_Channel =
                 await interaction.guild.channels.fetch(
-
-
                   // @ts-expect-error TS(2571): Object is of type 'unknown'.
                   channelId[0].voiceStateUpdate_Id
                 )
@@ -579,8 +528,6 @@ module.exports = async (interaction) => {
             case "20": {
               const voiceChannelSwitch_Channel =
                 await interaction.guild.channels.fetch(
-
-
                   // @ts-expect-error TS(2571): Object is of type 'unknown'.
                   channelId[0].voiceChannelSwitch_Id
                 )
@@ -606,8 +553,6 @@ module.exports = async (interaction) => {
             case "21": {
               const guildEmojisUpdate_Channel =
                 await interaction.guild.channels.fetch(
-
-
                   // @ts-expect-error TS(2571): Object is of type 'unknown'.
                   channelId[0].guildEmojisUpdate_Id
                 )

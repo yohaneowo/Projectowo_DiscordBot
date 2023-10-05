@@ -1,28 +1,30 @@
+import { EmbedBuilder } from "@discordjs/builders"
+import * as loggerDb from "@dbFunc/db_LoggerCollection"
 
-
-
-// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'EmbedBuild... Remove this comment to see the full error message
-const { EmbedBuilder } = require("discord.js")
-
-
-
-// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'Logger_Dat... Remove this comment to see the full error message
-const { Logger_DatabaseFunction } = require("../l_databaseFunctionManager.js")
-
-
-
-// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'sendEmbed'... Remove this comment to see the full error message
-const sendEmbed = require("../l_eventsFunction.js")
-// const loggerDbFunctionsManager = new Logger_DatabaseFunction()
-
-
-
+import loggerFunction from "../l_eventsFunction"
+// Send to memberLogs
 module.exports = {
   name: "guildBanRemove",
   once: false,
   async execute(guildBan) {
+    console.log("unban test0.5")
+
     const user = guildBan.user
-    const GuildBanRemove_embed = new EmbedBuilder()
+    const eventEmitter_Guild_Id = guildBan.guild.id
+    const guildsUsingLogger = await loggerDb.getGuildIds_LoggerCollection()
+    console.log("unban test0.7")
+
+    if (!guildsUsingLogger.includes(eventEmitter_Guild_Id)) return
+    console.log("unban test0.8")
+
+    const memberLogsChannelId =
+      await loggerDb.getMemberLogsChannelId_LoggerCollection(
+        eventEmitter_Guild_Id
+      )
+    console.log(`memberLogsChannelId: ${memberLogsChannelId}`)
+    if (memberLogsChannelId == null) return
+    console.log("unban test1")
+    const GuildBanRemove_Embed = new EmbedBuilder()
       .setAuthor({
         name: user.tag,
         iconURL: user.displayAvatarURL({ dynamic: true })
@@ -33,26 +35,15 @@ module.exports = {
         name: "Reason",
         value: `${guildBan.reason}` || "No reason provided"
       })
-      .setColor("#2986cc")
+      .setColor(0x2986cc)
       .setTimestamp()
       .setFooter({ text: `ID: ${user.id}` })
-
-    const eventEmitter_Guild_Id = guildBan.guild.id
-    const databaseFunctionManager = new Logger_DatabaseFunction()
-    const guildsUsingLogger =
-      await databaseFunctionManager.getGuild_Ids_Logger_Collection()
-    const loggerCollectionData =
-      await databaseFunctionManager.getChannelIds_Logger_Collection(
-        eventEmitter_Guild_Id
-      )
-
-
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
-    if (!guildsUsingLogger.includes(eventEmitter_Guild_Id)) return
-
-
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
-    const memberLogsChannelId = loggerCollectionData[0].memberLogsChannelId
-    sendEmbed(guildBan, memberLogsChannelId, GuildBanRemove_embed)
+    console.log("unban test2")
+    loggerFunction.sendEmbed(
+      guildBan,
+      memberLogsChannelId,
+      GuildBanRemove_Embed
+    )
+    console.log("unban test3")
   }
 }

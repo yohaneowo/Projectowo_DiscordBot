@@ -1,50 +1,29 @@
-
-
-
 // @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'axios'.
 const axios = require("axios")
-
-
 
 // @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'EmbedBuild... Remove this comment to see the full error message
 const { EmbedBuilder, ComponentType, Component } = require("discord.js")
 
-
-
 // @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'fs'.
 const fs = require("fs")
-
-
 
 // @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'path'.
 const path = require("path")
 
-
-
 // @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'createCanv... Remove this comment to see the full error message
 const { createCanvas, loadImage } = require("canvas")
 
-
-
 // @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'MovierPars... Remove this comment to see the full error message
-const MovierParser_Interaction_Components = require("./mp_component.js")
-
-
-
+import MovierParser_Interaction_Component from "./mp_component.js"
 // @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'TMDB_ApiFu... Remove this comment to see the full error message
-const TMDB_ApiFunction = require("./tmdb_apiFunction.js")
-
-
-
+import TMDB_ApiFunction from "./tmdb_apiFunction.js"
 // @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'TMDB_Sessi... Remove this comment to see the full error message
 import db_TMDB_SessionId from "@dbFunc/db_TMDB_SessionId"
 
-
-
 // @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'MovieParse... Remove this comment to see the full error message
-class MovieParser_FunctionManager {
-  interaction: any;
-  message: any;
+export default class MovieParser_FunctionManager {
+  interaction: any
+  message: any
   constructor(interaction, message) {
     this.interaction = interaction
     this.message = message
@@ -92,7 +71,6 @@ class MovieParser_FunctionManager {
             bufferMessage
           )
 
-
           // @ts-expect-error TS(2538): Type 'unknown' cannot be used as an index type.
           const result = media_list.results[chosenIndex]
           const id = result.id
@@ -138,8 +116,6 @@ class MovieParser_FunctionManager {
           if (poster_path == null && posterIndex < totalResult) {
             image404 = true
             posterUrl = path.join(
-
-
               __dirname,
               "../../lib/img/movie_poster/404.png"
             )
@@ -158,12 +134,9 @@ class MovieParser_FunctionManager {
           }
         }
         const downloadPath = path.join(
-
-
           __dirname,
           `../../lib/img/movie_poster/bigPoster${i}.jpg`
         )
-
 
         const fs = require("fs")
         const out = fs.createWriteStream(downloadPath)
@@ -230,8 +203,6 @@ class MovieParser_FunctionManager {
     }
     // console.log(`pageIndex: ${pageIndex}`)
     const new_Path = path.join(
-
-
       __dirname,
       `../../lib/img/movie_poster/bigPoster${pageIndex}.jpg`
     )
@@ -647,7 +618,3 @@ class MovieParser_FunctionManager {
     }
   }
 }
-
-
-
-module.exports = MovieParser_FunctionManager

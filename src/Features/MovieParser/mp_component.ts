@@ -1,30 +1,15 @@
 const {
-
-
-
-  // @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'ActionRowB... Remove this comment to see the full error message
   ActionRowBuilder,
 
-
-
-  // @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'ButtonBuil... Remove this comment to see the full error message
   ButtonBuilder,
 
-
-
-  // @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'ButtonStyl... Remove this comment to see the full error message
   ButtonStyle,
 
-
-
-  // @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'EmbedBuild... Remove this comment to see the full error message
   EmbedBuilder
 } = require("discord.js")
 
-
-
 // @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'MovierPars... Remove this comment to see the full error message
-class MovierParser_Interaction_Components {
+export default class MovierParser_Interaction_Components {
   // Button Component FOR Slash Command
   ratingButtonLine1 = new ActionRowBuilder().addComponents(
     new ButtonBuilder()
@@ -176,6 +161,3 @@ class MovierParser_Interaction_Components {
 }
 
 // Exporting Module
-
-
-module.exports = MovierParser_Interaction_Components

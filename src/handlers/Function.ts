@@ -1,10 +1,8 @@
-
-
 module.exports = async (client) => {
   client.loadSubcommands = async function (interaction, client, ...args) {
+    console.log(process.cwd() + "FUCKYOU")
 
-
-    return require(`${process.cwd()}/subCommands/${
+    return require(`${process.cwd()}/src/subCommands/${
       interaction.commandName
     }/${interaction.options.getString("meow_ヽowoノ")}`)(
       interaction,

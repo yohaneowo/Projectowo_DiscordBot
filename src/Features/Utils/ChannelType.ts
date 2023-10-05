@@ -1,6 +1,3 @@
-
-
-
 // @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'ChannelTyp... Remove this comment to see the full error message
 class ChannelType {
   getChannelTypeName(channelType) {
@@ -34,8 +31,6 @@ class ChannelType {
     }
   }
 }
-
-
 
 module.exports = {
   ChannelType
