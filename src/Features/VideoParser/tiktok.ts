@@ -1,15 +1,8 @@
-
-
-
 // @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'axios'.
 const axios = require("axios")
 
-
-
 // @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'fs'.
 const fs = require("fs")
-
-
 
 // @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'tiktok_par... Remove this comment to see the full error message
 const tiktok_parser = async (message, regex_result) => {
@@ -24,15 +17,15 @@ const tiktok_parser = async (message, regex_result) => {
       // console.log("response:", response.data);
       const jsonData = response.data
       //   null 表示不使用任何自定义的 replacer，而使用默认的转换行为，即包含所有属性。而使用 2 表示每个级别缩进两个空格。
-      // const jsonString = JSON.stringify(jsonData, null, 2)
-      // // 保存JSON数据到文件
-      // fs.writeFile("data.json", jsonString, "utf8", (err) => {
-      //   if (err) {
-      //     console.error("保存文件时发生错误:", err)
-      //   } else {
-      //     console.log("JSON数据已保存到文件dat a.json")
-      //   }
-      // })
+      const jsonString = JSON.stringify(jsonData, null, 2)
+      // 保存JSON数据到文件
+      fs.writeFile("data.json", jsonString, "utf8", (err) => {
+        if (err) {
+          console.error("保存文件时发生错误:", err)
+        } else {
+          console.log("JSON数据已保存到文件dat a.json")
+        }
+      })
 
       const video_url = jsonData.video_data.nwm_video_url_HQ
       let video_playCount = jsonData.statistics.play_count
@@ -87,6 +80,5 @@ const tiktok_parser = async (message, regex_result) => {
       console.log(error)
     })
 }
-
 
 module.exports = tiktok_parser
